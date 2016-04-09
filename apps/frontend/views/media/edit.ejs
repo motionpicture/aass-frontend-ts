@@ -1,0 +1,51 @@
+﻿<%- include ../header -%>
+
+<script src="/js/media/edit.js"></script>
+
+<h1 class="page-header">動画編集</h1>
+
+<div id="progressModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">進捗モーダル</h4>
+            </div>
+            <div class="modal-body">
+                <p></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">キャンセル</button>
+<!--                 <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<p class="error" style="color: #FF0000;"></p>
+
+<form method="POST">
+    <input type="hidden" name="id">
+    <input type="hidden" name="max_block_size" value="4194304">
+    <div class="form-group">
+        <p>
+            <input type="text" name="title" class="form-control">
+        </p>
+
+        <p>
+            <textarea name="description" class="form-control"></textarea>
+        </p>
+
+        <p>
+            <input type="text" name="uploaded_by" class="form-control">
+        </p>
+
+        <p>
+            <input type="file" name="file" class="form-control">
+        </p>
+        <?php } ?>
+        <button type="button" class="btn btn-primary">登録</button>
+    </div>
+</form>
+
+<%- include ../footer -%>

@@ -1,0 +1,42 @@
+<%- include ../header -%>
+
+<script src="/js/media/index.js"></script>
+
+<h1 class="page-header">動画一覧</h1>
+
+<table class="table table-striped">
+<tbody>
+<tr>
+    <th>タイトル<br>作成者<br>サイズ<br>作成日時</th>
+    <th>ステータス</th>
+    <th>thumbnail</th>
+    <th>各種機能</th>
+    <th>申請関連</th>
+</tr>
+<% medias.forEach(function(media) { %>
+<tr>
+    <td>
+    <%= media.title %><br>
+    <%= media.uploaded_by %><br>
+    <%= media.size %><br>
+    <%= media.created_at %><br>
+    </td>
+    <td><%= media.status %></td>
+    <td><% if (media.url_thumbnail) { %><img width="100px" src="<%= media.url_thumbnail %>"><% } %></td>
+    <td>
+        <input type="hidden" name="id" value="<%= media.id %>">
+        <a href="/media/<%= media.id %>/edit" class="">編集</a><br>
+        <a href="javascript:void(0)" class="delete_media">削除</a><br>
+        <% if (media.url_mp4) { %><a target="_blank" href="<%= media.url_mp4 %>">mp4 download</a><br><% } %>
+        <% if (media.url_streaming) { %><a target="_blank" href="http://aka.ms/azuremediaplayer?url=<%= encodeURI(media.url_streaming) %>">ストリーミング</a><br><% } %>
+        <?php if ($media['url_mp4']) { ?><?php } ?>
+        <?php if ($media['url_streaming']) { ?><?php } ?>
+    </td>
+    <td>
+    </td>
+</tr>
+<% }); %>
+</tbody>
+</table>
+
+<%- include ../footer -%>
