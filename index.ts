@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 /// <reference path='./typings/main.d.ts' />
+/// <reference path='./typings/connect-redis.d.ts' />
 
 /**
  * Module dependencies.

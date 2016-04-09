@@ -5,7 +5,7 @@ import cookieParser = require('cookie-parser');
 import bodyParser = require('body-parser');
 import multer = require('multer');
 import logger from './middlewares/logger';
-// var benchmarks = require('./middlewares/benchmarks');
+import benchmarks from './middlewares/benchmarks';
 import session from './middlewares/session';
 import user from './middlewares/user';
 import db from './middlewares/db';
@@ -16,7 +16,7 @@ import routes = require('./routes/index');
 var app = express();
 
 app.use(logger);
-// app.use(benchmarks); // ベンチマーク的な
+app.use(benchmarks); // ベンチマーク的な
 app.use(session);
 app.use(user);
 app.use(db);
