@@ -1,14 +1,9 @@
 export default class BaseModel
 {
-    protected req: any;
-
-    constructor(request)
-    {
-        this.req = request;
+    constructor(protected req: any) {
     }
 
-    query(query, queryParams, cb)
-    {
+    protected query(query: string, queryParams: Object, cb: Function): void {
         this.req.db.getConnection(function (err, connection) {
             if (err) {
                 cb(err, null, null);

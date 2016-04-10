@@ -5,8 +5,7 @@ import fs = require('fs')
 
 export default class MediaController extends BaseController
 {
-    list(req, res, next)
-    {
+    public list(req: any, res: any, next: any): void {
         var model = new MediaModel(req);
         model.getListByEventId(req.user.getId(), function (err, rows, fields) {
             if (err) {
@@ -21,8 +20,7 @@ export default class MediaController extends BaseController
         });
     }
 
-    create(req, res, next)
-    {
+    public create(req: any, res: any, next: any): void {
         if (req.method == "POST") {
             var isSuccess = false;
             var messages = [];
@@ -60,7 +58,7 @@ export default class MediaController extends BaseController
         }
     }
 
-    createAsset(req, res, next) {
+    public createAsset(req: any, res: any, next: any): void {
         var isSuccess = false;
         var messages = [];
         var params = {};
@@ -103,8 +101,7 @@ export default class MediaController extends BaseController
         });
     }
 
-    appendFile(req, res, next)
-    {
+    public appendFile(req: any, res: any, next: any): void {
         var isSuccess = false;
         var messages = [];
         var params = req.body;
@@ -158,8 +155,7 @@ export default class MediaController extends BaseController
         }
     }
 
-    commitFile(req, res, next)
-    {
+    public commitFile(req: any, res: any, next: any): void {
         var isSuccess = false;
         var messages = [];
         var params = req.body;
@@ -195,8 +191,7 @@ export default class MediaController extends BaseController
         });
     }
 
-    private generateBlockId(blockCount)
-    {
+    private generateBlockId(blockCount: Number): string {
         var strPadLeft = String(blockCount);
         while (strPadLeft.length < 6) {
             strPadLeft = '0' + strPadLeft;
@@ -205,12 +200,10 @@ export default class MediaController extends BaseController
         return new Buffer('block-' + strPadLeft).toString('base64');
     }
 
-    edit(req, res, next)
-    {
+    public edit(req: any, res: any, next: any): void {
     }
 
-    delete(req, res, next)
-    {
+    public delete(req: any, res: any, next: any): void {
         var isSuccess = false;
         var messages = [];
 
@@ -242,11 +235,9 @@ export default class MediaController extends BaseController
         }
     }
 
-    download(req, res, next)
-    {
+    public download(req: any, res: any, next: any): void {
     }
 
-    apply(req, res, next)
-    {
+    public apply(req: any, res: any, next: any): void {
     }
 }

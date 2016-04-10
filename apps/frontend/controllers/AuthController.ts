@@ -1,10 +1,8 @@
 import BaseController from './BaseController';
 import EventModel from '../models/EventModel';
 
-export default class AuthController extends BaseController
-{
-    login(req, res, next)
-    {
+export default class AuthController extends BaseController {
+    public login(req: any, res: any, next: any): void {
         if (req.method == "POST") {
             var message = '';
 
@@ -35,8 +33,7 @@ export default class AuthController extends BaseController
         }
     }
 
-    logout(req, res, next)
-    {
+    public logout(req: any, res: any, next: any): void {
         req.user.logout();
         res.redirect('/');
     }

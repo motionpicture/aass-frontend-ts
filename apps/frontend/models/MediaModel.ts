@@ -3,8 +3,7 @@ import Constants from '../../common/modules/Constants';
 
 export default class MediaModel extends BaseModel
 {
-    getListByEventId(eventId, cb)
-    {
+    public getListByEventId(eventId: string, cb: Function): void {
         var query = 'SELECT * FROM media WHERE event_id = :eventId AND status <> :status';
         var queryParams = {
             eventId: eventId,
@@ -14,8 +13,7 @@ export default class MediaModel extends BaseModel
         this.query(query, queryParams, cb);
     }
 
-    insert(params, cb)
-    {
+    public insert(params: any, cb: Function): void {
         var query = 'INSERT INTO media (event_id, title, description, uploaded_by, status, filename, size, extension, playtime_string, playtime_seconds, asset_id, created_at, updated_at)'
                   + ' VALUES (:eventId, :title, :description, :uploadedBy, :status, :filename, :size, :extension, :playtimeString, :playtimeSeconds, :assetId, NOW(), NOW())';
         var queryParams = {
@@ -35,8 +33,7 @@ export default class MediaModel extends BaseModel
         this.query(query, queryParams, cb);
     }
 
-    deleteById(id, cb)
-    {
+    public deleteById(id: string, cb: Function): void {
         var query = 'UPDATE media SET status = :status, deleted_at = NOW(), updated_at = NOW() WHERE id = :id';
         var queryParams = {
             id: id,

@@ -1,6 +1,5 @@
 export default class BaseController
 {
-    constructor()
-    {
+    constructor() {
     }
 }

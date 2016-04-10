@@ -18,44 +18,36 @@ export default (req, res, next) => {
     next();
 };
 
-class User
-{
+class User {
     private session;
     private authSessionName;
 
-    constructor()
-    {
+    constructor() {
         this.session = null;
         this.authSessionName = Constants.AUTH_SESSION_NAME;
     }
 
-    initialize(session)
-    {
+    initialize(session): void {
         this.session = session;
     }
 
-    isAuthenticated()
-    {
+    isAuthenticated(): string {
         return (this.session.hasOwnProperty(this.authSessionName));
     }
 
-    login(params)
-    {
+    login(params): void {
         this.session[this.authSessionName] = params;
     }
 
-    logout()
-    {
+    logout(): void {
         delete this.session[this.authSessionName];
     }
 
-    getId()
-    {
+    getId(): string {
         return (this.session.hasOwnProperty(this.authSessionName)) ? this.session[this.authSessionName].id : null;
     }
 
-    getUserId()
-    {
+    getUserId(): string {
         return (this.session.hasOwnProperty(this.authSessionName)) ? this.session[this.authSessionName].user_id : null;
     }
 }

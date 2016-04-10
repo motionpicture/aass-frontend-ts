@@ -1,5 +1,4 @@
-export default class Constants
-{
+export default class Constants {
     static AUTH_SESSION_NAME = 'AassFrontendAuth';
 
     static MEDIA_STATUS_ASSET_CREATED = 1; // アセット作成済み(ジョブ待ち)

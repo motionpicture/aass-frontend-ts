@@ -1,5 +1,3 @@
-"use strict";
-
 import express = require('express');
 import AuthController from '../controllers/AuthController';
 import MediaController from '../controllers/MediaController';
