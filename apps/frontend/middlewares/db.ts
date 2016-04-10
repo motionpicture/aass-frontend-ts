@@ -1,7 +1,7 @@
-var mysql = require('mysql');
-var conf = require('config');
+let mysql = require('mysql');
+let conf = require('config');
 
-var db = mysql.createPool({
+let db = mysql.createPool({
     connectionLimit: 10,
     host: conf.get('db_host'),
     user: conf.get('db_username'),

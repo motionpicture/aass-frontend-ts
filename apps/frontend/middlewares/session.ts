@@ -1,7 +1,7 @@
 import session = require('express-session');
 import conf = require('config');
 
-var RedisStore = require('connect-redis')(session);
+let RedisStore = require('connect-redis')(session);
 
 export default session({
     secret: 'aass secret', 

@@ -1,10 +1,7 @@
-import Constants from '../../common/modules/Constants';
-
 export default (req, res, next) => {
     if (req.user) next();
 
-    var user = new User();
-    user.initialize(req.session);
+    let user = new User(req.session);
     req.user = user;
     res.locals.user = user;
 
@@ -19,19 +16,12 @@ export default (req, res, next) => {
 };
 
 class User {
-    private session;
-    private authSessionName;
+    private authSessionName = 'AassFrontendAuth';
 
-    constructor() {
-        this.session = null;
-        this.authSessionName = Constants.AUTH_SESSION_NAME;
+    constructor(private session: any) {
     }
 
-    initialize(session): void {
-        this.session = session;
-    }
-
-    isAuthenticated(): string {
+    isAuthenticated(): boolean {
         return (this.session.hasOwnProperty(this.authSessionName));
     }
 

@@ -2,9 +2,9 @@ import express = require('express');
 import AuthController from '../controllers/AuthController';
 import MediaController from '../controllers/MediaController';
 
-var router = express.Router();
-var authController = new AuthController();
-var mediaController = new MediaController();
+let router = express.Router();
+let authController = new AuthController();
+let mediaController = new MediaController();
 
 router.get('/', function(req, res, next) {
     res.redirect('/medias');

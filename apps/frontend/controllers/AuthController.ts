@@ -4,10 +4,10 @@ import EventModel from '../models/EventModel';
 export default class AuthController extends BaseController {
     public login(req: any, res: any, next: any): void {
         if (req.method == "POST") {
-            var message = '';
+            let message = '';
 
             if (req.body.user_id && req.body.password) {
-                var model = new EventModel(req);
+                let model = new EventModel(req);
                 req.logger.debug('logining... user_id:' , req.body.user_id);
                 model.getLoginUser(req.body.user_id, req.body.password, function(err, rows, fields)
                 {

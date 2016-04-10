@@ -6,7 +6,7 @@ import fs = require('fs')
 export default class MediaController extends BaseController
 {
     public list(req: any, res: any, next: any): void {
-        var model = new MediaModel(req);
+        let model = new MediaModel(req);
         model.getListByEventId(req.user.getId(), function (err, rows, fields) {
             if (err) {
                 next(err);
@@ -22,14 +22,14 @@ export default class MediaController extends BaseController
 
     public create(req: any, res: any, next: any): void {
         if (req.method == "POST") {
-            var isSuccess = false;
-            var messages = [];
-            var params = req.body;
+            let isSuccess = false;
+            let messages = [];
+            let params = req.body;
             params.id = '';
             params.event_id = req.user.getId();
 
             try {
-                var model = new MediaModel(req);
+                let model = new MediaModel(req);
                 model.insert(params, function(err, result) {
                     req.logger.debug(result);
                     if (err) {
@@ -59,12 +59,12 @@ export default class MediaController extends BaseController
     }
 
     public createAsset(req: any, res: any, next: any): void {
-        var isSuccess = false;
-        var messages = [];
-        var params = {};
+        let isSuccess = false;
+        let messages = [];
+        let params = {};
 
-        var uniqid = require('uniqid');
-        var filename = req.user.getUserId() + uniqid();
+        let uniqid = require('uniqid');
+        let filename = req.user.getUserId() + uniqid();
 
         // アセット作成	
         req.mediaService.setToken(function (err) {
@@ -77,9 +77,9 @@ export default class MediaController extends BaseController
                 if (error) throw error;
                 req.logger.debug('createAsset result...');
 
-                var data = JSON.parse(response.body);
+                let data = JSON.parse(response.body);
                 if (!data.error) {
-                    var asset = data.d;
+                    let asset = data.d;
                     params = {
                         assetId: asset.Id,
                         container: path.basename(asset.Uri),
@@ -102,26 +102,26 @@ export default class MediaController extends BaseController
     }
 
     public appendFile(req: any, res: any, next: any): void {
-        var isSuccess = false;
-        var messages = [];
-        var params = req.body;
-        var file = req.files[0];
+        let isSuccess = false;
+        let messages = [];
+        let params = req.body;
+        let file = req.files[0];
         req.logger.debug('content size:' + file.buffer.length);
 
-        var end = false;
-        var counter = 0;
-        var body = '';
-        var container = params.container;
-        var blob = params.filename + '.' + params.extension;
-        var content = file.buffer;
-        var blockSize = 4194304;
-        var blockIdCount = Math.ceil(content.length / blockSize);
-        var createdBlockIds = [];
-        var blockId;
+        let end = false;
+        let counter = 0;
+        let body = '';
+        let container = params.container;
+        let blob = params.filename + '.' + params.extension;
+        let content = file.buffer;
+        let blockSize = 4194304;
+        let blockIdCount = Math.ceil(content.length / blockSize);
+        let createdBlockIds = [];
+        let blockId;
 
         while (!end) {
-            var readPos = blockSize * counter;
-            var endPos = readPos + blockSize;
+            let readPos = blockSize * counter;
+            let endPos = readPos + blockSize;
             if (endPos >= content.length) {
                 endPos = content.length;
                 end = true;
@@ -156,15 +156,15 @@ export default class MediaController extends BaseController
     }
 
     public commitFile(req: any, res: any, next: any): void {
-        var isSuccess = false;
-        var messages = [];
-        var params = req.body;
+        let isSuccess = false;
+        let messages = [];
+        let params = req.body;
         req.logger.debug(params);
 
-        var container = params.container;
-        var blob = params.filename + '.' + params.extension;
-        var blockList = [];
-        for (var i = 0; i < params.blockCount; i++) {
+        let container = params.container;
+        let blob = params.filename + '.' + params.extension;
+        let blockList = [];
+        for (let i = 0; i < params.blockCount; i++) {
             blockList.push(this.generateBlockId(i));
         }
 
@@ -192,7 +192,7 @@ export default class MediaController extends BaseController
     }
 
     private generateBlockId(blockCount: Number): string {
-        var strPadLeft = String(blockCount);
+        let strPadLeft = String(blockCount);
         while (strPadLeft.length < 6) {
             strPadLeft = '0' + strPadLeft;
         }
@@ -204,13 +204,13 @@ export default class MediaController extends BaseController
     }
 
     public delete(req: any, res: any, next: any): void {
-        var isSuccess = false;
-        var messages = [];
+        let isSuccess = false;
+        let messages = [];
 
         req.logger.debug('deleting media... id:', req.params.id);
 
         try {
-            var model = new MediaModel(req);
+            let model = new MediaModel(req);
             model.deleteById(req.params.id, function(err, result) {
                 req.logger.debug('delete result...', result);
                 if (err) {
