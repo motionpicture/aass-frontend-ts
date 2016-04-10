@@ -9,8 +9,8 @@ import benchmarks from './middlewares/benchmarks';
 import session from './middlewares/session';
 import user from './middlewares/user';
 import db from './middlewares/db';
-// var blobService = require('./middlewares/blobService');
-// var mediaService = require('./middlewares/mediaService');
+import blobService from './middlewares/blobService';
+import mediaService from './middlewares/mediaService';
 import routes = require('./routes/index');
 
 var app = express();
@@ -20,8 +20,8 @@ app.use(benchmarks); // ベンチマーク的な
 app.use(session);
 app.use(user);
 app.use(db);
-// app.use(blobService);
-// app.use(mediaService);
+app.use(blobService);
+app.use(mediaService);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

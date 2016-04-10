@@ -72,7 +72,7 @@ export default class MediaController extends BaseController
         req.mediaService.setToken(function (err) {
             if (err) throw err;
 
-            req.logger.debug('creating asset... name:' + filename);
+            req.logger.debug('creating asset... name:', filename);
             req.mediaService.createAsset({
                 Name: filename
             }, function (error, response) {
@@ -195,7 +195,7 @@ export default class MediaController extends BaseController
         });
     }
 
-    generateBlockId(blockCount)
+    private generateBlockId(blockCount)
     {
         var strPadLeft = String(blockCount);
         while (strPadLeft.length < 6) {

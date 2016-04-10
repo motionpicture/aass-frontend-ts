@@ -16,6 +16,7 @@
     "multer": "registry:dt/multer#0.0.0+20160317120654",
     "mysql": "registry:dt/mysql#0.0.0+20160316155526",
     "node": "registry:dt/node#4.0.0+20160330064709",
+    "node-azure/azure": "registry:dt/node-azure/azure#0.9.16+20160316155526",
     "serve-favicon": "registry:dt/serve-favicon#0.0.0+20160316155526",
     "serve-static": "registry:dt/serve-static#0.0.0+20160317120654"
   }

@@ -6,6 +6,7 @@
     "start": "node ./index.js"
   },
   "dependencies": {
+    "azure": "^0.10.6",
     "body-parser": "^1.15.0",
     "config": "^1.20.1",
     "connect-redis": "^3.0.2",
@@ -17,6 +18,8 @@
     "log4js": "^0.6.33",
     "multer": "^1.1.0",
     "mysql": "^2.10.2",
-    "serve-favicon": "^2.3.0"
+    "node-ams-sdk": "^0.2.2",
+    "serve-favicon": "^2.3.0",
+    "uniqid": "^1.0.0"
   }
 }

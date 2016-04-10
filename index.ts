@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 /// <reference path='./typings/main.d.ts' />
 /// <reference path='./typings/connect-redis.d.ts' />
+/// <reference path='./typings/uniqid.d.ts' />
+/// <reference path='./typings/node-ams-sdk.d.ts' />
 
 /**
  * Module dependencies.
