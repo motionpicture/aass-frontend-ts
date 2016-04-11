@@ -5,16 +5,9 @@ logs/*
 node_modules/*
 typings/*
 
-apps/*.js
-apps/*/*.js
-apps/*/*/*.js
-apps/*/*/*/*.js
-apps/*/*/*/*/*.js
-apps/*.js.map
-apps/*/*.js.map
-apps/*/*/*.js.map
-apps/*/*/*/*.js.map
-apps/*/*/*/*/*.js.map
+*.js
+apps/**/*.js
+public/**/*.js
 
 !.gitignore
 !.gitkeep
