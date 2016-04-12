@@ -23,7 +23,7 @@ export default class AuthController extends BaseController {
 
                     if (rows.length > 0) {
                         req.user.login(rows[0]);
-                        res.redirect('/');
+                        res.redirect('/admin');
                     } else {
                         errors.push({msg: 'ユーザーIDもしくはパスワードが異なります'});
                         res.render('login', {errors: errors});

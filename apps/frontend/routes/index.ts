@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/login', (req, res, next) => {authController.login(req, res, next)});
 router.post('/login', (req, res, next) => {authController.login(req, res, next)});
-router.get('/logout', (req, res, next) => {authController.logout(req, res, next)});
+router.post('/logout', (req, res, next) => {authController.logout(req, res, next)});
 
 router.get('/medias', (req, res, next) => {mediaController.list(req, res, next)});
 router.get('/media/new', (req, res, next) => {mediaController.create(req, res, next)});
