@@ -1,4 +1,5 @@
 import express = require('express');
+import validator = require('express-validator')
 import path = require('path');
 import favicon = require('serve-favicon');
 import cookieParser = require('cookie-parser');
@@ -18,7 +19,6 @@ let app = express();
 app.use(logger);
 app.use(benchmarks); // ベンチマーク的な
 app.use(session);
-app.use(user);
 app.use(db);
 app.use(blobService);
 app.use(mediaService);
@@ -31,13 +31,19 @@ app.set('view engine', 'ejs');
 app.use(favicon(path.join(__dirname, '../../public', 'favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(validator()); // this line must be immediately after express.bodyParser()!
 
 // for parsing multipart/form-data
 let storage = multer.memoryStorage()
 app.use(multer({ storage: storage }).any());
 
 app.use(cookieParser());
+
+// static files
 app.use(express.static(path.join(__dirname, '/../../public')));
+
+// ユーザー認証
+app.use(user);
 
 // ルーティング
 app.use('/', routes);

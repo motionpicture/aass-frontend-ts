@@ -7,8 +7,8 @@ class MediaIndex {
 
     public initialize(): void {
         console.log('adding event delete_media...');
-        $('.delete_media').on('click', function(e) {
-            var rootRow = $(this).parent().parent();
+        $('.remove-btn a').on('click', function(e) {
+            var rootRow = $(this).parent().parent().parent().parent().parent();
             console.log(rootRow);
             var id = $('input[name="id"]', rootRow).val();
 
@@ -22,14 +22,14 @@ class MediaIndex {
             .done(function(data) {
                 // エラーメッセー時表示
                 if (!data.isSuccess) {
-                    alert("delete fail!\n" + data.messages.join("\n"));
+                    alert("削除に失敗しました\n" + data.messages.join("\n"));
                 } else {
                     rootRow.remove();
-                    alert('delete success!');
+                    $('.modal-cover, .modal.type-06').addClass('active');
                 }
             })
             .fail(function() {
-                alert('fail');
+                alert("削除に失敗しました");
             })
             .always(function() {
             });

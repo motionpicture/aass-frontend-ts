@@ -1,96 +1,153 @@
 /// <reference path="../../../typings/main.d.ts" />
 
 class MediaForm {
-    private isNew = false;
-    private file = null;
-    private extension = null;
-    private size = null;
-    private assetId = null;
-    private container = null;
-    private filename = null;
+    private isNew: boolean = false;
+    private isCanceled: boolean = false;
+    private file: any = null;
+    private extension: string = null;
+    private size: number = null;
+    private assetId: string = null;
+    private container: string = null;
+    private filename: string = null;
     private chunkSize = 4194304; // byte
-    private division = null;
+    private division: number = null;
     private createBlobBlockTimer = null;
-    private blobBlockMaxSize = 4194304; // byte
-    private blobBlockUncreatedIndexes = []; // 未作成ブロックインデックス
-    private blobBlockCreatedIndexes = []; // 作成済みブロックインデックス
-    private blobBlockCreatingIndexes = []; // 作成中ブロックインデックス
-    private messages = [];
+    private blobBlockMaxSize: number = 4194304; // byte
+    private blobBlockUncreatedIndexes: Array<any> = []; // 未作成ブロックインデックス
+    private blobBlockCreatedIndexes: Array<any> = []; // 作成済みブロックインデックス
+    private blobBlockCreatingIndexes: Array<any> = []; // 作成中ブロックインデックス
+    private messages: Array<string> = [];
 
     constructor() {
-        $(document).on('click', 'form button', () => {
-            $('p.error').html('');
+        // 動画登録イベント
+        $(document).on('click', 'form .contents .next-btn', () => {
             this.initialize();
 
             if (this.validate()) {
                 if (this.isNew) {
-                    $('#progressModal').modal('show');
+                    this.informProgress();
                     this.createAsset();
                 } else {
                     this.createMedia();
                 }
             } else {
-                $('p.error').append(this.messages.join('<br>'));
+                let html: string = '<ul>';
+                this.messages.forEach((message) => {
+                    html += '<li>' + message + '</li>';
+                });
+                html += '</ul>';
+                $('.validation').html(html);
+            }
+        });
+
+        // アップロードキャンセルイベント
+        $(document).on('click', '.modal.type-01 .close-btn a', () => {
+            this.cancelUpload();
+            $('.modal-cover, .modal').removeClass('active');
+        });
+
+        // 戻るイベント
+
+        // ファイル選択イベント
+        $(document).on('change', 'form input[name="file"]', () => {
+            // var file = this.files[0];
+
+            let inputElement: any = $('form input[name="file"]')[0];
+            this.file = inputElement.files[0];
+            if (this.file != null) {
+                $('.file-value').text(this.file.name);
+                let f = this.file.name.split('.');
+                this.extension = f[f.length-1];
+                this.size = parseInt(this.file.size);
+                this.division = Math.ceil(this.size / this.chunkSize);
             }
         });
     }
 
-    public validate() {
+    private validate() {
         if (!$('input[name="title"]', $('form')).val()) {
-            this.messages.push('動画名を入力してください');
+            this.messages.push('動画名が未入力です。');
         }
         if (!$('textarea[name="description"]', $('form')).val()) {
-            this.messages.push('動画概要を入力してください');
+            this.messages.push('動画概要が未入力です。');
         }
         if (!$('input[name="uploaded_by"]', $('form')).val()) {
-            this.messages.push('動画登録者名を入力してください');
+            this.messages.push('動画登録者名が未登録です。');
         }
-        if ($('input[name="file"]', $('form'))[0].files.length == 0) {
-            this.messages.push('ファイルを選択してください');
+        let inputElement: any = $('form input[name="file"]')[0];
+        if (inputElement.files.length == 0) {
+            this.messages.push('動画が未登録です。');
         }
 
         return (this.messages.length < 1);
     }
 
     public initialize() {
+        $('.validation').html('');
+        $('.modal .progress-bar .progress-inner').width('0%');
+
         this.isNew = (!$('input[name="id"]', $('form')).val());
+        this.isCanceled = false;
         this.assetId = null;
         this.container = null;
         this.filename = null;
     //	this.chunkSize = parseInt($('select[name="chunk_size"]', $('form')).val());
-        this.division = null;
         this.createBlobBlockTimer = null;
         this.blobBlockMaxSize = parseInt($('input[name="max_block_size"]', $('form')).val());
         this.blobBlockUncreatedIndexes = [];
         this.blobBlockCreatedIndexes = [];
         this.blobBlockCreatingIndexes = [];
         this.messages = [];
-
-        $('#progressModal').on('hidden.bs.modal', (e) => {
-            this.cancelUpload();
-        });
     }
 
-    public cancelUpload() {
+    private cancelUpload() {
+        this.isCanceled = true;
+
         if (this.createBlobBlockTimer !== null) {
             console.log('canceling upload...');
-            alert('キャンセルしました');
             clearInterval(this.createBlobBlockTimer);
         }
     }
 
-    public showProgress = function(text) {
-        $('#progressModal .modal-body p').html(text);
+    /**
+     * 進捗を更新する
+     */
+    private informProgress(): void {
+        console.log('updating progress...');
+        $('.modal-cover').addClass('active');
+        if (!$('.modal.type-01').hasClass('active')) {
+            $('.modal').removeClass('active');
+            $('.modal.type-01').addClass('active');
+        }
+
+        let blobBlockCreatedCount = this.blobBlockCreatedIndexes.length;
+        console.log('blobBlockCreatedCount:' + blobBlockCreatedCount);
+
+        // if (blobBlockCreatedCount > 0) {
+            let rate = Math.floor(blobBlockCreatedCount * 100 / this.division);
+            $('.modal .progress-bar .progress-inner').width(rate + '%');
+
+            let uploadedSize = (blobBlockCreatedCount < this.division) ? this.chunkSize * blobBlockCreatedCount : this.size;
+            $('.modal .progress-bar-text').html(uploadedSize + '/' + this.size);
+        // }
+    }
+
+    private informFailure() {
+        $('.modal-cover').addClass('active');
+        if (!$('.modal.type-08').hasClass('active')) {
+            $('.modal').removeClass('active');
+            $('.modal.type-08').addClass('active');
+        }
     }
 
     public loadFile(blockIndex) {
-        var readPos = this.chunkSize * blockIndex;
-        var endPos = readPos + this.chunkSize;
+        let readPos = this.chunkSize * blockIndex;
+        let endPos = readPos + this.chunkSize;
         if (endPos > this.size) {
             endPos = this.size;
         }
 
-        var blob;
+        let blob;
         // chunk可能なAPIを保持しているかチェック
         if (this.file.slice) {
             blob = this.file.slice(readPos, endPos);
@@ -107,16 +164,16 @@ class MediaForm {
     }
 
     public createBlobBlock(fileData, blockIndex) {
-        var formData = new FormData();
+        let formData = new FormData();
         formData.append('file', fileData);
         formData.append('extension', this.extension);
         formData.append('container', this.container);
         formData.append('filename', this.filename);
 
-        var startIndex = blockIndex * Math.floor(this.chunkSize / this.blobBlockMaxSize);
+        let startIndex = blockIndex * Math.floor(this.chunkSize / this.blobBlockMaxSize);
         formData.append('index', startIndex);
 
-        var ajax = $.ajax({
+        let ajax = $.ajax({
             url: '/media/appendFile',
             method: 'post',
     //        timeout: 25000,
@@ -126,6 +183,10 @@ class MediaForm {
             contentType: false // contentTypeもfalseに指定
         })
         .done((data) => {
+            if (this.isCanceled) {
+                return;
+            }
+
             // エラーメッセー時表示
             if (!data.isSuccess) {
                 // リトライ
@@ -138,15 +199,13 @@ class MediaForm {
                 this.blobBlockCreatedIndexes.push(blockIndex);
                 this.blobBlockCreatingIndexes.splice(this.blobBlockCreatingIndexes.indexOf(blockIndex), 1);
 
-                var blobBlockCreatedCount = this.blobBlockCreatedIndexes.length;
-                console.log('blobBlockCreatedCount:' + blobBlockCreatedCount);
+                this.informProgress();
 
-                var rate = Math.floor(blobBlockCreatedCount * 100 / this.division);
-                this.showProgress(rate + '% (' + blobBlockCreatedCount + '/' + this.division + ') をアップロードしました...');
                 // ブロブブロックを全て作成したらコミット
-                if (blobBlockCreatedCount == this.division) {
+                if (this.blobBlockCreatedIndexes.length == this.division) {
                     clearInterval(this.createBlobBlockTimer);
                     this.createBlobBlockTimer = null;
+
                     // コミット
                     this.commitFile();
                 }
@@ -175,14 +234,14 @@ class MediaForm {
     }
 
     public commitFile() {
-        this.showProgress('ブロブブロックをコミットします...');
+        console.log('comitting BlobBlocks...');
 
-        var formData = new FormData();
+        let formData = new FormData();
         formData.append('extension', this.extension);
         formData.append('asset_id', this.assetId);
         formData.append('container', this.container);
         formData.append('filename', this.filename);
-        var blockCount = Math.ceil(this.size / this.blobBlockMaxSize);
+        let blockCount = Math.ceil(this.size / this.blobBlockMaxSize);
         formData.append('blockCount', blockCount);
 
         $.ajax({
@@ -198,32 +257,32 @@ class MediaForm {
             if (!data.isSuccess) {
                 $('p.error').append(data.messages.join('<br>'));
             } else {
-                this.showProgress('ファイルアップロード完了');
+                console.log('upload completed.');
 
                 // DB登録
                 this.createMedia();
             }
         })
         .fail(() => {
-            alert('fail');
+            this.informFailure();
         })
         .always(() => {
         });
     }
 
     public createAsset() {
-        this.file = $('input[name="file"]', $('form'))[0].files[0];
-        f = this.file.name.split('.');
-        this.extension = f[f.length-1];
-        this.size = parseInt(this.file.size);
-        this.division = Math.ceil(this.size / this.chunkSize);
-        console.log(this.file, this.extension, this.size, this.division);
-        for (var i=0; i<this.division; i++) {
+        // this.file = $('input[name="file"]', $('form'))[0].files[0];
+        // f = this.file.name.split('.');
+        // this.extension = f[f.length-1];
+        // this.size = parseInt(this.file.size);
+        // this.division = Math.ceil(this.size / this.chunkSize);
+        console.log(this.extension, this.size, this.division);
+
+        for (let i=0; i<this.division; i++) {
             this.blobBlockUncreatedIndexes.push(i);
         }
 
-        this.showProgress('ブロブを準備しています...');
-
+        console.log('creating asset...');
         $.ajax({
             url: '/media/createAsset',
             method: 'post',
@@ -244,7 +303,7 @@ class MediaForm {
                 this.filename = data.params.filename;
 
                 // 定期的にブロブブロック作成
-                this.showProgress(this.chunkSize + 'byteごとに分割アップロードします...');
+                console.log('uploading... chunkSize:', this.chunkSize);
                 this.createBlobBlockTimer = setInterval(() => {
                     // 回線が遅い場合、アクセスがたまりすぎないように調整(ブラウザ同時接続数を考慮)
                     if (this.blobBlockCreatingIndexes.length > 2) {
@@ -252,7 +311,7 @@ class MediaForm {
                     }
 
                     if (this.blobBlockUncreatedIndexes.length > 0) {
-                        var nextIndex = this.blobBlockUncreatedIndexes[0];
+                        let nextIndex = this.blobBlockUncreatedIndexes[0];
                         console.log('nextIndex:' + nextIndex);
                         this.blobBlockCreatingIndexes.push(nextIndex);
                         this.blobBlockUncreatedIndexes.shift();
@@ -262,15 +321,15 @@ class MediaForm {
             }
         })
         .fail(() => {
-            alert('fail');
+            this.informFailure();
         })
         .always(() => {
         });
     }
 
-    public createMedia() {
-        this.showProgress('DBに登録します...');
-        var formData = new FormData();
+    private createMedia() {
+        console.log('inserting...');
+        let formData = new FormData();
         formData.append('id', $('input[name="id"]', $('form')).val());
         formData.append('title', $('input[name="title"]', $('form')).val());
         formData.append('description', $('textarea[name="description"]', $('form')).val());
@@ -299,17 +358,19 @@ class MediaForm {
                     $('textarea[name="description"]', $('form')).val('');
                     $('input[name="uploaded_by"]', $('form')).val('');
                     $('input[name="file"]', $('form')).val('');
+
+                    $('.modal-cover').addClass('active');
+                    $('.modal').removeClass('active');
+                    $('.modal.type-02').addClass('active');
                 }
-                this.showProgress('登録完了');
+
+                console.log('create completed.');
             }
         })
         .fail(() => {
-            alert('fail');
+            this.informFailure();
         })
         .always(() => {
-            // if (this.isNew) {
-            //     $('.progress').hide();
-            // }
         });
     }
 }

@@ -2,50 +2,65 @@
 
 <script src="/js/media/form.js"></script>
 
-<h1 class="page-header">動画編集</h1>
+<body class="mypage">
+    <div class="wrapper movie-registration">
+        <%- include ../common/user_header -%>
 
-<div id="progressModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">進捗モーダル</h4>
+        <form method="post">
+            <input type="hidden" name="id">
+            <input type="hidden" name="max_block_size" value="4194304">
+
+            <div class="contents">
+                <h1 class="page-ttl">動画登録</h1>
+                <div class="inner">
+                    <p class="text-center">必須事項を入力して「動画登録」ボタンを押すと動画のアップロードが完了します。 ※マークは必須事項です。</p>
+
+                    <div class="input-area">
+                        <div class="validation clearfix red-text active">
+                        </div>
+                        
+                        <dl class="d-table ">
+                            <dt class="d-td text-right">動画名<span class="red-text">※</span></dt>
+                            <dd class="d-td"><input class="required" type="text" name="title"></input></dd>
+                        </dl>
+                        
+                        <dl class="d-table movie-description">
+                            <dt class="d-td text-right">動画概要<span class="red-text">※</span></dt>
+                            <dd class="d-td"><textarea class="required" type="text" name="description"></textarea></dd>
+                        </dl>
+                        
+                        <dl class="d-table ">
+                            <dt class="d-td text-right">動画登録者名<span class="red-text">※</span></dt>
+                            <dd class="d-td"><input class="required" type="text" name="uploaded_by"></input></dd>
+                        </dl>
+                        
+                        <dl class="d-table movie-file">
+                            <dt class="d-td text-right">動画<span class="red-text">※</span></dt>
+                            <dd class="d-td">
+                                <div class="file-area"><span class="file-value"></span><div class="btn gray-btn"><label class="file-cover">選択<input type="file" class="required" name="file"></label></div></div>
+                                <p>※動画形式は、XXXXX、XXXXX、XXXXXのいずれかにしてください。</p>
+                            </dd>
+                        </dl>
+                    </div>
+
+                    <div class="btn-area clearfix">
+                        <div class="inner">
+                            <div class="btn red-btn next-btn">
+                                <div><a href="javascript:void(0);">動画登録</a></div>
+                            </div>
+                            <div class="btn gray-btn prev-btn">
+                                <div><a href="javascript:void(0);">戻る</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <p></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">キャンセル</button>
-<!--                 <button type="button" class="btn btn-primary">Save changes</button> -->
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+        </form>
 
-<p class="error" style="color: #FF0000;"></p>
-
-<form method="POST">
-    <input type="hidden" name="id">
-    <input type="hidden" name="max_block_size" value="4194304">
-    <div class="form-group">
-        <p>
-            <input type="text" name="title" class="form-control">
-        </p>
-
-        <p>
-            <textarea name="description" class="form-control"></textarea>
-        </p>
-
-        <p>
-            <input type="text" name="uploaded_by" class="form-control">
-        </p>
-
-        <p>
-            <input type="file" name="file" class="form-control">
-        </p>
-        <?php } ?>
-        <button type="button" class="btn btn-primary">登録</button>
+        <%- include ../common/modals -%>
+        <%- include ../common/user_footer -%>
     </div>
-</form>
+</div>
+</body>
 
 <%- include ../footer -%>

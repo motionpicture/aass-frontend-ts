@@ -11,6 +11,7 @@
     "express": "registry:dt/express#4.0.0+20160317120654",
     "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160322035842",
     "express-session": "registry:dt/express-session#0.0.0+20160331200931",
+    "express-validator": "registry:dt/express-validator#2.9.0+20160317120654",
     "jquery": "registry:dt/jquery#1.10.0+20160316155526",
     "log4js": "registry:dt/log4js#0.0.0+20160316155526",
     "mime": "registry:dt/mime#0.0.0+20160316155526",

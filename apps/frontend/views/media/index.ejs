@@ -2,41 +2,329 @@
 
 <script src="/js/media/index.js"></script>
 
-<h1 class="page-header">動画一覧</h1>
+<body class="mypage">
+    <div class="wrapper movie-list">
+        <%- include ../common/user_header -%>
 
-<table class="table table-striped">
-<tbody>
-<tr>
-    <th>タイトル<br>作成者<br>サイズ<br>作成日時</th>
-    <th>ステータス</th>
-    <th>thumbnail</th>
-    <th>各種機能</th>
-    <th>申請関連</th>
-</tr>
-<% medias.forEach(function(media) { %>
-<tr>
-    <td>
-    <%= media.title %><br>
-    <%= media.uploaded_by %><br>
-    <%= media.size %><br>
-    <%= media.created_at %><br>
-    </td>
-    <td><%= media.status %></td>
-    <td><% if (media.url_thumbnail) { %><img width="100px" src="<%= media.url_thumbnail %>"><% } %></td>
-    <td>
-        <input type="hidden" name="id" value="<%= media.id %>">
-        <a href="/media/<%= media.id %>/edit" class="">編集</a><br>
-        <a href="javascript:void(0)" class="delete_media">削除</a><br>
-        <% if (media.url_mp4) { %><a target="_blank" href="<%= media.url_mp4 %>">mp4 download</a><br><% } %>
-        <% if (media.url_streaming) { %><a target="_blank" href="http://aka.ms/azuremediaplayer?url=<%= encodeURI(media.url_streaming) %>">ストリーミング</a><br><% } %>
-        <?php if ($media['url_mp4']) { ?><?php } ?>
-        <?php if ($media['url_streaming']) { ?><?php } ?>
-    </td>
-    <td>
-    </td>
-</tr>
-<% }); %>
-</tbody>
-</table>
+        <form action="/admin/reservation/list/" method="post">
+            <div class="contents">
+                <h1 class="page-ttl">動画一覧/申請</h1>
+                <div class="inner">
+
+                    <p class="text-center read">動画一覧から申請する動画を選んで「動画申請」ボタンを押してください。ボタンを押すと劇場に動画の申請を行います。</p>
+
+                    <div class="item-list">
+                        <% medias.forEach(function(media) { %>
+                        <div class="item">
+                            <input type="hidden" name="id" value="<%- media.id %>" />
+                            <div class="d-table">
+                                <div class="d-td thumb">
+                                    <a href="/media/<%- media.id %>/edit"><img src="#" alt="#"></a>
+                                </div>
+                                <div class="d-td info">
+                                    <div class="group">
+                                        <span class="type text-center">動画</span>
+                                        <span class="date"><%- media.created_at %></span>
+                                        <span class="author"><%- media.uploaded_by %></span>
+                                        <span class="time">再生時間 : 20分10秒</span>
+                                    </div>
+                                    <div class="title"><a href="/media/<%- media.id %>/edit"><%- media.title %></a></div>
+                                </div>
+                                <div class="d-td control">
+                                    <div class="group clearfix">
+                                        <div class="btn gray-btn edit-btn ">
+                                            <a href="/media/<%- media.id %>/edit">編集</a>
+                                        </div>
+                                        <div class="btn gray-btn remove-btn ">
+                                            <a href="javascript:void(0);">削除</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-td status">
+                                    <div class="status-box status-encod-waiting">
+                                        <div class="text">動画変換待機中</div><div class="progress-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% }); %>
+
+                        <div class="item">
+                            <div class="d-table">
+                                <div class="d-td thumb">
+                                    <a href="000000001"><img src="000000001" alt="000000001"></a>
+                                </div>
+                                <div class="d-td info">
+                                    <div class="group">
+                                        <span class="type text-center">動画</span>
+                                        <span class="date">2016/3/10/14</span>
+                                        <span class="author">作成者名作成者名</span>
+                                        <span class="time">再生時間 : 20分10秒</span>
+                                    </div>
+                                    <div class="title"><a href="000000001">動画名動画名動画名動画名動画名動画名動画名動画名動画名</a></div>
+                                </div>
+                                <div class="d-td control">
+                                    <div class="group clearfix">
+                                        <div class="btn gray-btn edit-btn ">
+                                            <a href="000000001">編集</a>
+                                        </div>
+                                        <div class="btn gray-btn remove-btn ">
+                                            <a href="000000001">削除</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-td status">
+                                    <div class="status-box status-waiting">
+                                        動画申請待ち
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item">
+                            <div class="d-table">
+                                <div class="d-td thumb">
+                                    <a href="000000002"><img src="000000002" alt="000000002"></a>
+                                </div>
+                                <div class="d-td info">
+                                    <div class="group">
+                                        <span class="type text-center">動画</span>
+                                        <span class="date">2016/3/10/14</span>
+                                        <span class="author">作成者名作成者名</span>
+                                        <span class="time">再生時間 : 20分10秒</span>
+                                    </div>
+                                    <div class="title"><a href="000000002">動画名動画名動画名動画名動画名動画名動画名動画名動画名</a></div>
+                                </div>
+                                <div class="d-td control">
+                                    <div class="group clearfix">
+                                        <div class="btn gray-btn edit-btn ">
+                                            <a href="000000002">編集</a>
+                                        </div>
+                                        <div class="btn gray-btn remove-btn ">
+                                            <a href="000000002">削除</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-td status">
+                                    <div class="status-box status-encod-waiting">
+                                        <div class="text">動画変換待機中</div><div class="progress-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="item">
+                            <div class="d-table">
+                                <div class="d-td thumb">
+                                    <a href="000000003"><img src="000000003" alt="000000003"></a>
+                                </div>
+                                <div class="d-td info">
+                                    <div class="group">
+                                        <span class="type text-center">動画</span>
+                                        <span class="date">2016/3/10/14</span>
+                                        <span class="author">作成者名作成者名</span>
+                                        <span class="time">再生時間 : 20分10秒</span>
+                                    </div>
+                                    <div class="title"><a href="000000003">動画名動画名動画名動画名動画名動画名動画名動画名動画名</a></div>
+                                </div>
+                                <div class="d-td control">
+                                    <div class="group clearfix">
+                                        <div class="btn gray-btn edit-btn ">
+                                            <a href="000000003">編集</a>
+                                        </div>
+                                        <div class="btn gray-btn remove-btn ">
+                                            <a href="000000003">削除</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-td status">
+                                    <div class="status-box status-encoding">
+                                        <div class="text">動画変換中</div><div class="progress-bar"><div class="progress-inner"></div></div><div class="time">70% / 残り約50分</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="item">
+                            <div class="d-table">
+                                <div class="d-td thumb">
+                                    <a href="000000004"><img src="000000004" alt="000000004"></a>
+                                </div>
+                                <div class="d-td info">
+                                    <div class="group">
+                                        <span class="type text-center">動画</span>
+                                        <span class="date">2016/3/10/14</span>
+                                        <span class="author">作成者名作成者名</span>
+                                        <span class="time">再生時間 : 20分10秒</span>
+                                    </div>
+                                    <div class="title"><a href="000000004">動画名動画名動画名動画名動画名動画名動画名動画名動画名</a></div>
+                                </div>
+                                <div class="d-td control">
+                                    <div class="group clearfix">
+                                        <div class="btn gray-btn edit-btn ">
+                                            <a href="000000004">編集</a>
+                                        </div>
+                                        <div class="btn gray-btn remove-btn ">
+                                            <a href="000000004">削除</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-td status">
+                                    <div class="btn status-btn application-btn red-btn">
+                                        <a href="#">動画申請</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="item">
+                            <div class="d-table">
+                                <div class="d-td thumb">
+                                    <a href="000000005"><img src="000000005" alt="000000005"></a>
+                                </div>
+                                <div class="d-td info">
+                                    <div class="group">
+                                        <span class="type text-center">動画</span>
+                                        <span class="date">2016/3/10/14</span>
+                                        <span class="author">作成者名作成者名</span>
+                                        <span class="time">再生時間 : 20分10秒</span>
+                                    </div>
+                                    <div class="title"><a href="000000005">動画名動画名動画名動画名動画名動画名動画名動画名動画名</a></div>
+                                </div>
+                                <div class="d-td control">
+                                    <div class="group clearfix">
+                                        <div class="btn gray-btn edit-btn ">
+                                            <a href="000000005">編集</a>
+                                        </div>
+                                        <div class="btn gray-btn remove-btn ">
+                                            <a href="000000005">削除</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-td status">
+                                    <div class="btn status-btn filed-btn yellow-btn not-active pressed">
+                                        <a href="#">動画承認済</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="item">
+                            <div class="d-table">
+                                <div class="d-td thumb">
+                                    <a href="000000006"><img src="000000006" alt="000000006"></a>
+                                </div>
+                                <div class="d-td info">
+                                    <div class="group">
+                                        <span class="type text-center">動画</span>
+                                        <span class="date">2016/3/10/14</span>
+                                        <span class="author">作成者名作成者名</span>
+                                        <span class="time">再生時間 : 20分10秒</span>
+                                    </div>
+                                    <div class="title"><a href="000000006">動画名動画名動画名動画名動画名動画名動画名動画名動画名</a></div>
+                                </div>
+                                <div class="d-td control">
+                                    <div class="group clearfix">
+                                        <div class="btn gray-btn edit-btn ">
+                                            <a href="000000006">編集</a>
+                                        </div>
+                                        <div class="btn gray-btn remove-btn ">
+                                            <a href="000000006">削除</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-td status">
+                                    <div class="btn status-btn other-filed-btn gray-btn not-active pressed">
+                                        <a href="#">他の動画が承認済です</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="item">
+                            <div class="d-table">
+                                <div class="d-td thumb">
+                                    <a href="000000007"><img src="000000007" alt="000000007"></a>
+                                </div>
+                                <div class="d-td info">
+                                    <div class="group">
+                                        <span class="type text-center">動画</span>
+                                        <span class="date">2016/3/10/14</span>
+                                        <span class="author">作成者名作成者名</span>
+                                        <span class="time">再生時間 : 20分10秒</span>
+                                    </div>
+                                    <div class="title"><a href="000000007">動画名動画名動画名動画名動画名動画名動画名動画名動画名</a></div>
+                                </div>
+                                <div class="d-td control">
+                                    <div class="group clearfix">
+                                        <div class="btn gray-btn edit-btn ">
+                                            <a href="000000007">編集</a>
+                                        </div>
+                                        <div class="btn gray-btn remove-btn ">
+                                            <a href="000000007">削除</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-td status">
+                                    <div class="btn status-btn reapplication-btn blue-btn">
+                                        <a href="#">再申請のお願い</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="item">
+                            <div class="d-table">
+                                <div class="d-td thumb">
+                                    <a href="000000008"><img src="000000008" alt="000000008"></a>
+                                </div>
+                                <div class="d-td info">
+                                    <div class="group">
+                                        <span class="type text-center">動画</span>
+                                        <span class="date">2016/3/10/14</span>
+                                        <span class="author">作成者名作成者名</span>
+                                        <span class="time">再生時間 : 20分10秒</span>
+                                    </div>
+                                    <div class="title"><a href="000000008">動画名動画名動画名動画名動画名動画名動画名動画名動画名</a></div>
+                                </div>
+                                <div class="d-td control">
+                                    <div class="group clearfix">
+                                        <div class="btn gray-btn edit-btn ">
+                                            <a href="000000008">編集</a>
+                                        </div>
+                                        <div class="btn gray-btn remove-btn ">
+                                            <a href="000000008">削除</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-td status">
+                                    <div class="btn status-btn error-btn blue-btn">
+                                        <a href="#">エラーが発生しました</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="btn-area one-btn">
+                        <div class="inner">
+                            <div class="btn gray-btn prev-btn">
+                                <div><a href="#">戻る</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <%- include ../common/modals -%>
+        </form>
+        <footer>
+            <p class="text-center">Copyright © 2016 アミューあつぎ映画.comシネマ. All rights reserved.</p>
+        </footer>
+
+    </div>
+</div>
+</body>
 
 <%- include ../footer -%>

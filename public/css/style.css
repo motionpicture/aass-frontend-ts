@@ -1,0 +1,2430 @@
+html,
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+abbr,
+address,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+samp,
+small,
+strong,
+sub,
+sup,
+var,
+b,
+i,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+	font-size: 100%;
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
+	border: 0;
+	outline: 0;
+	background: transparent;
+}
+
+body {
+	line-height: 1;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+	display: block;
+}
+
+a {
+	font-size: 100%;
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+table {
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+hr {
+	display: block;
+	height: 1px;
+	margin: 1em 0;
+	padding: 0;
+	border: 0;
+	border-top: 1px solid #ccc;
+}
+
+input,
+select {
+	vertical-align: middle;
+}
+
+ol,
+ul,
+li {
+	list-style: none;
+}
+
+img {
+	font-size: 0;
+	line-height: 0;
+	vertical-align: top;
+}
+
+/*
+SCSS variables are information about icon's compiled state, stored under its original file name
+
+.icon-home {
+  width: $icon-home-width;
+}
+
+The large array-like variables contain all information about a single icon
+$icon-home: x y offset_x offset_y width height total_width total_height image_path;
+
+At the bottom of this section, we provide information about the spritesheet itself
+$spritesheet: width height image $spritesheet-sprites;
+*/
+
+/*
+The provided mixins are intended to be used with the array-like variables
+
+.icon-home {
+  @include sprite-width($icon-home);
+}
+
+.icon-email {
+  @include sprite($icon-email);
+}
+
+Example usage in HTML:
+
+`display: block` sprite:
+<div class="icon-home"></div>
+
+To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+
+// CSS
+.icon {
+  display: inline-block;
+}
+
+// HTML
+<i class="icon icon-home"></i>
+*/
+
+/*
+The `sprites` mixin generates identical output to the CSS template
+  but can be overridden inside of SCSS
+
+@include sprites($spritesheet-sprites);
+*/
+
+/*
+SCSS variables are information about icon's compiled state, stored under its original file name
+
+.icon-home {
+  width: $icon-home-width;
+}
+
+The large array-like variables contain all information about a single icon
+$icon-home: x y offset_x offset_y width height total_width total_height image_path;
+
+At the bottom of this section, we provide information about the spritesheet itself
+$spritesheet: width height image $spritesheet-sprites;
+*/
+
+/*
+The provided mixins are intended to be used with the array-like variables
+
+.icon-home {
+  @include sprite-width($icon-home);
+}
+
+.icon-email {
+  @include sprite($icon-email);
+}
+
+Example usage in HTML:
+
+`display: block` sprite:
+<div class="icon-home"></div>
+
+To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+
+// CSS
+.icon {
+  display: inline-block;
+}
+
+// HTML
+<i class="icon icon-home"></i>
+*/
+
+/*
+The `sprites` mixin generates identical output to the CSS template
+  but can be overridden inside of SCSS
+
+@include sprites($spritesheet-sprites);
+*/
+
+clearfix:before,
+.clearfix:after {
+	display: table;
+	content: ' ';
+}
+
+.clearfix:after {
+	clear: both;
+}
+
+.clearfix {
+	*zoom: 1;
+}
+
+body {
+	font-family: 'Lucida Grande', 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	position: relative;
+	width: 100%;
+	color: #333;
+	background-color: #e5e5e5;
+	-webkit-text-size-adjust: 100%;
+}
+
+input[type=text],
+input[type=password],
+input[type=tel],
+input[type=email],
+input[type=submit],
+textarea,
+select,
+option,
+label {
+	font-family: 'Lucida Grande', 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, Helvetica, Arial, sans-serif;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	cursor: pointer;
+	border: none;
+	border-radius: 0;
+	background: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+select::-ms-expand {
+	display: none;
+}
+
+input[type=file] {
+	position: absolute;
+	top: 0;
+	left: -9999px;
+	width: 0;
+	height: 0;
+	padding: 0 !important;
+}
+
+.file-value {
+	display: inline-block;
+	box-sizing: border-box;
+	height: 30px;
+	padding: 10px;
+	padding: 0 10px;
+	vertical-align: middle;
+	color: #333;
+	border: 1px solid #c9caca;
+	border-radius: 3px;
+	background-color: #f5f5f5;
+}
+
+p {
+	line-height: 1.5;
+}
+
+a {
+	color: #00a0e9;
+}
+
+img {
+	display: block;
+	zoom: .5;
+	max-width: 100%;
+	margin: 0 auto;
+	text-align: center;
+	border: none;
+}
+
+.red-text {
+	color: #f00;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.validation {
+	color: #f00;
+}
+
+.d-table {
+	display: table;
+	width: 100%;
+}
+
+.d-tr {
+	display: table-row-group;
+}
+
+.d-td {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+input[type=text],
+input[type=password],
+input[type=tel],
+input[type=email] {
+	font-family: 'Lucida Grande', 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	box-sizing: border-box;
+	height: 30px;
+	padding: 0 10px;
+	color: #333;
+	border: 1px solid #c9caca;
+	border-radius: 3px;
+	background-color: #f5f5f5;
+}
+
+textarea {
+	font-family: 'Lucida Grande', 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	font-size: 12px;
+	line-height: 1.5;
+	box-sizing: border-box;
+	width: 100%;
+	height: 30px;
+	padding: 0 10px;
+	padding: 10px;
+	color: #333;
+	border: 1px solid #c9caca;
+	border-radius: 3px;
+	background-color: #f5f5f5;
+}
+
+select {
+	font-family: 'Lucida Grande', 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	box-sizing: border-box;
+	height: 30px;
+	padding: 0 10px;
+	padding: 0 0 0 10px;
+	color: #333;
+	border: 1px solid #c9caca;
+	border-radius: 3px;
+	background-color: #f5f5f5;
+	background-image: url(/images/common/select.png);
+	background-repeat: no-repeat;
+	background-position: 100% center;
+}
+
+.wrapper {
+	width: 1000px;
+	margin: 0 auto;
+	padding: 40px 0 0;
+}
+
+.contents {
+	overflow: hidden;
+	min-height: 500px;
+	margin: 0 0 30px;
+	border-radius: 5px;
+	background-color: #fff;
+}
+
+.contents .inner {
+	padding: 20px 30px 60px;
+}
+
+.page-ttl {
+	font-size: 18px;
+	font-weight: normal;
+	position: relative;
+	padding: 10px 0 10px 60px;
+	color: #fff;
+}
+
+.page-ttl:after {
+	left: 30px;
+}
+
+.admin .page-ttl {
+	background-color: #4c4c4c;
+}
+
+.mypage .page-ttl {
+	background-color: #004277;
+}
+
+.btn {
+	position: relative;
+	text-align: center;
+}
+
+.btn.hidden {
+	display: none;
+}
+
+.btn.not-active:after {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	content: '';
+}
+
+.btn a,
+.btn input,
+.btn label {
+	font-size: 12px;
+	line-height: 1;
+	position: relative;
+	display: block;
+	box-sizing: border-box;
+	padding: 11px 0;
+	text-align: center;
+	text-decoration: none;
+	color: #fff;
+	border-radius: 3px;
+	border-radius: 5px;
+}
+
+.btn a:hover,
+.btn input:hover,
+.btn label:hover {
+	opacity: .75;
+}
+
+.btn input {
+	width: 100%;
+}
+
+.gray-btn a,
+.gray-btn input,
+.gray-btn label {
+	background-color: #727272;
+	box-shadow: 0 2px #565656;
+}
+
+.gray-btn.pressed a,
+.gray-btn.pressed input,
+.gray-btn.pressed label {
+	box-shadow: 0 -2px #565656;
+}
+
+.light-gray-btn a,
+.light-gray-btn input,
+.light-gray-btn label {
+	background-color: #999;
+	box-shadow: 0 2px #565656;
+}
+
+.light-gray-btn.pressed a,
+.light-gray-btn.pressed input,
+.light-gray-btn.pressed label {
+	box-shadow: 0 -2px #565656;
+}
+
+.red-btn a,
+.red-btn input,
+.red-btn label {
+	background-color: #cf322c;
+	box-shadow: 0 2px #591515;
+}
+
+.red-btn.pressed a,
+.red-btn.pressed input,
+.red-btn.pressed label {
+	box-shadow: 0 -2px #591515;
+}
+
+.blue-btn a,
+.blue-btn input,
+.blue-btn label {
+	background-color: #008bd8;
+	box-shadow: 0 2px #153e54;
+}
+
+.blue-btn.pressed a,
+.blue-btn.pressed input,
+.blue-btn.pressed label {
+	box-shadow: 0 -2px #153e54;
+}
+
+.yellow-btn a,
+.yellow-btn input,
+.yellow-btn label {
+	background-color: #b27909;
+	box-shadow: 0 2px #7f5408;
+}
+
+.yellow-btn.pressed a,
+.yellow-btn.pressed input,
+.yellow-btn.pressed label {
+	box-shadow: 0 -2px #7f5408;
+}
+
+.btn-area {
+	width: 320px;
+	margin: 0 auto;
+}
+
+.btn-area .inner {
+	margin: 0 -10px;
+	padding: 0;
+}
+
+.btn-area .btn {
+	width: 50%;
+}
+
+.btn-area .btn div {
+	margin: 0 10px;
+}
+
+.btn-area .next-btn {
+	float: right;
+}
+
+.btn-area .prev-btn {
+	float: left;
+}
+
+.one-btn {
+	width: 150px;
+}
+
+.one-btn .inner {
+	margin: 0;
+}
+
+.one-btn .btn {
+	float: none;
+	width: 100%;
+}
+
+.one-btn .btn div {
+	margin: 0;
+}
+
+.pager ul {
+	text-align: center;
+}
+
+.pager ul li {
+	display: inline-block;
+	margin: 0 5px;
+	vertical-align: middle;
+}
+
+.pager .prev-btn a,
+.pager .next-btn a {
+	position: relative;
+	display: block;
+	width: 30px;
+	height: 30px;
+	border-radius: 3px;
+	background-color: #727272;
+}
+
+.pager .prev-btn a:before,
+.pager .prev-btn a:after,
+.pager .next-btn a:before,
+.pager .next-btn a:after {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 0;
+	height: 0;
+	margin: -6px 0 0 -3px;
+	content: '';
+	border-style: solid;
+}
+
+.pager .prev-btn a:before {
+	border-width: 6px 6px 6px 0;
+	border-color: transparent #fff transparent transparent;
+}
+
+.pager .prev-btn a:after {
+	margin-left: -1px;
+	border-width: 6px 6px 6px 0;
+	border-color: transparent #727272 transparent transparent;
+}
+
+.pager .next-btn a:before {
+	border-width: 6px 0 6px 6px;
+	border-color: transparent transparent transparent #fff;
+}
+
+.pager .next-btn a:after {
+	margin-left: -5px;
+	border-width: 6px 0 6px 6px;
+	border-color: transparent transparent transparent #727272;
+}
+
+.pager .current a {
+	text-decoration: none;
+	color: #333;
+}
+
+header {
+	margin: 0 0 30px;
+	padding: 0 0 0 30px;
+	border-radius: 5px;
+	background-color: #f7f8f8;
+	box-shadow: 0 4px #9fa0a0;
+}
+
+header .logo {
+	float: left;
+	width: 120px;
+	padding: 18px 0 0;
+}
+
+header .logo .logo-image {
+	margin-bottom: 5px;
+}
+
+header .logo .page-type {
+	font-size: 10px;
+	padding: 5px 0;
+	color: #fff;
+	border-radius: 5px;
+	background-color: #004277;
+}
+
+header nav {
+	float: right;
+}
+
+header nav ul li {
+	float: left;
+	width: 120px;
+	border-left: 1px solid #c9caca;
+}
+
+header nav ul li a {
+	font-size: 12px;
+	position: relative;
+	display: block;
+	padding: 45px 0 20px;
+	text-decoration: none;
+	color: #333;
+}
+
+header nav ul li a:before {
+	top: 20px;
+}
+
+header nav ul li .active:after {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 4px;
+	content: '';
+	background-color: #cf322c;
+}
+
+.admin nav ul li .active:after {
+	background-color: #cf322c;
+}
+
+.admin nav ul .list a:before {
+	position: absolute;
+	left: 50%;
+	width: 24px;
+	height: 21px;
+	margin-left: -12px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: -28px 0;
+}
+
+.admin nav ul .add a:before {
+	position: absolute;
+	left: 50%;
+	width: 28px;
+	height: 19px;
+	margin-left: -14px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: 0 0;
+}
+
+.admin nav ul .logout a:before {
+	position: absolute;
+	left: 50%;
+	width: 19px;
+	height: 19px;
+	margin-left: -9.5px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: -78px 0;
+}
+
+.mypage nav ul li .active:after {
+	background-color: #004277;
+}
+
+.mypage nav ul .registration a:before {
+	position: absolute;
+	left: 50%;
+	width: 26px;
+	height: 18px;
+	margin-left: -13px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: -52px 0;
+}
+
+.mypage nav ul .list a:before {
+	position: absolute;
+	left: 50%;
+	width: 21px;
+	height: 18px;
+	margin-left: -10.5px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: -21px -57px;
+}
+
+.mypage nav ul .logout a:before {
+	position: absolute;
+	left: 50%;
+	width: 19px;
+	height: 19px;
+	margin-left: -9.5px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: -78px 0;
+}
+
+.modal {
+	position: absolute;
+	top: 150px;
+	left: 50%;
+	display: none;
+	width: 730px;
+	margin-left: -365px;
+	padding: 60px 0;
+	border-radius: 5px;
+	background-color: #fff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+}
+
+.modal.active {
+	display: block;
+}
+
+.modal .close-btn {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+.modal .close-btn a {
+	display: block;
+	display: block;
+	width: 40px;
+	height: 40px;
+	border-radius: 3px;
+	background-color: #727272;
+}
+
+.modal .close-btn a:before {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 16px;
+	height: 16px;
+	margin-top: -8px;
+	margin-left: -8px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: -78px -19px;
+}
+
+.modal .read {
+	margin: 0 0 20px;
+}
+
+.modal .btn-area {
+	margin-top: 20px;
+}
+
+.modal .info.odd {
+	background-color: #f2f2f2;
+}
+
+.modal .info dl {
+	font-size: 16px;
+	width: 600px;
+	margin: 0 auto;
+}
+
+.modal .info dl dt {
+	width: 12em;
+	padding: 10px 0;
+}
+
+.modal .info dl dd {
+	padding: 10px 0;
+}
+
+.modal .info .description dt {
+	vertical-align: top;
+}
+
+.modal .movie-area {
+	width: 600px;
+	margin: 0 auto 20px;
+}
+
+.modal .movie-area .movie {
+	position: relative;
+	height: 300px;
+	margin: 0 0 20px;
+	background-color: #333;
+}
+
+.modal .movie-area .movie:before {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 92px;
+	height: 92px;
+	margin: -46px 0 0 -46px;
+	content: '';
+	border-radius: 46px;
+	background-color: #ccc;
+}
+
+.modal .movie-area .movie:after {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 0;
+	height: 0;
+	margin: -20px 0 0 -14px;
+	content: '';
+	border-width: 20px 0 20px 36px;
+	border-style: solid;
+	border-color: transparent transparent transparent #333;
+}
+
+.modal .movie-area .user-id {
+	font-size: 20px;
+}
+
+.modal .movie-area .description {
+	font-size: 12px;
+}
+
+.modal .download-btn {
+	width: 218px;
+	margin: 20px auto 0;
+}
+
+.modal .download-btn a:after {
+	position: absolute;
+	top: 50%;
+	left: 15px;
+	width: 26px;
+	height: 17px;
+	margin-top: -8.5px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: 0 -40px;
+}
+
+.modal .progress-bar {
+	position: relative;
+	width: 360px;
+	height: 30px;
+	margin: 0 auto 10px;
+	background-color: #d8d8d8;
+}
+
+.modal .progress-bar .progress-inner {
+	width: 25%;
+	height: 30px;
+	-webkit-transition: width .5s;
+	transition: width .5s;
+	background-color: #007199;
+}
+
+.modal .progress-bar-text {
+	font-size: 12px;
+	font-weight: bold;
+	margin: 0 0 20px;
+}
+
+.modal .text-area {
+	width: 570px;
+	margin: 0 auto;
+}
+
+.modal textarea {
+	min-height: 106px;
+}
+
+.modal-cover {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: none;
+	opacity: .5;
+	background-color: #000;
+}
+
+.modal-cover.active {
+	display: block;
+}
+
+.admin.login-bg {
+	background-image: url(/images/login/admin_bg.png);
+	background-position: center;
+	background-size: cover;
+}
+
+.admin .login {
+	width: 500px;
+	padding: 130px 0 0;
+}
+
+.admin .login .contents {
+	min-height: 0;
+	margin-bottom: 60px;
+	padding: 35px 0;
+}
+
+.admin .login .logo {
+	width: 235px;
+	margin: 0 auto 20px;
+}
+
+.admin .login .logo .logo-image {
+	margin-bottom: 10px;
+}
+
+.admin .login .logo .page-type {
+	padding: 10px 0;
+	color: #fff;
+	border-radius: 5px;
+	background-color: #004277;
+}
+
+.admin .login .validation {
+	font-size: 12px;
+	margin: 0 0 10px;
+}
+
+.admin .login .validation p {
+	display: inline-block;
+	padding: 10px;
+	border: 1px solid #f00;
+}
+
+.admin .login .input-area {
+	width: 286px;
+	margin: 0 auto 20px;
+}
+
+.admin .login .input-area dl dt {
+	width: 6em;
+	padding-right: 10px;
+}
+
+.admin .login .input-area .user-id {
+	margin: 0 0 10px;
+}
+
+.admin .login .input-area .password {
+	margin: 0 0 20px;
+}
+
+.admin .login .input-area .text-center {
+	margin: 0 0 20px;
+}
+
+.admin .login .input-area .btn {
+	margin: 0 20px;
+}
+
+.admin .login .input-area .btn a,
+.admin .login .input-area .btn input {
+	font-size: 16px;
+	padding: 15px 0;
+	box-shadow: 0 4px #565656;
+}
+
+.admin .login footer {
+	color: #fff;
+}
+
+.admin .reservation-list .page-ttl:after {
+	position: absolute;
+	top: 50%;
+	width: 21px;
+	height: 18px;
+	margin-top: -9px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: 0 -57px;
+}
+
+.admin .reservation-list .search-box {
+	margin: 0 0 20px;
+	padding: 15px 20px;
+	background-color: #dcdddd;
+}
+
+.admin .reservation-list .search-box dl {
+	float: right;
+}
+
+.admin .reservation-list .search-box dl dt {
+	display: inline-block;
+	margin-left: 20px;
+}
+
+.admin .reservation-list .search-box dl dd {
+	display: inline-block;
+	margin-left: 5px;
+}
+
+.admin .reservation-list .search-box select {
+	width: 100px;
+}
+
+.admin .reservation-list .search-box .btn a {
+	width: 80px;
+}
+
+.admin .reservation-list .list-number {
+	margin: 0 0 10px;
+}
+
+.admin .reservation-list .item-list {
+	margin: 0 0 40px;
+}
+
+.admin .reservation-list .item-list .item {
+	margin: 0 0 1px;
+	padding: 10px 20px;
+	background-color: #dcdddd;
+}
+
+.admin .reservation-list .item-list .item .thumb a {
+	position: relative;
+	display: block;
+}
+
+.admin .reservation-list .item-list .item .thumb a:before {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 26px;
+	height: 26px;
+	margin: -13px 0 0 -13px;
+	content: '';
+	border-radius: 13px;
+	background-color: #cf322c;
+}
+
+.admin .reservation-list .item-list .item .thumb a:after {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 0;
+	height: 0;
+	margin: -5px 0 0 -3px;
+	content: '';
+	border-width: 5px 0 5px 8px;
+	border-style: solid;
+	border-color: transparent transparent transparent #fff;
+}
+
+.admin .reservation-list .item-list .item .thumb a img {
+	zoom: 1;
+	width: 90px;
+	height: 50px;
+	background-color: #fff;
+}
+
+.admin .reservation-list .item-list .item .info {
+	width: 500px;
+	padding: 0 20px;
+}
+
+.admin .reservation-list .item-list .item .info .title {
+	font-size: 20px;
+	margin: 0 0 10px;
+}
+
+.admin .reservation-list .item-list .item .info dl dt span {
+	font-size: 10px;
+	display: inline-block;
+	padding: 5px;
+	color: #fff;
+	background-color: #727272;
+}
+
+.admin .reservation-list .item-list .item .info dl dd {
+	padding-left: 10px;
+}
+
+.admin .reservation-list .item-list .item .info dl dd span {
+	line-height: 1.5;
+	display: block;
+}
+
+.admin .reservation-list .item-list .item .control .btn {
+	float: left;
+}
+
+.admin .reservation-list .item-list .item .control .btn a {
+	height: 34px;
+}
+
+.admin .reservation-list .item-list .item .control .approval-btn {
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
+.admin .reservation-list .item-list .item .control .approval-btn a {
+	width: 200px;
+}
+
+.admin .reservation-list .item-list .item .control .download-btn {
+	margin-bottom: 10px;
+}
+
+.admin .reservation-list .item-list .item .control .download-btn a {
+	width: 56px;
+}
+
+.admin .reservation-list .item-list .item .control .download-btn a:after {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 26px;
+	height: 17px;
+	margin-top: -8.5px;
+	margin-left: -13px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: 0 -40px;
+}
+
+.admin .reservation-list .item-list .item .control .list-btn {
+	margin-right: 10px;
+}
+
+.admin .reservation-list .item-list .item .control .list-btn a {
+	width: 128px;
+}
+
+.admin .reservation-list .item-list .item .control .remove-btn a {
+	width: 128px;
+}
+
+.admin .reservation-edit .page-ttl:after {
+	position: absolute;
+	top: 50%;
+	width: 23px;
+	height: 17px;
+	margin-top: -8.5px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: -28px -21px;
+}
+
+.admin .reservation-edit p {
+	margin: 0 0 30px;
+}
+
+.admin .reservation-edit .validation {
+	display: none;
+	margin: 0 0 20px;
+}
+
+.admin .reservation-edit .validation.active {
+	display: block;
+}
+
+.admin .reservation-edit .validation ul {
+	float: right;
+	box-sizing: border-box;
+	width: 580px;
+	padding: 10px;
+	border: 1px solid #f00;
+}
+
+.admin .reservation-edit .validation ul li {
+	line-height: 1.5;
+}
+
+.admin .reservation-edit .input-area {
+	width: 760px;
+	margin: 0 auto 40px;
+}
+
+.admin .reservation-edit .input-area dl {
+	margin: 0 0 10px;
+}
+
+.admin .reservation-edit .input-area dl dt {
+	padding-right: 10px;
+}
+
+.admin .reservation-edit .input-area dl dd {
+	width: 580px;
+}
+
+.admin .reservation-edit .input-area dl dd input {
+	width: 406px;
+}
+
+.admin .reservation-edit .input-area dl dd select {
+	width: 100%;
+}
+
+.admin .reservation-edit .input-area dl dd textarea {
+	width: 100%;
+	height: 80px;
+}
+
+.admin .reservation-edit .input-area .remarks dt {
+	vertical-align: top;
+}
+
+.admin .reservation-add .page-ttl:after {
+	position: absolute;
+	top: 50%;
+	width: 23px;
+	height: 17px;
+	margin-top: -8.5px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: -28px -21px;
+}
+
+.admin .reservation-add p {
+	margin: 0 0 30px;
+}
+
+.admin .reservation-add .validation {
+	display: none;
+	margin: 0 0 20px;
+}
+
+.admin .reservation-add .validation.active {
+	display: block;
+}
+
+.admin .reservation-add .validation ul {
+	float: right;
+	box-sizing: border-box;
+	width: 580px;
+	padding: 10px;
+	border: 1px solid #f00;
+}
+
+.admin .reservation-add .validation ul li {
+	line-height: 1.5;
+}
+
+.admin .reservation-add .input-area {
+	width: 760px;
+	margin: 0 auto 40px;
+}
+
+.admin .reservation-add .input-area dl {
+	margin: 0 0 10px;
+}
+
+.admin .reservation-add .input-area dl dt {
+	padding-right: 10px;
+}
+
+.admin .reservation-add .input-area dl dd {
+	width: 580px;
+}
+
+.admin .reservation-add .input-area dl dd input {
+	width: 406px;
+}
+
+.admin .reservation-add .input-area dl dd select {
+	width: 100%;
+}
+
+.admin .reservation-add .input-area dl dd textarea {
+	width: 100%;
+	height: 80px;
+}
+
+.admin .reservation-add .input-area .remarks dt {
+	vertical-align: top;
+}
+
+.admin .movie-list .page-ttl:after {
+	position: absolute;
+	top: 50%;
+	width: 24px;
+	height: 21px;
+	margin-top: -10.5px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: 0 -19px;
+}
+
+.admin .movie-list .user-info {
+	margin: 0 0 20px;
+}
+
+.admin .movie-list .user-info dt {
+	font-size: 16px;
+	margin: 0 0 10px;
+}
+
+.admin .movie-list .user-info dd {
+	padding: 10px;
+	color: #333;
+	border: 1px solid #c9caca;
+	border-radius: 3px;
+	background-color: #f5f5f5;
+}
+
+.admin .movie-list .list-number {
+	margin: 0 0 10px;
+}
+
+.admin .movie-list .item-list {
+	margin: 0 0 40px;
+}
+
+.admin .movie-list .item-list .item {
+	margin: 0 0 1px;
+	padding: 10px 20px;
+	background-color: #dcdddd;
+}
+
+.admin .movie-list .item-list .item .thumb a {
+	position: relative;
+	display: block;
+}
+
+.admin .movie-list .item-list .item .thumb a:before {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 26px;
+	height: 26px;
+	margin: -13px 0 0 -13px;
+	content: '';
+	border-radius: 13px;
+	background-color: #cf322c;
+}
+
+.admin .movie-list .item-list .item .thumb a:after {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 0;
+	height: 0;
+	margin: -5px 0 0 -3px;
+	content: '';
+	border-width: 5px 0 5px 8px;
+	border-style: solid;
+	border-color: transparent transparent transparent #fff;
+}
+
+.admin .movie-list .item-list .item .thumb a img {
+	zoom: 1;
+	width: 90px;
+	height: 50px;
+	background-color: #fff;
+}
+
+.admin .movie-list .item-list .item .info {
+	width: 406px;
+	padding: 0 20px;
+}
+
+.admin .movie-list .item-list .item .info .group {
+	font-size: 10px;
+	margin: 0 0 10px;
+}
+
+.admin .movie-list .item-list .item .info .group span {
+	display: inline-block;
+	margin-left: 10px;
+}
+
+.admin .movie-list .item-list .item .info .group .type {
+	width: 80px;
+	margin-left: 0;
+	padding: 5px 0;
+	color: #fff;
+	background-color: #f8b62d;
+}
+
+.admin .movie-list .item-list .item .info .group .title {
+	font-size: 14px;
+}
+
+.admin .movie-list .item-list .item .control {
+	width: 178px;
+}
+
+.admin .movie-list .item-list .item .control .group {
+	margin: 0 -5px;
+}
+
+.admin .movie-list .item-list .item .control .btn {
+	float: left;
+	width: 50%;
+}
+
+.admin .movie-list .item-list .item .control .btn a {
+	margin: 0 5px;
+}
+
+.admin .movie-list .item-list .item .control .btn a:after {
+	position: absolute;
+	top: 50%;
+	left: 5px;
+	width: 11px;
+	height: 11px;
+	margin-top: -5.5px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: -78px -63px;
+}
+
+.admin .movie-list .item-list .item .control .btn a span {
+	padding-left: 12px;
+}
+
+.admin .movie-list .item-list .item .status {
+	width: 192px;
+	padding-left: 18px;
+}
+
+.admin .movie-list .item-list .item .status .status-box {
+	font-size: 12px;
+	box-sizing: border-box;
+	height: 50px;
+	padding: 20px 0;
+	text-align: center;
+}
+
+.admin .movie-list .item-list .item .status .status-box .text {
+	margin: 0 0 5px;
+}
+
+.admin .movie-list .item-list .item .status .status-box .progress-bar {
+	position: relative;
+	height: 10px;
+	margin: 0 0 5px;
+	background-color: #d8d8d8;
+}
+
+.admin .movie-list .item-list .item .status .status-box .progress-bar .progress-inner {
+	width: 70%;
+	height: 10px;
+	-webkit-transition: width .5s;
+	transition: width .5s;
+	background-color: #007199;
+}
+
+.admin .movie-list .item-list .item .status .status-box .time {
+	font-size: 10px;
+}
+
+.admin .movie-list .item-list .item .status .status-waiting {
+	color: #333;
+	background-color: #fff;
+}
+
+.admin .movie-list .item-list .item .status .status-encod-waiting {
+	padding: 5px 10px;
+	color: #333;
+	background-color: #fff;
+}
+
+.admin .movie-list .item-list .item .status .status-encod-waiting .progress-bar {
+	-webkit-animation: progress .5s linear infinite;
+	animation: progress .5s linear infinite;
+	background-color: #29aacc;
+	background-image: url(/images/common/progress.png);
+	background-position: 0 center;
+}
+
+.admin .movie-list .item-list .item .status .status-encoding {
+	padding: 5px 10px;
+	color: #333;
+	background-color: #fff;
+}
+
+.admin .movie-list .item-list .item .status .status-applying {
+	color: #f7f8f8;
+	background-color: #ccc;
+}
+
+.admin .movie-list .item-list .item .status .status-other-applying {
+	color: #f7f8f8;
+	background-color: #ccc;
+}
+
+.admin .movie-list .item-list .item .status .status-filed {
+	color: #ccc;
+	background-color: #b27909;
+}
+
+.admin .movie-list .item-list .item .status .status-denial {
+	color: #fff;
+	background-color: #0090d8;
+}
+
+.mypage.login-bg {
+	background-image: url(/images/login/mypage_bg.png);
+	background-position: center;
+	background-size: cover;
+}
+
+.mypage .login {
+	width: 500px;
+	padding: 130px 0 0;
+}
+
+.mypage .login .contents {
+	min-height: 0;
+	margin-bottom: 60px;
+	padding: 35px 0;
+}
+
+.mypage .login .logo {
+	width: 235px;
+	margin: 0 auto 20px;
+}
+
+.mypage .login .logo .logo-image {
+	margin-bottom: 10px;
+}
+
+.mypage .login .logo .page-type {
+	padding: 10px 0;
+	color: #fff;
+	border-radius: 5px;
+	background-color: #004277;
+}
+
+.mypage .login .validation {
+	font-size: 12px;
+	margin: 0 0 10px;
+}
+
+.mypage .login .validation p {
+	display: inline-block;
+	padding: 10px;
+	border: 1px solid #f00;
+}
+
+.mypage .login .input-area {
+	width: 286px;
+	margin: 0 auto 20px;
+}
+
+.mypage .login .input-area dl dt {
+	width: 6em;
+	padding-right: 10px;
+}
+
+.mypage .login .input-area .user-id {
+	margin: 0 0 10px;
+}
+
+.mypage .login .input-area .password {
+	margin: 0 0 20px;
+}
+
+.mypage .login .input-area .text-center {
+	margin: 0 0 20px;
+}
+
+.mypage .login .input-area .btn {
+	margin: 0 20px;
+}
+
+.mypage .login .input-area .btn a,
+.mypage .login .input-area .btn input {
+	font-size: 16px;
+	padding: 15px 0;
+	box-shadow: 0 4px #565656;
+}
+
+.mypage .login footer {
+	color: #fff;
+}
+
+.mypage .movie-edit .page-ttl:after {
+	position: absolute;
+	top: 50%;
+	width: 26px;
+	height: 18px;
+	margin-top: -9px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: -52px -18px;
+}
+
+.mypage .movie-edit p {
+	margin: 0 0 30px;
+}
+
+.mypage .movie-edit .validation {
+	display: none;
+	margin: 0 0 20px;
+}
+
+.mypage .movie-edit .validation.active {
+	display: block;
+}
+
+.mypage .movie-edit .validation ul {
+	float: right;
+	box-sizing: border-box;
+	width: 500px;
+	padding: 10px;
+	border: 1px solid #f00;
+}
+
+.mypage .movie-edit .validation ul li {
+	line-height: 1.5;
+}
+
+.mypage .movie-edit .input-area {
+	width: 704px;
+	margin: 0 auto 40px;
+}
+
+.mypage .movie-edit .input-area dl {
+	margin: 0 0 10px;
+}
+
+.mypage .movie-edit .input-area dl dt {
+	padding-right: 10px;
+}
+
+.mypage .movie-edit .input-area dl dd {
+	width: 500px;
+}
+
+.mypage .movie-edit .input-area dl dd input {
+	width: 100%;
+}
+
+.mypage .movie-edit .input-area dl dd select {
+	width: 100%;
+}
+
+.mypage .movie-edit .input-area dl dd textarea {
+	width: 100%;
+	height: 120px;
+}
+
+.mypage .movie-edit .input-area dl dd .file-area {
+	margin: 0 0 5px;
+}
+
+.mypage .movie-edit .input-area dl dd .file-value {
+	line-height: 30px;
+	width: 330px;
+	margin-right: 10px;
+}
+
+.mypage .movie-edit .input-area dl dd .btn {
+	display: inline-block;
+	width: 80px;
+	vertical-align: middle;
+}
+
+.mypage .movie-edit .input-area dl dd .btn .file-cover {
+	padding: 9px 0;
+}
+
+.mypage .movie-edit .input-area dl dd p {
+	margin: 0 0 5px;
+}
+
+.mypage .movie-edit .input-area .movie-description dt {
+	padding-top: 8px;
+	vertical-align: top;
+}
+
+.mypage .movie-edit .input-area .movie-file dt {
+	padding-top: 8px;
+	vertical-align: top;
+}
+
+.mypage .movie-registration .page-ttl:after {
+	position: absolute;
+	top: 50%;
+	width: 26px;
+	height: 18px;
+	margin-top: -9px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: -52px -18px;
+}
+
+.mypage .movie-registration p {
+	margin: 0 0 30px;
+}
+
+.mypage .movie-registration .validation {
+	display: none;
+	margin: 0 0 20px;
+}
+
+.mypage .movie-registration .validation.active {
+	display: block;
+}
+
+.mypage .movie-registration .validation ul {
+	float: right;
+	box-sizing: border-box;
+	width: 500px;
+	padding: 10px;
+	border: 1px solid #f00;
+}
+
+.mypage .movie-registration .validation ul li {
+	line-height: 1.5;
+}
+
+.mypage .movie-registration .input-area {
+	width: 704px;
+	margin: 0 auto 40px;
+}
+
+.mypage .movie-registration .input-area dl {
+	margin: 0 0 10px;
+}
+
+.mypage .movie-registration .input-area dl dt {
+	padding-right: 10px;
+}
+
+.mypage .movie-registration .input-area dl dd {
+	width: 500px;
+}
+
+.mypage .movie-registration .input-area dl dd input {
+	width: 100%;
+}
+
+.mypage .movie-registration .input-area dl dd select {
+	width: 100%;
+}
+
+.mypage .movie-registration .input-area dl dd textarea {
+	width: 100%;
+	height: 120px;
+}
+
+.mypage .movie-registration .input-area dl dd .file-area {
+	margin: 0 0 5px;
+}
+
+.mypage .movie-registration .input-area dl dd .file-value {
+	line-height: 30px;
+	width: 330px;
+	margin-right: 10px;
+}
+
+.mypage .movie-registration .input-area dl dd .btn {
+	display: inline-block;
+	width: 80px;
+	vertical-align: middle;
+}
+
+.mypage .movie-registration .input-area dl dd .btn .file-cover {
+	padding: 9px 0;
+}
+
+.mypage .movie-registration .input-area dl dd p {
+	margin: 0 0 5px;
+}
+
+.mypage .movie-registration .input-area .movie-description dt {
+	padding-top: 8px;
+	vertical-align: top;
+}
+
+.mypage .movie-registration .input-area .movie-file dt {
+	padding-top: 8px;
+	vertical-align: top;
+}
+
+.mypage .movie-list .page-ttl:after {
+	position: absolute;
+	top: 50%;
+	width: 21px;
+	height: 18px;
+	margin-top: -9px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: 0 -57px;
+}
+
+.mypage .movie-list .contents .read {
+	margin: 0 0 20px;
+}
+
+.mypage .movie-list .list-number {
+	margin: 0 0 10px;
+}
+
+.mypage .movie-list .item-list {
+	margin: 0 0 40px;
+}
+
+.mypage .movie-list .item-list .item {
+	margin: 0 0 1px;
+	padding: 10px 20px;
+	background-color: #dcdddd;
+}
+
+.mypage .movie-list .item-list .item .thumb a {
+	position: relative;
+	display: block;
+}
+
+.mypage .movie-list .item-list .item .thumb a:before {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 26px;
+	height: 26px;
+	margin: -13px 0 0 -13px;
+	content: '';
+	border-radius: 13px;
+	background-color: #cf322c;
+}
+
+.mypage .movie-list .item-list .item .thumb a:after {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 0;
+	height: 0;
+	margin: -5px 0 0 -3px;
+	content: '';
+	border-width: 5px 0 5px 8px;
+	border-style: solid;
+	border-color: transparent transparent transparent #fff;
+}
+
+.mypage .movie-list .item-list .item .thumb a img {
+	zoom: 1;
+	width: 90px;
+	height: 50px;
+	background-color: #fff;
+}
+
+.mypage .movie-list .item-list .item .info {
+	width: 406px;
+	padding: 0 20px;
+}
+
+.mypage .movie-list .item-list .item .info .group {
+	font-size: 10px;
+	margin: 0 0 10px;
+}
+
+.mypage .movie-list .item-list .item .info .group span {
+	display: inline-block;
+	margin-left: 10px;
+}
+
+.mypage .movie-list .item-list .item .info .group .type {
+	width: 80px;
+	margin-left: 0;
+	padding: 5px 0;
+	color: #fff;
+	background-color: #f8b62d;
+}
+
+.mypage .movie-list .item-list .item .info .group .title {
+	font-size: 14px;
+}
+
+.mypage .movie-list .item-list .item .control {
+	width: 178px;
+}
+
+.mypage .movie-list .item-list .item .control .group {
+	margin: 0 -5px;
+}
+
+.mypage .movie-list .item-list .item .control .btn {
+	float: left;
+	width: 50%;
+}
+
+.mypage .movie-list .item-list .item .control .btn a {
+	margin: 0 5px;
+}
+
+.mypage .movie-list .item-list .item .control .btn a:after {
+	left: 5px;
+}
+
+.mypage .movie-list .item-list .item .control .edit-btn a:after {
+	position: absolute;
+	top: 50%;
+	width: 11px;
+	height: 11px;
+	margin-top: -5.5px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: -48px -40px;
+}
+
+.mypage .movie-list .item-list .item .control .remove-btn a:after {
+	position: absolute;
+	top: 50%;
+	width: 11px;
+	height: 11px;
+	margin-top: -5.5px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: -37px -40px;
+}
+
+.mypage .movie-list .item-list .item .status {
+	width: 192px;
+	padding-left: 18px;
+}
+
+.mypage .movie-list .item-list .item .status .status-box {
+	font-size: 12px;
+	box-sizing: border-box;
+	height: 50px;
+	padding: 20px 0;
+	text-align: center;
+}
+
+.mypage .movie-list .item-list .item .status .status-box .text {
+	margin: 0 0 5px;
+}
+
+.mypage .movie-list .item-list .item .status .status-box .progress-bar {
+	position: relative;
+	height: 10px;
+	margin: 0 0 5px;
+	background-color: #d8d8d8;
+}
+
+.mypage .movie-list .item-list .item .status .status-box .progress-bar .progress-inner {
+	width: 70%;
+	height: 10px;
+	-webkit-transition: width .5s;
+	transition: width .5s;
+	background-color: #007199;
+}
+
+.mypage .movie-list .item-list .item .status .status-box .time {
+	font-size: 10px;
+}
+
+.mypage .movie-list .item-list .item .status .status-waiting {
+	color: #333;
+	background-color: #fff;
+}
+
+.mypage .movie-list .item-list .item .status .status-encod-waiting {
+	padding: 5px 10px;
+	color: #333;
+	background-color: #fff;
+}
+
+.mypage .movie-list .item-list .item .status .status-encod-waiting .progress-bar {
+	-webkit-animation: progress .5s linear infinite;
+	animation: progress .5s linear infinite;
+	background-color: #29aacc;
+	background-image: url(/images/common/progress.png);
+	background-position: 0 center;
+}
+
+.mypage .movie-list .item-list .item .status .status-encoding {
+	padding: 5px 10px;
+	color: #333;
+	background-color: #fff;
+}
+
+.mypage .movie-list .item-list .item .status .status-btn a {
+	font-size: 12px;
+	box-sizing: border-box;
+	padding: 15px 0;
+	text-align: center;
+}
+
+.mypage .movie-list .item-list .item .status .status-btn a:after {
+	left: 10px;
+}
+
+.mypage .movie-list .item-list .item .status .application-btn a:after {
+	position: absolute;
+	top: 50%;
+	width: 11px;
+	height: 11px;
+	margin-top: -5.5px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: -26px -40px;
+}
+
+.mypage .movie-list .item-list .item .status .filed-btn a {
+	color: #ccc;
+}
+
+.mypage .movie-list .item-list .item .status .reapplication-btn a:after {
+	position: absolute;
+	top: 50%;
+	width: 14px;
+	height: 14px;
+	margin-top: -7px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: -78px -49px;
+}
+
+.mypage .movie-list .item-list .item .status .error-btn a:after {
+	position: absolute;
+	top: 50%;
+	width: 14px;
+	height: 14px;
+	margin-top: -7px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: -78px -49px;
+}
+
+@media screen and (min-width: 1px) {
+
+select {
+	background-image: url(/images/common/@2x/select.png);
+	background-size: 30px;
+}
+
+.admin nav ul .list a:before {
+	display: block;
+	width: 48px;
+	width: 24px;
+	height: 42px;
+	height: 21px;
+	margin-left: -12px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -56px 0;
+	background-position: -28px 0;
+	background-size: 97px 75px;
+}
+
+.admin nav ul .add a:before {
+	display: block;
+	width: 56px;
+	width: 28px;
+	height: 38px;
+	height: 19px;
+	margin-left: -14px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: 0 0;
+	background-position: 0 0;
+	background-size: 97px 75px;
+}
+
+.admin nav ul .logout a:before {
+	display: block;
+	width: 38px;
+	width: 19px;
+	height: 38px;
+	height: 19px;
+	margin-left: -9.5px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -156px 0;
+	background-position: -78px 0;
+	background-size: 97px 75px;
+}
+
+.mypage nav ul .registration a:before {
+	display: block;
+	width: 52px;
+	width: 26px;
+	height: 36px;
+	height: 18px;
+	margin-left: -13px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -104px 0;
+	background-position: -52px 0;
+	background-size: 97px 75px;
+}
+
+.mypage nav ul .list a:before {
+	display: block;
+	width: 42px;
+	width: 21px;
+	height: 36px;
+	height: 18px;
+	margin-left: -10.5px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -42px -114px;
+	background-position: -21px -57px;
+	background-size: 97px 75px;
+}
+
+.mypage nav ul .logout a:before {
+	display: block;
+	width: 38px;
+	width: 19px;
+	height: 38px;
+	height: 19px;
+	margin-left: -9.5px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -156px 0;
+	background-position: -78px 0;
+	background-size: 97px 75px;
+}
+
+.modal .close-btn a:before {
+	display: block;
+	width: 32px;
+	width: 16px;
+	height: 32px;
+	height: 16px;
+	margin-top: -8px;
+	margin-left: -8px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -156px -38px;
+	background-position: -78px -19px;
+	background-size: 97px 75px;
+}
+
+.modal .download-btn a:after {
+	display: block;
+	width: 52px;
+	width: 26px;
+	height: 34px;
+	height: 17px;
+	margin-top: -8.5px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: 0 -80px;
+	background-position: 0 -40px;
+	background-size: 97px 75px;
+}
+
+.admin .reservation-list .page-ttl:after {
+	display: block;
+	width: 42px;
+	width: 21px;
+	height: 36px;
+	height: 18px;
+	margin-top: -9px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: 0 -114px;
+	background-position: 0 -57px;
+	background-size: 97px 75px;
+}
+
+.admin .reservation-list .item-list .item .control .download-btn a:after {
+	display: block;
+	width: 52px;
+	width: 26px;
+	height: 34px;
+	height: 17px;
+	margin-top: -8.5px;
+	margin-left: -13px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: 0 -80px;
+	background-position: 0 -40px;
+	background-size: 97px 75px;
+}
+
+.admin .reservation-edit .page-ttl:after {
+	display: block;
+	width: 46px;
+	width: 23px;
+	height: 34px;
+	height: 17px;
+	margin-top: -8.5px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -56px -42px;
+	background-position: -28px -21px;
+	background-size: 97px 75px;
+}
+
+.admin .reservation-add .page-ttl:after {
+	display: block;
+	width: 46px;
+	width: 23px;
+	height: 34px;
+	height: 17px;
+	margin-top: -8.5px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -56px -42px;
+	background-position: -28px -21px;
+	background-size: 97px 75px;
+}
+
+.admin .movie-list .page-ttl:after {
+	display: block;
+	width: 48px;
+	width: 24px;
+	height: 42px;
+	height: 21px;
+	margin-top: -10.5px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: 0 -38px;
+	background-position: 0 -19px;
+	background-size: 97px 75px;
+}
+
+.admin .movie-list .item-list .item .control .btn a:after {
+	display: block;
+	width: 22px;
+	width: 11px;
+	height: 22px;
+	height: 11px;
+	margin-top: -5.5px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -156px -126px;
+	background-position: -78px -63px;
+	background-size: 97px 75px;
+}
+
+.admin .movie-list .item-list .item .status .status-encod-waiting .progress-bar {
+	background-image: url(/images/common/@2x/progress.png);
+	background-size: 16px 10px;
+}
+
+.mypage .movie-edit .page-ttl:after {
+	display: block;
+	width: 52px;
+	width: 26px;
+	height: 36px;
+	height: 18px;
+	margin-top: -9px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -104px -36px;
+	background-position: -52px -18px;
+	background-size: 97px 75px;
+}
+
+.mypage .movie-registration .page-ttl:after {
+	display: block;
+	width: 52px;
+	width: 26px;
+	height: 36px;
+	height: 18px;
+	margin-top: -9px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -104px -36px;
+	background-position: -52px -18px;
+	background-size: 97px 75px;
+}
+
+.mypage .movie-list .page-ttl:after {
+	display: block;
+	width: 42px;
+	width: 21px;
+	height: 36px;
+	height: 18px;
+	margin-top: -9px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: 0 -114px;
+	background-position: 0 -57px;
+	background-size: 97px 75px;
+}
+
+.mypage .movie-list .item-list .item .control .edit-btn a:after {
+	display: block;
+	width: 22px;
+	width: 11px;
+	height: 22px;
+	height: 11px;
+	margin-top: -5.5px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -102px -80px;
+	background-position: -51px -40px;
+	background-size: 97px 75px;
+}
+
+.mypage .movie-list .item-list .item .control .remove-btn a:after {
+	display: block;
+	width: 22px;
+	width: 11px;
+	height: 22px;
+	height: 11px;
+	margin-top: -5.5px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -80px -80px;
+	background-position: -40px -40px;
+	background-size: 97px 75px;
+}
+
+.mypage .movie-list .item-list .item .status .status-encod-waiting .progress-bar {
+	background-image: url(/images/common/@2x/progress.png);
+	background-size: 16px 10px;
+}
+
+.mypage .movie-list .item-list .item .status .application-btn a:after {
+	display: block;
+	width: 28px;
+	width: 14px;
+	height: 28px;
+	height: 14px;
+	margin-top: -7px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -52px -80px;
+	background-position: -26px -40px;
+	background-size: 97px 75px;
+}
+
+.mypage .movie-list .item-list .item .status .reapplication-btn a:after {
+	display: block;
+	width: 28px;
+	width: 14px;
+	height: 28px;
+	height: 14px;
+	margin-top: -7px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -156px -98px;
+	background-position: -78px -49px;
+	background-size: 97px 75px;
+}
+
+.mypage .movie-list .item-list .item .status .error-btn a:after {
+	display: block;
+	width: 28px;
+	width: 14px;
+	height: 28px;
+	height: 14px;
+	margin-top: -7px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -156px -98px;
+	background-position: -78px -49px;
+	background-size: 97px 75px;
+}
+
+}
+
+@-webkit-keyframes progress {
+
+100% {
+	background-position: 16px center;
+}
+
+}
+
+@keyframes progress {
+
+100% {
+	background-position: 16px center;
+}
+
+}
+
+@keyframes progress {
+
+100% {
+	background-position: 16px center;
+}
+
+}
+

@@ -1,19 +1,44 @@
 <%- include('header') -%>
 
-<h1 class="page-header">フロントエンドログイン</h1>
+<script src="/js/login.js"></script>
 
-<p class="error" style="color: #FF0000;">
-<?php foreach ($messages as $message) { ?>
-<?= $message ?><br>
-<?php } ?>
-</p>
+<body class="mypage login-bg">
+    <div class="wrapper login">
+        <form action="/login" method="post">
+            <div class="contents">
+                <div class="logo">
+                    <div class="logo-image"><img src="/images/login/logo.png" alt="映画.comシネマ アミューあつぎ"></div>
+                    <div class="page-type text-center">上映システム マイページ</div>
+                </div>
+                <div class="validation text-center">
+                    <% if (errors.length > 0) { %>
+                    <p>
+                        <% errors.forEach(function(error) { %>
+                        <%- error.msg %><br>
+                        <% }) %>
+                    </p>
+                    <% } %>
+                </div>
+                <div class="input-area">
+                    <dl class="d-table user-id">
+                        <dt class="d-td text-right">ユーザーID</dt>
+                        <dd class="d-td"><input type="text" name="user_id"></dd>
+                    </dl>
+                    <dl class="d-table password">
+                        <dt class="d-td text-right">パスワード</dt>
+                        <dd class="d-td"><input type="password" name="password"></dd>
+                    </dl>
+                    <div class="auto-login text-center"><label><input type="checkbox" name="auto_login">次回から自動的にログイン</label></div>
+                    <div class="btn gray-btn"><a href="javascript:void(0);">利用規約に同意の上ログイン</a></div>
+                </div>
+                <p class="text-center">パスワードを忘れた方はXX-XXXX-XXXXまでお問い合わせください。</p>
+            </div>
+        </form>
+        <footer>
+            <p class="text-center">Copyright © 2016 アミューあつぎ映画.comシネマ. All rights reserved.</p>
+        </footer>
 
-<form action="/login" method="post">
-<div class="form-group">
-    <input type="text" name="user_id" class="form-control">
-    <input type="password" name="password" class="form-control">
-    <input type="submit" value="Login" class="btn btn-primary">
-</div>
-</form>
+    </div>
+</body>
 
 <%- include('footer') -%>

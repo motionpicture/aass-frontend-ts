@@ -3,10 +3,16 @@ import EventModel from '../models/EventModel';
 
 export default class AuthController extends BaseController {
     public login(req: any, res: any, next: any): void {
-        if (req.method == "POST") {
-            let message = '';
+        let errors: Array<any> = [];
 
-            if (req.body.user_id && req.body.password) {
+        if (req.method == "POST") {
+            req.assert('user_id', 'ユーザーIDを入力してください').notEmpty();
+            req.assert('password', 'パスワードを入力してください').notEmpty();
+
+            errors = req.validationErrors();  
+            this.logger.debug(errors);
+
+            if (!errors) {
                 let model = new EventModel(req);
                 this.logger.debug('logining... user_id:' , req.body.user_id);
                 model.getLoginUser(req.body.user_id, req.body.password, (err, rows, fields) => {
@@ -19,16 +25,15 @@ export default class AuthController extends BaseController {
                         req.user.login(rows[0]);
                         res.redirect('/');
                     } else {
-                        message = 'IDとパスワードが間違っています';
-                        res.render('login', {message: message});
+                        errors.push({msg: 'ユーザーIDもしくはパスワードが異なります'});
+                        res.render('login', {errors: errors});
                     }
                 });
             } else {
-                message = '入力してください';
-                res.render('login', {message: message});
+                res.render('login', {errors: errors});
             }
         } else {
-            res.render('login');
+            res.render('login', {errors: errors});
         }
     }
 
