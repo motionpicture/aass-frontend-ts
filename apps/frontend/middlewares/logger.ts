@@ -5,6 +5,13 @@ let env = process.env.NODE_ENV || 'dev';
 log4js.configure({
     "appenders": [
         {
+            "category": "access",
+            "type": "dateFile",
+            "filename": __dirname + "/../../../logs/" + env + "/frontend/access.log",
+            "pattern": "-yyyy-MM-dd",
+            "backups": 3
+        },
+        {
             "category": "system",
             "type": "dateFile",
             "filename": __dirname + "/../../../logs/" + env + "/frontend/system.log",
@@ -16,15 +23,10 @@ log4js.configure({
         }
     ],
     "levels": {
+        "access": "ALL",
         "system": "ALL"
-    }
+    },
+    "replaceConsole": true
 });
 
-export default function (req, res, next) {
-    if (req.logger) next();
-
-    // システムロガーをリクエストオブジェクトに
-    req.logger = log4js.getLogger('system');
-
-    next();
-};
+export default log4js.connectLogger(log4js.getLogger('access'), {level: log4js.levels.ALL});

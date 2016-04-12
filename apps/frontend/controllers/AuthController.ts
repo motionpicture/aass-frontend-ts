@@ -8,9 +8,8 @@ export default class AuthController extends BaseController {
 
             if (req.body.user_id && req.body.password) {
                 let model = new EventModel(req);
-                req.logger.debug('logining... user_id:' , req.body.user_id);
-                model.getLoginUser(req.body.user_id, req.body.password, function(err, rows, fields)
-                {
+                this.logger.debug('logining... user_id:' , req.body.user_id);
+                model.getLoginUser(req.body.user_id, req.body.password, (err, rows, fields) => {
                     if (err) {
                         next(err);
                         return;

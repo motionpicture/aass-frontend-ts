@@ -4,7 +4,6 @@ export default class EventModel extends BaseModel
 {
     public getLoginUser(userId: string, password: string, cb: Function): void {
         let query = 'SELECT * FROM event WHERE user_id = :userId AND password = :password LIMIT 1';
-        this.req.logger.debug(query);
         let queryParams = {
             userId: userId,
             password: password

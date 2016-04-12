@@ -6,7 +6,6 @@ import bodyParser = require('body-parser');
 import multer = require('multer');
 import logger from './middlewares/logger';
 import benchmarks from './middlewares/benchmarks';
-import access from './middlewares/access';
 import session from './middlewares/session';
 import user from './middlewares/user';
 import db from './middlewares/db';
@@ -18,7 +17,6 @@ let app = express();
 
 app.use(logger);
 app.use(benchmarks); // ベンチマーク的な
-app.use(access); // アクセスログ
 app.use(session);
 app.use(user);
 app.use(db);

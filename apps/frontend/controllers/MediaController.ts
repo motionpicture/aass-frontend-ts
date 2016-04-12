@@ -7,13 +7,13 @@ export default class MediaController extends BaseController
 {
     public list(req: any, res: any, next: any): void {
         let model = new MediaModel(req);
-        model.getListByEventId(req.user.getId(), function (err, rows, fields) {
+        model.getListByEventId(req.user.getId(), (err, rows, fields) => {
             if (err) {
                 next(err);
                 return;
             }
 
-            req.logger.info('rows count:' + rows.length);
+            this.logger.info('rows count:' + rows.length);
             res.render('media/index', {
                 medias: rows
             });
@@ -30,10 +30,10 @@ export default class MediaController extends BaseController
 
             try {
                 let model = new MediaModel(req);
-                model.insert(params, function(err, result) {
-                    req.logger.debug(result);
+                model.insert(params, (err, result) => {
+                    this.logger.debug(result);
                     if (err) {
-                        req.logger.error('insert media fail. err:', err);
+                        this.logger.error('insert media fail. err:', err);
                         messages.push('動画を登録できませんでした');
                         throw err;
                     } else {
@@ -46,7 +46,7 @@ export default class MediaController extends BaseController
                     });
                 });
             } catch (e) {
-                req.logger.error('insert media throw exception. e:', e);
+                this.logger.error('insert media throw exception. e:', e);
                 messages.push(e.message);
                 res.json({
                     isSuccess: isSuccess,
@@ -67,15 +67,15 @@ export default class MediaController extends BaseController
         let filename = req.user.getUserId() + uniqid();
 
         // アセット作成	
-        req.mediaService.setToken(function (err) {
+        req.mediaService.setToken((err) => {
             if (err) throw err;
 
-            req.logger.debug('creating asset... name:', filename);
+            this.logger.debug('creating asset... name:', filename);
             req.mediaService.createAsset({
                 Name: filename
-            }, function (error, response) {
+            }, (error, response) => {
                 if (error) throw error;
-                req.logger.debug('createAsset result...');
+                this.logger.debug('createAsset result...');
 
                 let data = JSON.parse(response.body);
                 if (!data.error) {
@@ -87,7 +87,7 @@ export default class MediaController extends BaseController
                     };
 
                     isSuccess = true;
-                    req.logger.debug(params);
+                    this.logger.debug(params);
                 } else {
                     messages.push(data.error.message.value);
                 }
@@ -106,7 +106,7 @@ export default class MediaController extends BaseController
         let messages = [];
         let params = req.body;
         let file = req.files[0];
-        req.logger.debug('content size:' + file.buffer.length);
+        this.logger.debug('content size:' + file.buffer.length);
 
         let end = false;
         let counter = 0;
@@ -128,17 +128,16 @@ export default class MediaController extends BaseController
             }
 
             body = content.slice(readPos, endPos);
-            req.logger.debug('body size:' + body.length);
+            this.logger.debug('body size:' + body.length);
 
             blockId = this.generateBlockId(parseInt(params.index) + counter);
-            req.logger.debug('blockId:' + blockId);
+            this.logger.debug('blockId:' + blockId);
 
             // ブロブブロック作成
-            req.blobService.createBlockFromText(blockId, container, blob, body, {}, function(error)
-            {
+            req.blobService.createBlockFromText(blockId, container, blob, body, {}, (error) => {
                 if (error) throw error;
-                req.logger.info('createBlockFromText result... blockId:' + blockId);
-                req.logger.info(error);
+                this.logger.info('createBlockFromText result... blockId:' + blockId);
+                this.logger.info(error);
                 createdBlockIds.push(blockId);
 
                 if (createdBlockIds.length == blockIdCount) {
@@ -159,7 +158,7 @@ export default class MediaController extends BaseController
         let isSuccess = false;
         let messages = [];
         let params = req.body;
-        req.logger.debug(params);
+        this.logger.debug(params);
 
         let container = params.container;
         let blob = params.filename + '.' + params.extension;
@@ -169,17 +168,15 @@ export default class MediaController extends BaseController
         }
 
         // コミット
-        req.blobService.commitBlocks(container, blob, {LatestBlocks: blockList}, {}, function(error, blocklist, response)
-        {
-            req.logger.info('commitBlocks result...');
-            req.logger.info(error);
-            req.logger.info('commitBlocks statusCode:' + response.statusCode);
+        req.blobService.commitBlocks(container, blob, {LatestBlocks: blockList}, {}, (error, blocklist, response) => {
+            this.logger.info('commitBlocks result...');
+            this.logger.info(error);
+            this.logger.info('commitBlocks statusCode:' + response.statusCode);
 
             if (!error && response.isSuccessful) {
                 // アセットメタデータ作成
-                req.mediaService.getAssetMetadata(params.asset_id, function(error, response)
-                {
-                    req.logger.info('getAssetMetadata statusCode:' + response.statusCode);
+                req.mediaService.getAssetMetadata(params.asset_id, (error, response) => {
+                    this.logger.info('getAssetMetadata statusCode:' + response.statusCode);
                     isSuccess = true;
 
                     res.json({
@@ -207,14 +204,14 @@ export default class MediaController extends BaseController
         let isSuccess = false;
         let messages = [];
 
-        req.logger.debug('deleting media... id:', req.params.id);
+        this.logger.debug('deleting media... id:', req.params.id);
 
         try {
             let model = new MediaModel(req);
-            model.deleteById(req.params.id, function(err, result) {
-                req.logger.debug('delete result...', result);
+            model.deleteById(req.params.id, (err, result) => {
+                this.logger.debug('delete result...', result);
                 if (err) {
-                    req.logger.error('delete media fail. err:', err);
+                    this.logger.error('delete media fail. err:', err);
                     messages.push('削除できませんでした');
                 } else {
                     isSuccess = true;
@@ -226,7 +223,7 @@ export default class MediaController extends BaseController
                 });
             });
         } catch (e) {
-            req.logger.error('delete media throw exception. e:', e);
+            this.logger.error('delete media throw exception. e:', e);
             messages.push(e.message);
             res.json({
                 isSuccess: isSuccess,
