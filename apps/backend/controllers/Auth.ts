@@ -1,7 +1,7 @@
-import BaseController from './BaseController';
-import EventModel from '../models/EventModel';
+import Base from './Base';
+import AdminModel from '../models/Admin';
 
-export default class AuthController extends BaseController {
+export default class Auth extends Base {
     public login(req: any, res: any, next: any): void {
         let errors: Array<any> = [];
 
@@ -13,7 +13,7 @@ export default class AuthController extends BaseController {
             this.logger.debug(errors);
 
             if (!errors) {
-                let model = new EventModel(req);
+                let model = new AdminModel(req);
                 this.logger.debug('logining... user_id:' , req.body.user_id);
                 model.getLoginUser(req.body.user_id, req.body.password, (err, rows, fields) => {
                     if (err) {

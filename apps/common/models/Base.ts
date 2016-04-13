@@ -1,4 +1,4 @@
-export default class BaseModel
+export default class Base
 {
     constructor(protected req: any) {
     }

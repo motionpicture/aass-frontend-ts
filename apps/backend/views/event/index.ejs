@@ -10,6 +10,7 @@
             <div class="contents">
                 <h1 class="page-ttl">予約一覧</h1>
                 <div class="inner">
+                    <!--
                     <div class="search-box clearfix">
                         <dl>
                             <dt>上映月</dt>
@@ -30,9 +31,59 @@
                             </dd>
                         </dl>
                     </div>
+                    -->
                     <div class="list-number">200件中 1~10件を表示</div>
                     <div class="item-list">
-                        
+
+                        <% events.forEach(function(event) { %>
+                        <div class="item">
+                            <div class="d-table">
+                                <div class="d-td thumb">
+                                    <a href="000000002"><img src="000000002" alt="000000002"></a>
+                                </div>
+                                <div class="d-td info">
+                                    <div class="title"><a href="000000002"><%- event.user_id %></a></div>
+                                    <div class="d-table">
+                                        <% if (event.application_id) { %>
+                                        <dl class="d-td upload">
+                                            <dt class="d-td"><span>アップロード</span></dt>
+                                            <dd class="d-td"><span class="date">2016/3/10/14:32</span><span class="author"><%- event.media_uploaded_by %></span></dd>
+                                        </dl>
+                                        <% } %>
+                                        <dl class="d-td release">
+                                            <dt class="d-td"><span>上映公開日</span></dt>
+                                            <dd class="d-td"><span class="date"><%- event.held_from %></span><span class="screen"><%- event.place %></span></dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <div class="d-td control clearfix">
+                                    <% if (!event.application_id) { %>
+                                    <div class="btn approval-btn blue-btn not-active pressed">
+                                        <a href="000000002">動画待ち </a>
+                                    </div>
+                                    <% } else { %>
+                                    <div class="btn approval-btn red-btn">
+                                        <a href="000000001">動画認証を行う </a>
+                                    </div>
+                                    <% } %>
+
+                                    <% if (event.application_id) { %>
+                                    <div class="btn gray-btn download-btn hidden">
+                                        <a href="000000002"></a>
+                                    </div>
+                                    <% } %>
+
+                                    <div class="btn gray-btn list-btn">
+                                        <a href="/admin/event/<%- event.id %>/medias">動画一覧</a>
+                                    </div>
+                                    <div class="btn gray-btn remove-btn">
+                                        <a href="000000002">予約削除</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% }) %>
+
                         <div class="item">
                             <div class="d-table">
                                 <div class="d-td thumb">
@@ -67,7 +118,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="item">
                             <div class="d-table">
                                 <div class="d-td thumb">
@@ -102,7 +153,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="item">
                             <div class="d-table">
                                 <div class="d-td thumb">
@@ -137,7 +188,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="item">
                             <div class="d-table">
                                 <div class="d-td thumb">
@@ -172,7 +223,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="pager">
                         <ul>

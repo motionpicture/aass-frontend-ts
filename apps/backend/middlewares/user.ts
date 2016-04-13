@@ -4,6 +4,7 @@ export default (req, res, next) => {
     let user = new User(req.session);
     req.user = user;
     res.locals.user = user;
+    res.locals.req = req;
 
     if (req.originalUrl != '/admin/login') {
         if (!user.isAuthenticated()) {

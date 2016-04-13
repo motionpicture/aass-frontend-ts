@@ -3,6 +3,7 @@
 /// <reference path='./definitions/connect-redis.d.ts' />
 /// <reference path='./definitions/uniqid.d.ts' />
 /// <reference path='./definitions/node-ams-sdk.d.ts' />
+/// <reference path='./definitions/named-routes.d.ts' />
 
 /**
  * Module dependencies.

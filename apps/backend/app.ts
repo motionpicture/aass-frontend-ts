@@ -12,7 +12,7 @@ import user from './middlewares/user';
 import db from './middlewares/db';
 import blobService from './middlewares/blobService';
 import mediaService from './middlewares/mediaService';
-import routes = require('./routes/index');
+// import routes = require('./routes/index');
 
 let app = express();
 
@@ -43,10 +43,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/../../public')));
 
 // ユーザー認証
-// app.use(user);
+app.use(user);
 
-// ユーザー認証+ルーティング
-app.use('/admin', user, routes);
+// ルーティング
+// app.use('/admin', routes);
+require('./routes/router').default(app);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
