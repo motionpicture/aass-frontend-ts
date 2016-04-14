@@ -12,10 +12,8 @@ form label {
         <%- include ../common/user_header -%>
 
         <form method="post">
-            <!--
             <%- form.fields.held_from.toHTML() %>
             <%- form.fields.held_to.toHTML() %>
-            -->
 
             <div class="contents">
                 <h1 class="page-ttl">予約追加</h1>
@@ -23,17 +21,10 @@ form label {
                     <p class="text-center">必須事項を入力して「登録」ボタンを押すとアカウントの発行が完了します。※マークは必須です。</p>
 
                     <div class="input-area">
-                        <% if (form.data) { %>
-                        <div class="validation clearfix red-text active">
+                        <div class="validation clearfix red-text">
                             <ul>
-                                <% Object.keys(form.fields).forEach(function (key) { %>
-                                    <% if (form.fields[key].error) { %>
-                                    <li><%- form.fields[key].error %></li>
-                                    <% } %>
-                                <% }) %>
                             </ul>
                         </div>
-                        <% } %>
 
                         <dl class="d-table ">
                             <dt class="d-td text-right"><%- form.fields.email.labelText() %><span class="red-text">※</span></dt>

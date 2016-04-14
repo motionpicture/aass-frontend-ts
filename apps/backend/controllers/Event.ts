@@ -19,39 +19,89 @@ export default class Event extends Base {
         });
     }
 
-    public create(req: any, res: any, next: any): void {
+    public validate(req: any, res: any, next: any): void {
         let form = EventForm;
 
         if (req.method == "POST") {
-            let messages: Array<String> = [];
+            let messages: Array<string> = [];
 
             form.handle(req, {
                 success: (form) => {
                     let model = new EventModel(req);
 
-                    this.logger.trace('creating event... user_id:' , req.body.user_id);
-                    model.updateFromArray(req.body, (err, result) => {
-                        this.logger.debug('create event result...', result);
+                    model.getByUserId(req.body.user_id, (err, rows) => {
                         if (err) {
-                            this.logger.error('create event fail. err:', err);
-                            messages.push('削除できませんでした');
+                            return next(err);
                         }
 
-                        res.json({
-                            isSuccess: true,
-                            messages: messages
-                        });
+                        if (rows.length > 0) {
+                            messages.push('ユーザIDが重複しています');
+                            res.json({
+                                isSuccess: false,
+                                messages: messages
+                            });
+                        } else {
+                            res.json({
+                                isSuccess: true,
+                                messages: messages
+                            });
+                        }
                     });
                 },
                 error: (form) => {
+                    Object.keys(form.fields).forEach((key) => {
+                        let field = form.fields[key];
+                        if (field.error) {
+                            this.logger.debug(field);
+                            messages.push(field.error);
+                        }
+                    });
                     res.json({
                         isSuccess: false,
                         messages: messages
                     });
                 },
                 empty: (form) => {
+                    this.logger.debug(form.fields);
+                    Object.keys(form.fields).forEach((key) => {
+                        let field = form.fields[key];
+                        if (field.error) {
+                            messages.push(field.error);
+                        }
+                    });
                     res.json({
                         isSuccess: false,
+                        messages: messages
+                    });
+                }
+            });
+        } else {
+            res.render('event/new', {
+                form: form
+            });
+        }
+    }
+
+    public create(req: any, res: any, next: any): void {
+        let form = EventForm;
+
+        if (req.method == "POST") {
+            let messages: Array<string> = [];
+            let model = new EventModel(req);
+
+            this.logger.trace('creating event... user_id:' , req.body.user_id);
+            model.updateFromArray(req.body, (err, result) => {
+                this.logger.debug('create event result...', result);
+                if (err) {
+                    this.logger.error('create event fail. err:', err);
+                    messages.push('登録できませんでした');
+                    res.json({
+                        isSuccess: false,
+                        messages: messages
+                    });
+                } else {
+                    res.json({
+                        isSuccess: true,
                         messages: messages
                     });
                 }

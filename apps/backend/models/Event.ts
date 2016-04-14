@@ -43,13 +43,12 @@ SELECT * FROM event WHERE id = :id LIMIT 1
         this.query(query, queryParams, cb);
     }
 
-    public isDuplicateByUserId(id, userId, cb): void {
+    public getByUserId(userId, cb): void {
         let query = `
-SELECT id FROM event WHERE user_id = :userId AND id <> :id
+SELECT * FROM event WHERE user_id = :userId
 `;
         let queryParams = {
-            userId: userId,
-            id: id
+            userId: userId
         };
 
         this.query(query, queryParams, cb);
@@ -68,8 +67,8 @@ SELECT id FROM event WHERE email = :email AND id <> :id
     }
 
     public updateFromArray(params, cb): void {
-        let query: string;
-        let queryParams: Object;
+        let query: string = '';
+        let queryParams: Object = {};
 
         if (params.id) {
             query = `
@@ -93,14 +92,14 @@ UPDATE event SET
             query = `
 INSERT INTO event
  (user_id, email, password, held_from, held_to, place, remarks, created_at, updated_at) VALUES
- (:userId, :email, :password, :heldAt, :place, :remarks, NOW(), NOW())
+ (:user_id, :email, :password, :held_from, :held_to, :place, :remarks, NOW(), NOW())
 `;
             queryParams = {
-                'userId':  params.user_id,
+                'user_id':  params.user_id,
                 'email':  params.email,
                 'password':  params.password,
-                'heldFrom':  params.held_from,
-                'heldTo':  params.held_to,
+                'held_from':  params.held_from,
+                'held_to':  params.held_to,
                 'place':  params.place,
                 'remarks':  params.remarks
             };

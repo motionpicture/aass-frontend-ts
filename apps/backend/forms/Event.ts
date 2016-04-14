@@ -1,4 +1,5 @@
 import Base from './Base';
+import datetime = require('node-datetime');
 
 class Event extends Base {
     public create(): any {
@@ -6,12 +7,16 @@ class Event extends Base {
         let validators = this.forms.validators;
         let widgets = this.forms.widgets;
 
+        let dt2hourslater = datetime.create();
+        dt2hourslater.offsetInHours(2); // 2 hour in the future
+
         let form = this.forms.create(
             {
-                email: fields.email({
+                email: fields.string({
                     label: '申請者メールアドレス',
                     required: validators.required('申請者メールアドレスが未入力です'),
                     validators: [
+                        validators.email('申請者メールアドレスが無効です')
                     ],
                     id: '',
                     hideError: true
@@ -37,6 +42,7 @@ class Event extends Base {
                     label: 'パスワード再入力',
                     required: validators.required('パスワード再入力が未入力です'),
                     validators: [
+                        validators.matchField('password', 'パスワードが一致していません')
                     ],
                     id: '',
                     hideError: true
@@ -48,6 +54,7 @@ class Event extends Base {
                     validators: [
                     ],
                     id: '',
+                    value: datetime.create().format('Y-m-d H:00'),
                     hideError: true
                 }),
                 held_to: fields.string({
@@ -57,6 +64,7 @@ class Event extends Base {
                     validators: [
                     ],
                     id: '',
+                    value: dt2hourslater.format('Y-m-d H:00'),
                     hideError: true
                 }),
                 place: fields.string({
@@ -78,8 +86,8 @@ class Event extends Base {
             },
             this.options
         );
-console.log(form.fields.held_from);
-        form.fields.held_from.bind('2016-04-14 12:00:00');
+
+        // form.fields.held_from.bind('2016-04-14 12:00:00');
 
         return form;
     }
