@@ -1,71 +1,83 @@
 <%- include('../header') -%>
 
 <script src="/js/admin/event/form.js"></script>
+<style>
+form label {
+    display :none;
+}
+</style>
 
 <body class="admin">
     <div class="wrapper reservation-add">
         <%- include ../common/user_header -%>
 
-        <form action="/admin/reservation/list/" method="post">
+        <form method="post">
+            <!--
+            <%- form.fields.held_from.toHTML() %>
+            <%- form.fields.held_to.toHTML() %>
+            -->
+
             <div class="contents">
                 <h1 class="page-ttl">予約追加</h1>
                 <div class="inner">
                     <p class="text-center">必須事項を入力して「登録」ボタンを押すとアカウントの発行が完了します。※マークは必須です。</p>
 
                     <div class="input-area">
+                        <% if (form.data) { %>
                         <div class="validation clearfix red-text active">
                             <ul>
-                                <li>・動画名が未入力です。</li>
-                                <li>・動画概要が未入力です。</li>
-                                <li>・動画が未登録です。</li>
+                                <% Object.keys(form.fields).forEach(function (key) { %>
+                                    <% if (form.fields[key].error) { %>
+                                    <li><%- form.fields[key].error %></li>
+                                    <% } %>
+                                <% }) %>
                             </ul>
                         </div>
-                        
+                        <% } %>
+
                         <dl class="d-table ">
-                            <dt class="d-td text-right">申請者メールアドレス<span class="red-text">※</span></dt>
-                            <dd class="d-td"><input class="required" type="email" naem=""></input></dd>
+                            <dt class="d-td text-right"><%- form.fields.email.labelText() %><span class="red-text">※</span></dt>
+                            <dd class="d-td"><%- form.fields.email.toHTML() %></dd>
                         </dl>
                         
                         <dl class="d-table ">
-                            <dt class="d-td text-right">ユーザーID<span class="red-text">※</span></dt>
-                            <dd class="d-td"><input class="required" type="text" naem=""></input></dd>
+                            <dt class="d-td text-right"><%- form.fields.user_id.labelText() %><span class="red-text">※</span></dt>
+                            <dd class="d-td"><%- form.fields.user_id.toHTML() %></dd>
                         </dl>
                         
                         <dl class="d-table ">
-                            <dt class="d-td text-right">パスワード<span class="red-text">※</span></dt>
-                            <dd class="d-td"><input class="required" type="password" naem=""></input></dd>
+                            <dt class="d-td text-right"><%- form.fields.password.labelText() %><span class="red-text">※</span></dt>
+                            <dd class="d-td"><%- form.fields.password.toHTML() %></dd>
                         </dl>
                         
                         <dl class="d-table ">
-                            <dt class="d-td text-right">パスワード再入力<span class="red-text">※</span></dt>
-                            <dd class="d-td"><input class="required" type="password" naem=""></input></dd>
+                            <dt class="d-td text-right"><%- form.fields.password_confirm.labelText() %><span class="red-text">※</span></dt>
+                            <dd class="d-td"><%- form.fields.password_confirm.toHTML() %></dd>
                         </dl>
                         
                         <dl class="d-table ">
                             <dt class="d-td text-right">上映日時<span class="red-text">※</span></dt>
-                            <dd class="d-td"><select class="required" name=""><option value="">2016 / 02 / 29　09:00 - 2016 / 02 / 29　20:00</option></select></dd>
+                            <dd class="d-td"><input type="text" name="held"></input></dd>
                         </dl>
                         
                         <dl class="d-table ">
-                            <dt class="d-td text-right">上映場所<span class="red-text">※</span></dt>
-                            <dd class="d-td"><input class="required" type="text" naem=""></input></dd>
+                            <dt class="d-td text-right"><%- form.fields.place.labelText() %><span class="red-text">※</span></dt>
+                            <dd class="d-td"><%- form.fields.place.toHTML() %></dd>
                         </dl>
                         
                         <dl class="d-table remarks">
-                            <dt class="d-td text-right">備考</dt>
-                            <dd class="d-td"><textarea class=""></textarea></dd>
+                            <dt class="d-td text-right"><%- form.fields.remarks.labelText() %></dt>
+                            <dd class="d-td"><%- form.fields.remarks.toHTML() %></dd>
                         </dl>
-                        
-
                     </div>
 
                     <div class="btn-area clearfix">
                         <div class="inner">
                             <div class="btn gray-btn next-btn">
-                                <div><a href="#">登録</a></div>
+                                <div><a href="javascript:void(0);">登録</a></div>
                             </div>
                             <div class="btn gray-btn prev-btn">
-                                <div><a href="#">戻る</a></div>
+                                <div><a href="<%- url('events') %>">戻る</a></div>
                             </div>
                         </div>
                     </div>

@@ -2,10 +2,8 @@ import BaseEvent from '../../common/models/Event';
 import Media from './Media';
 import Application from './Application';
 
-export default class Event extends BaseEvent
-{
-    public getAll(cb)
-    {
+export default class Event extends BaseEvent {
+    public getAll(cb): void {
         let query = `
 SELECT
     e.id, e.user_id, e.place, e.email, e.held_from, e.held_to
@@ -34,8 +32,7 @@ SELECT
         this.query(query, queryParams, cb);
     }
 
-    public getById(id, cb)
-    {
+    public getById(id, cb): void {
         let query = `
 SELECT * FROM event WHERE id = :id LIMIT 1
 `;
@@ -46,8 +43,7 @@ SELECT * FROM event WHERE id = :id LIMIT 1
         this.query(query, queryParams, cb);
     }
 
-    public isDuplicateByUserId(id, userId, cb)
-    {
+    public isDuplicateByUserId(id, userId, cb): void {
         let query = `
 SELECT id FROM event WHERE user_id = :userId AND id <> :id
 `;
@@ -59,8 +55,7 @@ SELECT id FROM event WHERE user_id = :userId AND id <> :id
         this.query(query, queryParams, cb);
     }
 
-    public isDuplicateByEmail(id, email, cb)
-    {
+    public isDuplicateByEmail(id, email, cb): void {
         let query = `
 SELECT id FROM event WHERE email = :email AND id <> :id
 `;
@@ -72,14 +67,16 @@ SELECT id FROM event WHERE email = :email AND id <> :id
         this.query(query, queryParams, cb);
     }
 
-    public updateFromArray(params, cb)
-    {
+    public updateFromArray(params, cb): void {
         let query: string;
         let queryParams: Object;
 
         if (params.id) {
             query = `
-UPDATE event SET user_id = :userId, email = :email, password = :password, held_from = :heldFrom, held_to = :heldTo, place = :place, remarks = :remarks, updated_at = NOW() WHERE id = :id
+UPDATE event SET
+ user_id = :userId, email = :email, password = :password, held_from = :heldFrom, held_to = :heldTo,
+ place = :place, remarks = :remarks, updated_at = NOW()
+ WHERE id = :id
 `;
             queryParams = {
                 'id':  params.id,
@@ -94,7 +91,9 @@ UPDATE event SET user_id = :userId, email = :email, password = :password, held_f
 
         } else {
             query = `
-INSERT INTO event (user_id, email, password, held_from, held_to, place, remarks, created_at, updated_at) VALUES (:userId, :email, :password, :heldAt, :place, :remarks, NOW(), NOW())
+INSERT INTO event
+ (user_id, email, password, held_from, held_to, place, remarks, created_at, updated_at) VALUES
+ (:userId, :email, :password, :heldAt, :place, :remarks, NOW(), NOW())
 `;
             queryParams = {
                 'userId':  params.user_id,

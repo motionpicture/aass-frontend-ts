@@ -1,5 +1,4 @@
 import BaseMedia from '../../common/models/Media';
 
-export default class Media extends BaseMedia
-{
+export default class Media extends BaseMedia {
 }

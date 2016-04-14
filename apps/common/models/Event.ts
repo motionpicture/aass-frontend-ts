@@ -1,7 +1,6 @@
 import Base from './Base';
 
-export default class Event extends Base
-{
+export default class Event extends Base {
     public id;
     public user_id;
     public email; // メールアドレス

@@ -1,8 +1,7 @@
 import Base from './Base';
 import ApplicationModel from '../models/Application';
 
-export default class Application extends Base
-{
+export default class Application extends Base {
     public accept(req: any, res: any, next: any): void {
         let isSuccess: boolean = false;
         let message: string = '' ;

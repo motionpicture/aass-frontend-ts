@@ -1,7 +1,6 @@
 import Base from './Base';
 
-export default class Media extends Base
-{
+export default class Media extends Base {
     /**
      * ダウンロード
      * 

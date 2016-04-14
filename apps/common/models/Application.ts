@@ -1,8 +1,7 @@
 import Base from './Base';
 import Media from './Media';
 
-export default class Application extends Base
-{
+export default class Application extends Base {
     public id;
     public media_id;
     public status; // ステータス
@@ -13,9 +12,8 @@ export default class Application extends Base
     static STATUS_DELETED = 4; // 削除済み
     static STATUS_END = 5; // 上映済み
 
-    public static status2string(status: number)
-    {
-        let str: string;
+    public static status2string(status: Number): String {
+        let str: String;
 
         switch (status) {
             case Application.STATUS_CREATED:
@@ -42,8 +40,7 @@ export default class Application extends Base
         return str;
     }
 
-    public getByEventId(eventId, cb)
-    {
+    public getByEventId(eventId, cb): void {
         let query = 'SELECT a.id, a.media_id, a.status FROM application AS a LEFT JOIN media AS m ON m.id = a.media_id WHERE m.event_id = :eventId AND m.status <> :mediaStatus AND a.status <> :applicationStatus';
         let queryParams = {
             eventId: eventId,

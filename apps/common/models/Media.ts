@@ -1,7 +1,6 @@
 import Base from './Base';
 
-export default class Media extends Base
-{
+export default class Media extends Base {
     public id;
     public event_id;
     public title; // 動画名
@@ -33,9 +32,8 @@ export default class Media extends Base
     static AZURE_FILE_SHARE_NAME_JPEG2000_READY = 'mp4';
     static AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED = 'jpeg2000';
 
-    public static status2string(status: number)
-    {
-        let str: string;
+    public static status2string(status: Number): String {
+        let str: String;
 
         switch (status) {
             case Media.STATUS_ASSET_CREATED:
@@ -68,8 +66,7 @@ export default class Media extends Base
         return str;
     }
 
-    public getListByEventId(eventId, cb)
-    {
+    public getListByEventId(eventId, cb): void {
         let query = 'SELECT * FROM media WHERE event_id = :eventId AND status <> :status';
         let queryParams = {
             eventId: eventId,
@@ -79,8 +76,7 @@ export default class Media extends Base
         this.query(query, queryParams, cb);
     }
 
-    public delete(id, cb)
-    {
+    public delete(id, cb): void {
         let query = 'DELETE FROM media WHERE id = :id';
         let queryParams = {
             id: id
@@ -89,13 +85,11 @@ export default class Media extends Base
         this.query(query, queryParams, cb);
     }
 
-    public static getFilePath4Jpeg2000Ready(filename)
-    {
+    public static getFilePath4Jpeg2000Ready(filename): String {
         return Media.AZURE_FILE_SHARE_NAME_JPEG2000_READY + '/' + filename + '.mp4';
     }
 
-    public static getFilePath4Jpeg2000Encoded(filename)
-    {
+    public static getFilePath4Jpeg2000Encoded(filename): String {
         return Media.AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED + '/' + filename + '.jpeg2000';
     }
 }

@@ -1,5 +1,11 @@
 <%- include('header') -%>
 
+<style>
+form label {
+    display :none;
+}
+</style>
+
 <body class="admin login-bg">
     <div class="wrapper login">
         <form action="<%- url('login') %>" method="post">
@@ -9,22 +15,25 @@
                     <div class="page-type text-center">上映システム 管理画面</div>
                 </div>
                 <div class="validation text-center">
-                    <% if (errors.length > 0) { %>
+                    <% if (form.data) { %>
                     <p>
-                        <% errors.forEach(function(error) { %>
-                        <%- error.msg %><br>
+                        <% Object.keys(form.fields).forEach(function (key) { %>
+                            <% if (form.fields[key].error) { %>
+                            <%- form.fields[key].error %><br>
+                            <% } %>
                         <% }) %>
                     </p>
                     <% } %>
+
                 </div>
                 <div class="input-area">
                     <dl class="d-table user-id">
                         <dt class="d-td text-right">ユーザーID</dt>
-                        <dd class="d-td"><input type="text" name="user_id"></dd>
+                        <dd class="d-td"><%- form.fields.user_id.toHTML() %></dd>
                     </dl>
                     <dl class="d-table password">
                         <dt class="d-td text-right">パスワード</dt>
-                        <dd class="d-td"><input type="password" name="password"></dd>
+                        <dd class="d-td"><%- form.fields.password.toHTML() %></dd>
                     </dl>
                     <div class="auto-login text-center"><label><input type="checkbox" name="auto_login">次回から自動的にログイン</label></div>
                     <div class="btn gray-btn"><a href="javascript:void(0);">利用規約に同意の上ログイン</a></div>

@@ -1,5 +1,4 @@
 import express = require('express');
-import validator = require('express-validator')
 import path = require('path');
 import favicon = require('serve-favicon');
 import cookieParser = require('cookie-parser');
@@ -31,7 +30,6 @@ app.set('view engine', 'ejs');
 app.use(favicon(path.join(__dirname, '../../public', 'favicon.ico')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(validator()); // this line must be immediately after express.bodyParser()!
 
 // for parsing multipart/form-data
 let storage = multer.memoryStorage()

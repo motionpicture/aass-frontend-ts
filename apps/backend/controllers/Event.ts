@@ -2,9 +2,9 @@ import Base from './Base';
 import ApplicationModel from '../models/Application';
 import EventModel from '../models/Event';
 import MediaModel from '../models/Media';
+import EventForm from '../forms/Event';
 
-export default class Event extends Base
-{
+export default class Event extends Base {
     public list(req: any, res: any, next: any): void {
         let events: Array<any> = [];
 
@@ -20,7 +20,47 @@ export default class Event extends Base
     }
 
     public create(req: any, res: any, next: any): void {
-        res.render('event/new', {});
+        let form = EventForm;
+
+        if (req.method == "POST") {
+            let messages: Array<String> = [];
+
+            form.handle(req, {
+                success: (form) => {
+                    let model = new EventModel(req);
+
+                    this.logger.trace('creating event... user_id:' , req.body.user_id);
+                    model.updateFromArray(req.body, (err, result) => {
+                        this.logger.debug('create event result...', result);
+                        if (err) {
+                            this.logger.error('create event fail. err:', err);
+                            messages.push('削除できませんでした');
+                        }
+
+                        res.json({
+                            isSuccess: true,
+                            messages: messages
+                        });
+                    });
+                },
+                error: (form) => {
+                    res.json({
+                        isSuccess: false,
+                        messages: messages
+                    });
+                },
+                empty: (form) => {
+                    res.json({
+                        isSuccess: false,
+                        messages: messages
+                    });
+                }
+            });
+        } else {
+            res.render('event/new', {
+                form: form
+            });
+        }
     }
 
     public edit(req: any, res: any, next: any): void {
