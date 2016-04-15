@@ -11,7 +11,6 @@ import user from './middlewares/user';
 import db from './middlewares/db';
 import blobService from './middlewares/blobService';
 import mediaService from './middlewares/mediaService';
-// import routes = require('./routes/index');
 
 let app = express();
 
@@ -44,7 +43,6 @@ app.use(express.static(path.join(__dirname, '/../../public')));
 app.use(user);
 
 // ルーティング
-// app.use('/admin', routes);
 require('./routes/router').default(app);
 
 

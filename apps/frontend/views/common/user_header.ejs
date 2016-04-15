@@ -5,8 +5,8 @@
     </div>
     <nav>
         <ul class="clearfix">
-            <li class="registration text-center"><a class="active" href="/media/new">動画登録</a></li>
-            <li class="list text-center"><a class="" href="/medias">動画一覧/申請</a></li>
+            <li class="registration text-center"><a class="<% if (req.originalUrl == url('media.create', {})) { %>active<% } %>" href="<%- url('media.create', {}) %>">動画登録</a></li>
+            <li class="list text-center"><a class="<% if (req.originalUrl == url('medias', {})) { %>active<% } %>" href="<%- url('medias', {}) %>">動画一覧/申請</a></li>
             <li class="logout text-center"><a class="" href="javascript:void(0);">ログアウト</a></li>
         </ul>
     </nav>

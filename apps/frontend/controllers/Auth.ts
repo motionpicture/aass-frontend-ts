@@ -1,5 +1,5 @@
 import Base from './Base';
-import AdminModel from '../models/Admin';
+import EventModel from '../models/Event';
 import LoginForm from '../forms/Login';
 
 export default class Auth extends Base {
@@ -11,7 +11,7 @@ export default class Auth extends Base {
                 success: (form) => {
                     // there is a request and the form is valid
                     // form.data contains the submitted data
-                    let model = new AdminModel(req);
+                    let model = new EventModel(req);
                     this.logger.debug('logining... user_id:' , req.body.user_id);
                     model.getLoginUser(req.body.user_id, req.body.password, (err, rows, fields) => {
                         if (err) {
@@ -21,7 +21,7 @@ export default class Auth extends Base {
 
                         if (rows.length > 0) {
                             req.user.login(rows[0]);
-                            res.redirect('/admin');
+                            res.redirect('/');
                         } else {
                             form.fields.user_id.error = 'ユーザーIDもしくはパスワードが異なります';
                             res.render('login', {

@@ -3,7 +3,7 @@ export default (req, res, next) => {
 
     let user = new User(req.session);
     req.user = user;
-    res.locals.user = user;
+    res.locals.req = req;
 
     if (req.originalUrl != '/login') {
         if (!user.isAuthenticated()) {

@@ -19,16 +19,16 @@
                             <input type="hidden" name="id" value="<%- media.id %>" />
                             <div class="d-table">
                                 <div class="d-td thumb">
-                                    <a href="/media/<%- media.id %>/edit"><img src="#" alt="#"></a>
+                                    <a href="<%- url('media.update', {id: media.id}) %>"><img src="#" alt="#"></a>
                                 </div>
                                 <div class="d-td info">
                                     <div class="group">
                                         <span class="type text-center">動画</span>
                                         <span class="date"><%- media.created_at %></span>
                                         <span class="author"><%- media.uploaded_by %></span>
-                                        <span class="time">再生時間 : 20分10秒</span>
+                                        <span class="time">再生時間 : ??分??秒</span>
                                     </div>
-                                    <div class="title"><a href="/media/<%- media.id %>/edit"><%- media.title %></a></div>
+                                    <div class="title"><a href="<%- url('media.update', {id: media.id}) %>"><%- media.title %></a></div>
                                 </div>
                                 <div class="d-td control">
                                     <div class="group clearfix">

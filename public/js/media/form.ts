@@ -20,7 +20,7 @@ class MediaForm {
 
     constructor() {
         // 動画登録イベント
-        $(document).on('click', 'form .contents .next-btn', () => {
+        $(document).on('click', 'form .next-btn', () => {
             this.initialize();
 
             if (this.validate()) {
@@ -340,7 +340,7 @@ class MediaForm {
         formData.append('filename', this.filename);
 
         $.ajax({
-            url: '/media/create',
+            url: location.href,
             method: 'post',
             dataType: 'json',
             data: formData,

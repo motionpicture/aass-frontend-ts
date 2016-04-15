@@ -6,16 +6,14 @@
     <div class="wrapper reservation-edit">
         <%- include('../common/user_header') -%>
 
-        <form method="post">
-            <div class="contents">
-                <h1 class="page-ttl">予約編集</h1>
-                <div class="inner">
-                    <p class="text-center">必須事項を入力して「登録」ボタンを押すとアカウントの発行が完了します。※マークは必須です。</p>
+        <div class="contents">
+            <h1 class="page-ttl">予約編集</h1>
+            <div class="inner">
+                <p class="text-center">必須事項を入力して「登録」ボタンを押すとアカウントの発行が完了します。※マークは必須です。</p>
 
-                    <%- include('./form') -%>
-                </div>
+                <%- include('./form') -%>
             </div>
-        </form>
+        </div>
 
         <%- include('../common/modals') -%>
 

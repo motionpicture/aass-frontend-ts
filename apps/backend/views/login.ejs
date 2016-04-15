@@ -28,11 +28,11 @@ form label {
                 </div>
                 <div class="input-area">
                     <dl class="d-table user-id">
-                        <dt class="d-td text-right">ユーザーID</dt>
+                        <dt class="d-td text-right"><%- form.fields.user_id.labelText() %></dt>
                         <dd class="d-td"><%- form.fields.user_id.toHTML() %></dd>
                     </dl>
                     <dl class="d-table password">
-                        <dt class="d-td text-right">パスワード</dt>
+                        <dt class="d-td text-right"><%- form.fields.password.labelText() %></dt>
                         <dd class="d-td"><%- form.fields.password.toHTML() %></dd>
                     </dl>
                     <div class="auto-login text-center"><label><input type="checkbox" name="auto_login">次回から自動的にログイン</label></div>

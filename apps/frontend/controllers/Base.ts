@@ -1,6 +1,6 @@
 import log4js = require('log4js');
 
-export default class BaseController
+export default class Base
 {
     protected logger;
 

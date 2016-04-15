@@ -76,6 +76,18 @@ export default class Media extends Base {
         this.query(query, queryParams, cb);
     }
 
+    public getById(id, cb): void {
+        let query = `
+SELECT * FROM media WHERE id = :id AND status <> :status
+`;
+        let queryParams = {
+            id: id,
+            status: Media.STATUS_DELETED
+        };
+
+        this.query(query, queryParams, cb);
+    }
+
     public delete(id, cb): void {
         let query = 'DELETE FROM media WHERE id = :id';
         let queryParams = {
