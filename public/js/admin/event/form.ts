@@ -52,7 +52,6 @@ class AdminEventForm {
             $('.validation').removeClass('active');
             $('.modal-cover, .modal.type-05').removeClass('active');
 
-            var isNew = (!$('input[name="id"]', $(this)).val());
             var form = $('form');
             var formElement = form.get()[0];
 

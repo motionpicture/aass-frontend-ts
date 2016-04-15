@@ -25,9 +25,8 @@ export default function router(app: any) {
     app.post('/admin/logout', 'logout', (req, res, next) => {auth.logout(req, res, next)});
 
     app.get('/admin/events', 'events', (req, res, next) => {event.list(req, res, next)});
-    app.all('/admin/event/new', 'event.new', (req, res, next) => {event.create(req, res, next)});
+    app.all('/admin/event/new', 'event.create', (req, res, next) => {event.create(req, res, next)});
     app.all('/admin/event/validate', 'event.validate', (req, res, next) => {event.validate(req, res, next)});
-    app.all('/admin/event/:id/edit', 'event.edit', (req, res, next) => {event.edit(req, res, next)});
-    app.post('/admin/event/update', 'event.update', (req, res, next) => {event.update(req, res, next)});
+    app.all('/admin/event/:id/edit', 'event.update', (req, res, next) => {event.update(req, res, next)});
     app.get('/admin/event/:id/medias', 'event.medias', (req, res, next) => {event.medias(req, res, next)});
 }

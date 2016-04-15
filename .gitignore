@@ -1,6 +1,4 @@
-.project
-.settings
-
+Web.config
 logs/*
 node_modules/*
 public/node_modules/*

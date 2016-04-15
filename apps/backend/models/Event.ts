@@ -24,6 +24,7 @@ SELECT
  GROUP BY e.id
  ORDER BY held_from DESC
 `;
+
         let queryParams = {
             mediaStatus: Media.STATUS_DELETED,
             applicationStatus: Application.STATUS_DELETED
@@ -36,6 +37,7 @@ SELECT
         let query = `
 SELECT * FROM event WHERE id = :id LIMIT 1
 `;
+
         let queryParams = {
             id: id
         };
@@ -47,6 +49,7 @@ SELECT * FROM event WHERE id = :id LIMIT 1
         let query = `
 SELECT * FROM event WHERE user_id = :userId
 `;
+
         let queryParams = {
             userId: userId
         };
@@ -54,56 +57,44 @@ SELECT * FROM event WHERE user_id = :userId
         this.query(query, queryParams, cb);
     }
 
-    public isDuplicateByEmail(id, email, cb): void {
-        let query = `
-SELECT id FROM event WHERE email = :email AND id <> :id
+    public create(params, cb): void {
+        let query: string = `
+INSERT INTO event
+ (user_id, email, password, held_from, held_to, place, remarks, created_at, updated_at) VALUES
+ (:user_id, :email, :password, :held_from, :held_to, :place, :remarks, NOW(), NOW())
 `;
-        let queryParams = {
-            email: email,
-            id: id
+
+        let queryParams: Object = {
+            'user_id':  params.user_id,
+            'email':  params.email,
+            'password':  params.password,
+            'held_from':  params.held_from,
+            'held_to':  params.held_to,
+            'place':  params.place,
+            'remarks':  params.remarks
         };
 
         this.query(query, queryParams, cb);
     }
 
-    public updateFromArray(params, cb): void {
-        let query: string = '';
-        let queryParams: Object = {};
-
-        if (params.id) {
-            query = `
+    public update(params, cb): void {
+        let query: string = `
 UPDATE event SET
  user_id = :userId, email = :email, password = :password, held_from = :heldFrom, held_to = :heldTo,
  place = :place, remarks = :remarks, updated_at = NOW()
  WHERE id = :id
 `;
-            queryParams = {
-                'id':  params.id,
-                'userId':  params.user_id,
-                'email':  params.email,
-                'password':  params.password,
-                'heldFrom':  params.held_from,
-                'heldTo':  params.held_to,
-                'place':  params.place,
-                'remarks':  params.remarks
-            };
 
-        } else {
-            query = `
-INSERT INTO event
- (user_id, email, password, held_from, held_to, place, remarks, created_at, updated_at) VALUES
- (:user_id, :email, :password, :held_from, :held_to, :place, :remarks, NOW(), NOW())
-`;
-            queryParams = {
-                'user_id':  params.user_id,
-                'email':  params.email,
-                'password':  params.password,
-                'held_from':  params.held_from,
-                'held_to':  params.held_to,
-                'place':  params.place,
-                'remarks':  params.remarks
-            };
-        }
+        let queryParams: Object = {
+            'id':  params.id,
+            'userId':  params.user_id,
+            'email':  params.email,
+            'password':  params.password,
+            'heldFrom':  params.held_from,
+            'heldTo':  params.held_to,
+            'place':  params.place,
+            'remarks':  params.remarks
+        };
 
         this.query(query, queryParams, cb);
     }

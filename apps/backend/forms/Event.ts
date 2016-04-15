@@ -10,8 +10,22 @@ class Event extends Base {
         let dt2hourslater = datetime.create();
         dt2hourslater.offsetInHours(2); // 2 hour in the future
 
+        let widgetPassword = widgets.password();
+        widgetPassword.formatValue = function (value) {
+            return (value || value === 0) ? value : null;
+        };
+
         let form = this.forms.create(
             {
+                id: fields.string({
+                    label: 'ID',
+                    widget: widgets.hidden(),
+                    required: false,
+                    validators: [
+                    ],
+                    id: '',
+                    hideError: true
+                }),
                 email: fields.string({
                     label: '申請者メールアドレス',
                     required: validators.required('申請者メールアドレスが未入力です'),
@@ -30,16 +44,18 @@ class Event extends Base {
                     id: '',
                     hideError: true
                 }),
-                password: fields.password({
+                password: fields.string({
                     label: 'パスワード',
+                    widget: widgetPassword,
                     required: validators.required('パスワードが未入力です'),
                     validators: [
                     ],
                     id: '',
                     hideError: true
                 }),
-                password_confirm: fields.password({
+                password_confirm: fields.string({
                     label: 'パスワード再入力',
+                    widget: widgetPassword,
                     required: validators.required('パスワード再入力が未入力です'),
                     validators: [
                         validators.matchField('password', 'パスワードが一致していません')
@@ -75,7 +91,7 @@ class Event extends Base {
                     id: '',
                     hideError: true
                 }),
-                remarks: fields.password({
+                remarks: fields.string({
                     label: '',
                     widget: widgets.textarea(),
                     validators: [
@@ -86,8 +102,6 @@ class Event extends Base {
             },
             this.options
         );
-
-        // form.fields.held_from.bind('2016-04-14 12:00:00');
 
         return form;
     }
