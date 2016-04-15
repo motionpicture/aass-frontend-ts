@@ -5,8 +5,8 @@
     </div>
     <nav>
         <ul class="clearfix">
-            <li class="list text-center"><a class="<% if (req.originalUrl == url('events')) { %>active<% } %>" href="<%- url('events') %>">予約一覧</a></li>
-            <li class="add text-center"><a class="<% if (req.originalUrl == url('event.new')) { %>active<% } %>" href="<%- url('event.new') %>">予約追加</a></li>
+            <li class="list text-center"><a class="<% if (req.originalUrl == url('events', {})) { %>active<% } %>" href="<%- url('events', {}) %>">予約一覧</a></li>
+            <li class="add text-center"><a class="<% if (req.originalUrl == url('event.new', {})) { %>active<% } %>" href="<%- url('event.new', {}) %>">予約追加</a></li>
             <li class="logout text-center"><a class="" href="javascript:void(0)">ログアウト</a></li>
         </ul>
     </nav>

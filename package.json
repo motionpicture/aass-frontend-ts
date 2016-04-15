@@ -16,13 +16,22 @@
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "forms": "^1.1.4",
-    "log4js": "^0.6.33",
+    "log4js": "^0.6.35",
     "multer": "^1.1.0",
     "mysql": "^2.10.2",
-    "named-routes": "^2.0.3",
+    "named-routes": "^2.0.4",
     "node-ams-sdk": "^0.2.2",
     "node-datetime": "^1.0.0",
     "serve-favicon": "^2.3.0",
     "uniqid": "^1.0.0"
-  }
+  },
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://m-p.backlog.jp/git/AASS/src_typescript.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

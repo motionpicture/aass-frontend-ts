@@ -5,8 +5,6 @@ declare module "named-routes" {
     namespace n {
         interface INamedRoutes {
             (options: Object): void;
-            extendExpress(app: any): this;
-            registerAppHelpers(app: any): this;
         }
     }
 
