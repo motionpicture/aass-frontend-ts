@@ -2097,6 +2097,1626 @@ header nav ul li .active:after {
 	background-position: -78px -49px;
 }
 
+@font-face {
+	font-family: 'Glyphicons Halflings';
+	src: url('http://cdn.jsdelivr.net/bootstrap/3.3.6/fonts/glyphicons-halflings-regular.eot');
+	src: url('http://cdn.jsdelivr.net/bootstrap/3.3.6/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('http://cdn.jsdelivr.net/bootstrap/3.3.6/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('http://cdn.jsdelivr.net/bootstrap/3.3.6/fonts/glyphicons-halflings-regular.woff') format('woff'), url('http://cdn.jsdelivr.net/bootstrap/3.3.6/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('http://cdn.jsdelivr.net/bootstrap/3.3.6/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
+.dropdown-menu {
+	font-size: 14px;
+	position: absolute;
+	z-index: 1000;
+	top: 100%;
+	left: 0;
+	display: none;
+	float: left;
+	min-width: 160px;
+	margin: 2px 0 0;
+	padding: 5px 0;
+	list-style: none;
+	text-align: left;
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0, 0, 0, .15);
+	border-radius: 4px;
+	background-color: #fff;
+	background-clip: padding-box;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+
+.daterangepicker * {
+	box-sizing: border-box;
+}
+
+.daterangepicker select {
+	background: none;
+}
+
+.daterangepicker .glyphicon {
+	font-family: 'Glyphicons Halflings';
+	font-weight: normal;
+	font-style: normal;
+	line-height: 1;
+	position: relative;
+	top: 1px;
+	display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.daterangepicker .glyphicon-asterisk:before {
+	content: '\002a';
+}
+
+.daterangepicker .glyphicon-plus:before {
+	content: '\002b';
+}
+
+.daterangepicker .glyphicon-euro:before,
+.daterangepicker .glyphicon-eur:before {
+	content: '\20ac';
+}
+
+.daterangepicker .glyphicon-minus:before {
+	content: '\2212';
+}
+
+.daterangepicker .glyphicon-cloud:before {
+	content: '\2601';
+}
+
+.daterangepicker .glyphicon-envelope:before {
+	content: '\2709';
+}
+
+.daterangepicker .glyphicon-pencil:before {
+	content: '\270f';
+}
+
+.daterangepicker .glyphicon-glass:before {
+	content: '\e001';
+}
+
+.daterangepicker .glyphicon-music:before {
+	content: '\e002';
+}
+
+.daterangepicker .glyphicon-search:before {
+	content: '\e003';
+}
+
+.daterangepicker .glyphicon-heart:before {
+	content: '\e005';
+}
+
+.daterangepicker .glyphicon-star:before {
+	content: '\e006';
+}
+
+.daterangepicker .glyphicon-star-empty:before {
+	content: '\e007';
+}
+
+.daterangepicker .glyphicon-user:before {
+	content: '\e008';
+}
+
+.daterangepicker .glyphicon-film:before {
+	content: '\e009';
+}
+
+.daterangepicker .glyphicon-th-large:before {
+	content: '\e010';
+}
+
+.daterangepicker .glyphicon-th:before {
+	content: '\e011';
+}
+
+.daterangepicker .glyphicon-th-list:before {
+	content: '\e012';
+}
+
+.daterangepicker .glyphicon-ok:before {
+	content: '\e013';
+}
+
+.daterangepicker .glyphicon-remove:before {
+	content: '\e014';
+}
+
+.daterangepicker .glyphicon-zoom-in:before {
+	content: '\e015';
+}
+
+.daterangepicker .glyphicon-zoom-out:before {
+	content: '\e016';
+}
+
+.daterangepicker .glyphicon-off:before {
+	content: '\e017';
+}
+
+.daterangepicker .glyphicon-signal:before {
+	content: '\e018';
+}
+
+.daterangepicker .glyphicon-cog:before {
+	content: '\e019';
+}
+
+.daterangepicker .glyphicon-trash:before {
+	content: '\e020';
+}
+
+.daterangepicker .glyphicon-home:before {
+	content: '\e021';
+}
+
+.daterangepicker .glyphicon-file:before {
+	content: '\e022';
+}
+
+.daterangepicker .glyphicon-time:before {
+	content: '\e023';
+}
+
+.daterangepicker .glyphicon-road:before {
+	content: '\e024';
+}
+
+.daterangepicker .glyphicon-download-alt:before {
+	content: '\e025';
+}
+
+.daterangepicker .glyphicon-download:before {
+	content: '\e026';
+}
+
+.daterangepicker .glyphicon-upload:before {
+	content: '\e027';
+}
+
+.daterangepicker .glyphicon-inbox:before {
+	content: '\e028';
+}
+
+.daterangepicker .glyphicon-play-circle:before {
+	content: '\e029';
+}
+
+.daterangepicker .glyphicon-repeat:before {
+	content: '\e030';
+}
+
+.daterangepicker .glyphicon-refresh:before {
+	content: '\e031';
+}
+
+.daterangepicker .glyphicon-list-alt:before {
+	content: '\e032';
+}
+
+.daterangepicker .glyphicon-lock:before {
+	content: '\e033';
+}
+
+.daterangepicker .glyphicon-flag:before {
+	content: '\e034';
+}
+
+.daterangepicker .glyphicon-headphones:before {
+	content: '\e035';
+}
+
+.daterangepicker .glyphicon-volume-off:before {
+	content: '\e036';
+}
+
+.daterangepicker .glyphicon-volume-down:before {
+	content: '\e037';
+}
+
+.daterangepicker .glyphicon-volume-up:before {
+	content: '\e038';
+}
+
+.daterangepicker .glyphicon-qrcode:before {
+	content: '\e039';
+}
+
+.daterangepicker .glyphicon-barcode:before {
+	content: '\e040';
+}
+
+.daterangepicker .glyphicon-tag:before {
+	content: '\e041';
+}
+
+.daterangepicker .glyphicon-tags:before {
+	content: '\e042';
+}
+
+.daterangepicker .glyphicon-book:before {
+	content: '\e043';
+}
+
+.daterangepicker .glyphicon-bookmark:before {
+	content: '\e044';
+}
+
+.daterangepicker .glyphicon-print:before {
+	content: '\e045';
+}
+
+.daterangepicker .glyphicon-camera:before {
+	content: '\e046';
+}
+
+.daterangepicker .glyphicon-font:before {
+	content: '\e047';
+}
+
+.daterangepicker .glyphicon-bold:before {
+	content: '\e048';
+}
+
+.daterangepicker .glyphicon-italic:before {
+	content: '\e049';
+}
+
+.daterangepicker .glyphicon-text-height:before {
+	content: '\e050';
+}
+
+.daterangepicker .glyphicon-text-width:before {
+	content: '\e051';
+}
+
+.daterangepicker .glyphicon-align-left:before {
+	content: '\e052';
+}
+
+.daterangepicker .glyphicon-align-center:before {
+	content: '\e053';
+}
+
+.daterangepicker .glyphicon-align-right:before {
+	content: '\e054';
+}
+
+.daterangepicker .glyphicon-align-justify:before {
+	content: '\e055';
+}
+
+.daterangepicker .glyphicon-list:before {
+	content: '\e056';
+}
+
+.daterangepicker .glyphicon-indent-left:before {
+	content: '\e057';
+}
+
+.daterangepicker .glyphicon-indent-right:before {
+	content: '\e058';
+}
+
+.daterangepicker .glyphicon-facetime-video:before {
+	content: '\e059';
+}
+
+.daterangepicker .glyphicon-picture:before {
+	content: '\e060';
+}
+
+.daterangepicker .glyphicon-map-marker:before {
+	content: '\e062';
+}
+
+.daterangepicker .glyphicon-adjust:before {
+	content: '\e063';
+}
+
+.daterangepicker .glyphicon-tint:before {
+	content: '\e064';
+}
+
+.daterangepicker .glyphicon-edit:before {
+	content: '\e065';
+}
+
+.daterangepicker .glyphicon-share:before {
+	content: '\e066';
+}
+
+.daterangepicker .glyphicon-check:before {
+	content: '\e067';
+}
+
+.daterangepicker .glyphicon-move:before {
+	content: '\e068';
+}
+
+.daterangepicker .glyphicon-step-backward:before {
+	content: '\e069';
+}
+
+.daterangepicker .glyphicon-fast-backward:before {
+	content: '\e070';
+}
+
+.daterangepicker .glyphicon-backward:before {
+	content: '\e071';
+}
+
+.daterangepicker .glyphicon-play:before {
+	content: '\e072';
+}
+
+.daterangepicker .glyphicon-pause:before {
+	content: '\e073';
+}
+
+.daterangepicker .glyphicon-stop:before {
+	content: '\e074';
+}
+
+.daterangepicker .glyphicon-forward:before {
+	content: '\e075';
+}
+
+.daterangepicker .glyphicon-fast-forward:before {
+	content: '\e076';
+}
+
+.daterangepicker .glyphicon-step-forward:before {
+	content: '\e077';
+}
+
+.daterangepicker .glyphicon-eject:before {
+	content: '\e078';
+}
+
+.daterangepicker .glyphicon-chevron-left:before {
+	content: '\e079';
+}
+
+.daterangepicker .glyphicon-chevron-right:before {
+	content: '\e080';
+}
+
+.daterangepicker .glyphicon-plus-sign:before {
+	content: '\e081';
+}
+
+.daterangepicker .glyphicon-minus-sign:before {
+	content: '\e082';
+}
+
+.daterangepicker .glyphicon-remove-sign:before {
+	content: '\e083';
+}
+
+.daterangepicker .glyphicon-ok-sign:before {
+	content: '\e084';
+}
+
+.daterangepicker .glyphicon-question-sign:before {
+	content: '\e085';
+}
+
+.daterangepicker .glyphicon-info-sign:before {
+	content: '\e086';
+}
+
+.daterangepicker .glyphicon-screenshot:before {
+	content: '\e087';
+}
+
+.daterangepicker .glyphicon-remove-circle:before {
+	content: '\e088';
+}
+
+.daterangepicker .glyphicon-ok-circle:before {
+	content: '\e089';
+}
+
+.daterangepicker .glyphicon-ban-circle:before {
+	content: '\e090';
+}
+
+.daterangepicker .glyphicon-arrow-left:before {
+	content: '\e091';
+}
+
+.daterangepicker .glyphicon-arrow-right:before {
+	content: '\e092';
+}
+
+.daterangepicker .glyphicon-arrow-up:before {
+	content: '\e093';
+}
+
+.daterangepicker .glyphicon-arrow-down:before {
+	content: '\e094';
+}
+
+.daterangepicker .glyphicon-share-alt:before {
+	content: '\e095';
+}
+
+.daterangepicker .glyphicon-resize-full:before {
+	content: '\e096';
+}
+
+.daterangepicker .glyphicon-resize-small:before {
+	content: '\e097';
+}
+
+.daterangepicker .glyphicon-exclamation-sign:before {
+	content: '\e101';
+}
+
+.daterangepicker .glyphicon-gift:before {
+	content: '\e102';
+}
+
+.daterangepicker .glyphicon-leaf:before {
+	content: '\e103';
+}
+
+.daterangepicker .glyphicon-fire:before {
+	content: '\e104';
+}
+
+.daterangepicker .glyphicon-eye-open:before {
+	content: '\e105';
+}
+
+.daterangepicker .glyphicon-eye-close:before {
+	content: '\e106';
+}
+
+.daterangepicker .glyphicon-warning-sign:before {
+	content: '\e107';
+}
+
+.daterangepicker .glyphicon-plane:before {
+	content: '\e108';
+}
+
+.daterangepicker .glyphicon-calendar:before {
+	content: '\e109';
+}
+
+.daterangepicker .glyphicon-random:before {
+	content: '\e110';
+}
+
+.daterangepicker .glyphicon-comment:before {
+	content: '\e111';
+}
+
+.daterangepicker .glyphicon-magnet:before {
+	content: '\e112';
+}
+
+.daterangepicker .glyphicon-chevron-up:before {
+	content: '\e113';
+}
+
+.daterangepicker .glyphicon-chevron-down:before {
+	content: '\e114';
+}
+
+.daterangepicker .glyphicon-retweet:before {
+	content: '\e115';
+}
+
+.daterangepicker .glyphicon-shopping-cart:before {
+	content: '\e116';
+}
+
+.daterangepicker .glyphicon-folder-close:before {
+	content: '\e117';
+}
+
+.daterangepicker .glyphicon-folder-open:before {
+	content: '\e118';
+}
+
+.daterangepicker .glyphicon-resize-vertical:before {
+	content: '\e119';
+}
+
+.daterangepicker .glyphicon-resize-horizontal:before {
+	content: '\e120';
+}
+
+.daterangepicker .glyphicon-hdd:before {
+	content: '\e121';
+}
+
+.daterangepicker .glyphicon-bullhorn:before {
+	content: '\e122';
+}
+
+.daterangepicker .glyphicon-bell:before {
+	content: '\e123';
+}
+
+.daterangepicker .glyphicon-certificate:before {
+	content: '\e124';
+}
+
+.daterangepicker .glyphicon-thumbs-up:before {
+	content: '\e125';
+}
+
+.daterangepicker .glyphicon-thumbs-down:before {
+	content: '\e126';
+}
+
+.daterangepicker .glyphicon-hand-right:before {
+	content: '\e127';
+}
+
+.daterangepicker .glyphicon-hand-left:before {
+	content: '\e128';
+}
+
+.daterangepicker .glyphicon-hand-up:before {
+	content: '\e129';
+}
+
+.daterangepicker .glyphicon-hand-down:before {
+	content: '\e130';
+}
+
+.daterangepicker .glyphicon-circle-arrow-right:before {
+	content: '\e131';
+}
+
+.daterangepicker .glyphicon-circle-arrow-left:before {
+	content: '\e132';
+}
+
+.daterangepicker .glyphicon-circle-arrow-up:before {
+	content: '\e133';
+}
+
+.daterangepicker .glyphicon-circle-arrow-down:before {
+	content: '\e134';
+}
+
+.daterangepicker .glyphicon-globe:before {
+	content: '\e135';
+}
+
+.daterangepicker .glyphicon-wrench:before {
+	content: '\e136';
+}
+
+.daterangepicker .glyphicon-tasks:before {
+	content: '\e137';
+}
+
+.daterangepicker .glyphicon-filter:before {
+	content: '\e138';
+}
+
+.daterangepicker .glyphicon-briefcase:before {
+	content: '\e139';
+}
+
+.daterangepicker .glyphicon-fullscreen:before {
+	content: '\e140';
+}
+
+.daterangepicker .glyphicon-dashboard:before {
+	content: '\e141';
+}
+
+.daterangepicker .glyphicon-paperclip:before {
+	content: '\e142';
+}
+
+.daterangepicker .glyphicon-heart-empty:before {
+	content: '\e143';
+}
+
+.daterangepicker .glyphicon-link:before {
+	content: '\e144';
+}
+
+.daterangepicker .glyphicon-phone:before {
+	content: '\e145';
+}
+
+.daterangepicker .glyphicon-pushpin:before {
+	content: '\e146';
+}
+
+.daterangepicker .glyphicon-usd:before {
+	content: '\e148';
+}
+
+.daterangepicker .glyphicon-gbp:before {
+	content: '\e149';
+}
+
+.daterangepicker .glyphicon-sort:before {
+	content: '\e150';
+}
+
+.daterangepicker .glyphicon-sort-by-alphabet:before {
+	content: '\e151';
+}
+
+.daterangepicker .glyphicon-sort-by-alphabet-alt:before {
+	content: '\e152';
+}
+
+.daterangepicker .glyphicon-sort-by-order:before {
+	content: '\e153';
+}
+
+.daterangepicker .glyphicon-sort-by-order-alt:before {
+	content: '\e154';
+}
+
+.daterangepicker .glyphicon-sort-by-attributes:before {
+	content: '\e155';
+}
+
+.daterangepicker .glyphicon-sort-by-attributes-alt:before {
+	content: '\e156';
+}
+
+.daterangepicker .glyphicon-unchecked:before {
+	content: '\e157';
+}
+
+.daterangepicker .glyphicon-expand:before {
+	content: '\e158';
+}
+
+.daterangepicker .glyphicon-collapse-down:before {
+	content: '\e159';
+}
+
+.daterangepicker .glyphicon-collapse-up:before {
+	content: '\e160';
+}
+
+.daterangepicker .glyphicon-log-in:before {
+	content: '\e161';
+}
+
+.daterangepicker .glyphicon-flash:before {
+	content: '\e162';
+}
+
+.daterangepicker .glyphicon-log-out:before {
+	content: '\e163';
+}
+
+.daterangepicker .glyphicon-new-window:before {
+	content: '\e164';
+}
+
+.daterangepicker .glyphicon-record:before {
+	content: '\e165';
+}
+
+.daterangepicker .glyphicon-save:before {
+	content: '\e166';
+}
+
+.daterangepicker .glyphicon-open:before {
+	content: '\e167';
+}
+
+.daterangepicker .glyphicon-saved:before {
+	content: '\e168';
+}
+
+.daterangepicker .glyphicon-import:before {
+	content: '\e169';
+}
+
+.daterangepicker .glyphicon-export:before {
+	content: '\e170';
+}
+
+.daterangepicker .glyphicon-send:before {
+	content: '\e171';
+}
+
+.daterangepicker .glyphicon-floppy-disk:before {
+	content: '\e172';
+}
+
+.daterangepicker .glyphicon-floppy-saved:before {
+	content: '\e173';
+}
+
+.daterangepicker .glyphicon-floppy-remove:before {
+	content: '\e174';
+}
+
+.daterangepicker .glyphicon-floppy-save:before {
+	content: '\e175';
+}
+
+.daterangepicker .glyphicon-floppy-open:before {
+	content: '\e176';
+}
+
+.daterangepicker .glyphicon-credit-card:before {
+	content: '\e177';
+}
+
+.daterangepicker .glyphicon-transfer:before {
+	content: '\e178';
+}
+
+.daterangepicker .glyphicon-cutlery:before {
+	content: '\e179';
+}
+
+.daterangepicker .glyphicon-header:before {
+	content: '\e180';
+}
+
+.daterangepicker .glyphicon-compressed:before {
+	content: '\e181';
+}
+
+.daterangepicker .glyphicon-earphone:before {
+	content: '\e182';
+}
+
+.daterangepicker .glyphicon-phone-alt:before {
+	content: '\e183';
+}
+
+.daterangepicker .glyphicon-tower:before {
+	content: '\e184';
+}
+
+.daterangepicker .glyphicon-stats:before {
+	content: '\e185';
+}
+
+.daterangepicker .glyphicon-sd-video:before {
+	content: '\e186';
+}
+
+.daterangepicker .glyphicon-hd-video:before {
+	content: '\e187';
+}
+
+.daterangepicker .glyphicon-subtitles:before {
+	content: '\e188';
+}
+
+.daterangepicker .glyphicon-sound-stereo:before {
+	content: '\e189';
+}
+
+.daterangepicker .glyphicon-sound-dolby:before {
+	content: '\e190';
+}
+
+.daterangepicker .glyphicon-sound-5-1:before {
+	content: '\e191';
+}
+
+.daterangepicker .glyphicon-sound-6-1:before {
+	content: '\e192';
+}
+
+.daterangepicker .glyphicon-sound-7-1:before {
+	content: '\e193';
+}
+
+.daterangepicker .glyphicon-copyright-mark:before {
+	content: '\e194';
+}
+
+.daterangepicker .glyphicon-registration-mark:before {
+	content: '\e195';
+}
+
+.daterangepicker .glyphicon-cloud-download:before {
+	content: '\e197';
+}
+
+.daterangepicker .glyphicon-cloud-upload:before {
+	content: '\e198';
+}
+
+.daterangepicker .glyphicon-tree-conifer:before {
+	content: '\e199';
+}
+
+.daterangepicker .glyphicon-tree-deciduous:before {
+	content: '\e200';
+}
+
+.daterangepicker .glyphicon-cd:before {
+	content: '\e201';
+}
+
+.daterangepicker .glyphicon-save-file:before {
+	content: '\e202';
+}
+
+.daterangepicker .glyphicon-open-file:before {
+	content: '\e203';
+}
+
+.daterangepicker .glyphicon-level-up:before {
+	content: '\e204';
+}
+
+.daterangepicker .glyphicon-copy:before {
+	content: '\e205';
+}
+
+.daterangepicker .glyphicon-paste:before {
+	content: '\e206';
+}
+
+.daterangepicker .glyphicon-alert:before {
+	content: '\e209';
+}
+
+.daterangepicker .glyphicon-equalizer:before {
+	content: '\e210';
+}
+
+.daterangepicker .glyphicon-king:before {
+	content: '\e211';
+}
+
+.daterangepicker .glyphicon-queen:before {
+	content: '\e212';
+}
+
+.daterangepicker .glyphicon-pawn:before {
+	content: '\e213';
+}
+
+.daterangepicker .glyphicon-bishop:before {
+	content: '\e214';
+}
+
+.daterangepicker .glyphicon-knight:before {
+	content: '\e215';
+}
+
+.daterangepicker .glyphicon-baby-formula:before {
+	content: '\e216';
+}
+
+.daterangepicker .glyphicon-tent:before {
+	content: '\26fa';
+}
+
+.daterangepicker .glyphicon-blackboard:before {
+	content: '\e218';
+}
+
+.daterangepicker .glyphicon-bed:before {
+	content: '\e219';
+}
+
+.daterangepicker .glyphicon-apple:before {
+	content: '\f8ff';
+}
+
+.daterangepicker .glyphicon-erase:before {
+	content: '\e221';
+}
+
+.daterangepicker .glyphicon-hourglass:before {
+	content: '\231b';
+}
+
+.daterangepicker .glyphicon-lamp:before {
+	content: '\e223';
+}
+
+.daterangepicker .glyphicon-duplicate:before {
+	content: '\e224';
+}
+
+.daterangepicker .glyphicon-piggy-bank:before {
+	content: '\e225';
+}
+
+.daterangepicker .glyphicon-scissors:before {
+	content: '\e226';
+}
+
+.daterangepicker .glyphicon-bitcoin:before,
+.daterangepicker .glyphicon-btc:before,
+.daterangepicker .glyphicon-xbt:before {
+	content: '\e227';
+}
+
+.daterangepicker .glyphicon-yen:before,
+.daterangepicker .glyphicon-jpy:before {
+	content: '\00a5';
+}
+
+.daterangepicker .glyphicon-ruble:before,
+.daterangepicker .glyphicon-rub:before {
+	content: '\20bd';
+}
+
+.daterangepicker .glyphicon-scale:before {
+	content: '\e230';
+}
+
+.daterangepicker .glyphicon-ice-lolly:before {
+	content: '\e231';
+}
+
+.daterangepicker .glyphicon-ice-lolly-tasted:before {
+	content: '\e232';
+}
+
+.daterangepicker .glyphicon-education:before {
+	content: '\e233';
+}
+
+.daterangepicker .glyphicon-option-horizontal:before {
+	content: '\e234';
+}
+
+.daterangepicker .glyphicon-option-vertical:before {
+	content: '\e235';
+}
+
+.daterangepicker .glyphicon-menu-hamburger:before {
+	content: '\e236';
+}
+
+.daterangepicker .glyphicon-modal-window:before {
+	content: '\e237';
+}
+
+.daterangepicker .glyphicon-oil:before {
+	content: '\e238';
+}
+
+.daterangepicker .glyphicon-grain:before {
+	content: '\e239';
+}
+
+.daterangepicker .glyphicon-sunglasses:before {
+	content: '\e240';
+}
+
+.daterangepicker .glyphicon-text-size:before {
+	content: '\e241';
+}
+
+.daterangepicker .glyphicon-text-color:before {
+	content: '\e242';
+}
+
+.daterangepicker .glyphicon-text-background:before {
+	content: '\e243';
+}
+
+.daterangepicker .glyphicon-object-align-top:before {
+	content: '\e244';
+}
+
+.daterangepicker .glyphicon-object-align-bottom:before {
+	content: '\e245';
+}
+
+.daterangepicker .glyphicon-object-align-horizontal:before {
+	content: '\e246';
+}
+
+.daterangepicker .glyphicon-object-align-left:before {
+	content: '\e247';
+}
+
+.daterangepicker .glyphicon-object-align-vertical:before {
+	content: '\e248';
+}
+
+.daterangepicker .glyphicon-object-align-right:before {
+	content: '\e249';
+}
+
+.daterangepicker .glyphicon-triangle-right:before {
+	content: '\e250';
+}
+
+.daterangepicker .glyphicon-triangle-left:before {
+	content: '\e251';
+}
+
+.daterangepicker .glyphicon-triangle-bottom:before {
+	content: '\e252';
+}
+
+.daterangepicker .glyphicon-triangle-top:before {
+	content: '\e253';
+}
+
+.daterangepicker .glyphicon-console:before {
+	content: '\e254';
+}
+
+.daterangepicker .glyphicon-superscript:before {
+	content: '\e255';
+}
+
+.daterangepicker .glyphicon-subscript:before {
+	content: '\e256';
+}
+
+.daterangepicker .glyphicon-menu-left:before {
+	content: '\e257';
+}
+
+.daterangepicker .glyphicon-menu-right:before {
+	content: '\e258';
+}
+
+.daterangepicker .glyphicon-menu-down:before {
+	content: '\e259';
+}
+
+.daterangepicker .glyphicon-menu-up:before {
+	content: '\e260';
+}
+
+.daterangepicker .btn {
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 1.42857143;
+	display: inline-block;
+	margin-bottom: 0;
+	padding: 6px 12px;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	text-align: center;
+	vertical-align: middle;
+	white-space: nowrap;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	background-image: none;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+}
+
+.daterangepicker .btn:focus,
+.daterangepicker .btn:active:focus,
+.daterangepicker .btn.active:focus,
+.daterangepicker .btn.focus,
+.daterangepicker .btn:active.focus,
+.daterangepicker .btn.active.focus {
+	outline: thin dotted;
+	outline: 5px auto -webkit-focus-ring-color;
+	outline-offset: -2px;
+}
+
+.daterangepicker .btn:hover,
+.daterangepicker .btn:focus,
+.daterangepicker .btn.focus {
+	text-decoration: none;
+	color: #333;
+}
+
+.daterangepicker .btn:active,
+.daterangepicker .btn.active {
+	outline: 0;
+	background-image: none;
+	box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+
+.daterangepicker .btn.disabled,
+.daterangepicker .btn[disabled],
+.daterangepicker fieldset[disabled] .btn {
+	cursor: not-allowed;
+	opacity: .65;
+	box-shadow: none;
+	filter: alpha(opacity=65);
+}
+
+.daterangepicker a.btn.disabled,
+.daterangepicker fieldset[disabled] a.btn {
+	pointer-events: none;
+}
+
+.daterangepicker .btn-default {
+	color: #333;
+	border-color: #ccc;
+	background-color: #fff;
+}
+
+.daterangepicker .btn-default:focus,
+.daterangepicker .btn-default.focus {
+	color: #333;
+	border-color: #8c8c8c;
+	background-color: #e6e6e6;
+}
+
+.daterangepicker .btn-default:hover {
+	color: #333;
+	border-color: #adadad;
+	background-color: #e6e6e6;
+}
+
+.daterangepicker .btn-default:active,
+.daterangepicker .btn-default.active,
+.daterangepicker .open > .dropdown-toggle.btn-default {
+	color: #333;
+	border-color: #adadad;
+	background-color: #e6e6e6;
+}
+
+.daterangepicker .btn-default:active:hover,
+.daterangepicker .btn-default.active:hover,
+.daterangepicker .open > .dropdown-toggle.btn-default:hover,
+.daterangepicker .btn-default:active:focus,
+.daterangepicker .btn-default.active:focus,
+.daterangepicker .open > .dropdown-toggle.btn-default:focus,
+.daterangepicker .btn-default:active.focus,
+.daterangepicker .btn-default.active.focus,
+.daterangepicker .open > .dropdown-toggle.btn-default.focus {
+	color: #333;
+	border-color: #8c8c8c;
+	background-color: #d4d4d4;
+}
+
+.daterangepicker .btn-default:active,
+.daterangepicker .btn-default.active,
+.daterangepicker .open > .dropdown-toggle.btn-default {
+	background-image: none;
+}
+
+.daterangepicker .btn-default.disabled:hover,
+.daterangepicker .btn-default[disabled]:hover,
+.daterangepicker fieldset[disabled] .btn-default:hover,
+.daterangepicker .btn-default.disabled:focus,
+.daterangepicker .btn-default[disabled]:focus,
+.daterangepicker fieldset[disabled] .btn-default:focus,
+.daterangepicker .btn-default.disabled.focus,
+.daterangepicker .btn-default[disabled].focus,
+.daterangepicker fieldset[disabled] .btn-default.focus {
+	border-color: #ccc;
+	background-color: #fff;
+}
+
+.daterangepicker .btn-default .badge {
+	color: #fff;
+	background-color: #333;
+}
+
+.daterangepicker .btn-primary {
+	color: #fff;
+	border-color: #2e6da4;
+	background-color: #337ab7;
+}
+
+.daterangepicker .btn-primary:focus,
+.daterangepicker .btn-primary.focus {
+	color: #fff;
+	border-color: #122b40;
+	background-color: #286090;
+}
+
+.daterangepicker .btn-primary:hover {
+	color: #fff;
+	border-color: #204d74;
+	background-color: #286090;
+}
+
+.daterangepicker .btn-primary:active,
+.daterangepicker .btn-primary.active,
+.daterangepicker .open > .dropdown-toggle.btn-primary {
+	color: #fff;
+	border-color: #204d74;
+	background-color: #286090;
+}
+
+.daterangepicker .btn-primary:active:hover,
+.daterangepicker .btn-primary.active:hover,
+.daterangepicker .open > .dropdown-toggle.btn-primary:hover,
+.daterangepicker .btn-primary:active:focus,
+.daterangepicker .btn-primary.active:focus,
+.daterangepicker .open > .dropdown-toggle.btn-primary:focus,
+.daterangepicker .btn-primary:active.focus,
+.daterangepicker .btn-primary.active.focus,
+.daterangepicker .open > .dropdown-toggle.btn-primary.focus {
+	color: #fff;
+	border-color: #122b40;
+	background-color: #204d74;
+}
+
+.daterangepicker .btn-primary:active,
+.daterangepicker .btn-primary.active,
+.daterangepicker .open > .dropdown-toggle.btn-primary {
+	background-image: none;
+}
+
+.daterangepicker .btn-primary.disabled:hover,
+.daterangepicker .btn-primary[disabled]:hover,
+.daterangepicker fieldset[disabled] .btn-primary:hover,
+.daterangepicker .btn-primary.disabled:focus,
+.daterangepicker .btn-primary[disabled]:focus,
+.daterangepicker fieldset[disabled] .btn-primary:focus,
+.daterangepicker .btn-primary.disabled.focus,
+.daterangepicker .btn-primary[disabled].focus,
+.daterangepicker fieldset[disabled] .btn-primary.focus {
+	border-color: #2e6da4;
+	background-color: #337ab7;
+}
+
+.daterangepicker .btn-primary .badge {
+	color: #337ab7;
+	background-color: #fff;
+}
+
+.daterangepicker .btn-success {
+	color: #fff;
+	border-color: #4cae4c;
+	background-color: #5cb85c;
+}
+
+.daterangepicker .btn-success:focus,
+.daterangepicker .btn-success.focus {
+	color: #fff;
+	border-color: #255625;
+	background-color: #449d44;
+}
+
+.daterangepicker .btn-success:hover {
+	color: #fff;
+	border-color: #398439;
+	background-color: #449d44;
+}
+
+.daterangepicker .btn-success:active,
+.daterangepicker .btn-success.active,
+.daterangepicker .open > .dropdown-toggle.btn-success {
+	color: #fff;
+	border-color: #398439;
+	background-color: #449d44;
+}
+
+.daterangepicker .btn-success:active:hover,
+.daterangepicker .btn-success.active:hover,
+.daterangepicker .open > .dropdown-toggle.btn-success:hover,
+.daterangepicker .btn-success:active:focus,
+.daterangepicker .btn-success.active:focus,
+.daterangepicker .open > .dropdown-toggle.btn-success:focus,
+.daterangepicker .btn-success:active.focus,
+.daterangepicker .btn-success.active.focus,
+.daterangepicker .open > .dropdown-toggle.btn-success.focus {
+	color: #fff;
+	border-color: #255625;
+	background-color: #398439;
+}
+
+.daterangepicker .btn-success:active,
+.daterangepicker .btn-success.active,
+.daterangepicker .open > .dropdown-toggle.btn-success {
+	background-image: none;
+}
+
+.daterangepicker .btn-success.disabled:hover,
+.daterangepicker .btn-success[disabled]:hover,
+.daterangepicker fieldset[disabled] .btn-success:hover,
+.daterangepicker .btn-success.disabled:focus,
+.daterangepicker .btn-success[disabled]:focus,
+.daterangepicker fieldset[disabled] .btn-success:focus,
+.daterangepicker .btn-success.disabled.focus,
+.daterangepicker .btn-success[disabled].focus,
+.daterangepicker fieldset[disabled] .btn-success.focus {
+	border-color: #4cae4c;
+	background-color: #5cb85c;
+}
+
+.daterangepicker .btn-success .badge {
+	color: #5cb85c;
+	background-color: #fff;
+}
+
+.daterangepicker .btn-info {
+	color: #fff;
+	border-color: #46b8da;
+	background-color: #5bc0de;
+}
+
+.daterangepicker .btn-info:focus,
+.daterangepicker .btn-info.focus {
+	color: #fff;
+	border-color: #1b6d85;
+	background-color: #31b0d5;
+}
+
+.daterangepicker .btn-info:hover {
+	color: #fff;
+	border-color: #269abc;
+	background-color: #31b0d5;
+}
+
+.daterangepicker .btn-info:active,
+.daterangepicker .btn-info.active,
+.daterangepicker .open > .dropdown-toggle.btn-info {
+	color: #fff;
+	border-color: #269abc;
+	background-color: #31b0d5;
+}
+
+.daterangepicker .btn-info:active:hover,
+.daterangepicker .btn-info.active:hover,
+.daterangepicker .open > .dropdown-toggle.btn-info:hover,
+.daterangepicker .btn-info:active:focus,
+.daterangepicker .btn-info.active:focus,
+.daterangepicker .open > .dropdown-toggle.btn-info:focus,
+.daterangepicker .btn-info:active.focus,
+.daterangepicker .btn-info.active.focus,
+.daterangepicker .open > .dropdown-toggle.btn-info.focus {
+	color: #fff;
+	border-color: #1b6d85;
+	background-color: #269abc;
+}
+
+.daterangepicker .btn-info:active,
+.daterangepicker .btn-info.active,
+.daterangepicker .open > .dropdown-toggle.btn-info {
+	background-image: none;
+}
+
+.daterangepicker .btn-info.disabled:hover,
+.daterangepicker .btn-info[disabled]:hover,
+.daterangepicker fieldset[disabled] .btn-info:hover,
+.daterangepicker .btn-info.disabled:focus,
+.daterangepicker .btn-info[disabled]:focus,
+.daterangepicker fieldset[disabled] .btn-info:focus,
+.daterangepicker .btn-info.disabled.focus,
+.daterangepicker .btn-info[disabled].focus,
+.daterangepicker fieldset[disabled] .btn-info.focus {
+	border-color: #46b8da;
+	background-color: #5bc0de;
+}
+
+.daterangepicker .btn-info .badge {
+	color: #5bc0de;
+	background-color: #fff;
+}
+
+.daterangepicker .btn-warning {
+	color: #fff;
+	border-color: #eea236;
+	background-color: #f0ad4e;
+}
+
+.daterangepicker .btn-warning:focus,
+.daterangepicker .btn-warning.focus {
+	color: #fff;
+	border-color: #985f0d;
+	background-color: #ec971f;
+}
+
+.daterangepicker .btn-warning:hover {
+	color: #fff;
+	border-color: #d58512;
+	background-color: #ec971f;
+}
+
+.daterangepicker .btn-warning:active,
+.daterangepicker .btn-warning.active,
+.daterangepicker .open > .dropdown-toggle.btn-warning {
+	color: #fff;
+	border-color: #d58512;
+	background-color: #ec971f;
+}
+
+.daterangepicker .btn-warning:active:hover,
+.daterangepicker .btn-warning.active:hover,
+.daterangepicker .open > .dropdown-toggle.btn-warning:hover,
+.daterangepicker .btn-warning:active:focus,
+.daterangepicker .btn-warning.active:focus,
+.daterangepicker .open > .dropdown-toggle.btn-warning:focus,
+.daterangepicker .btn-warning:active.focus,
+.daterangepicker .btn-warning.active.focus,
+.daterangepicker .open > .dropdown-toggle.btn-warning.focus {
+	color: #fff;
+	border-color: #985f0d;
+	background-color: #d58512;
+}
+
+.daterangepicker .btn-warning:active,
+.daterangepicker .btn-warning.active,
+.daterangepicker .open > .dropdown-toggle.btn-warning {
+	background-image: none;
+}
+
+.daterangepicker .btn-warning.disabled:hover,
+.daterangepicker .btn-warning[disabled]:hover,
+.daterangepicker fieldset[disabled] .btn-warning:hover,
+.daterangepicker .btn-warning.disabled:focus,
+.daterangepicker .btn-warning[disabled]:focus,
+.daterangepicker fieldset[disabled] .btn-warning:focus,
+.daterangepicker .btn-warning.disabled.focus,
+.daterangepicker .btn-warning[disabled].focus,
+.daterangepicker fieldset[disabled] .btn-warning.focus {
+	border-color: #eea236;
+	background-color: #f0ad4e;
+}
+
+.daterangepicker .btn-warning .badge {
+	color: #f0ad4e;
+	background-color: #fff;
+}
+
+.daterangepicker .btn-danger {
+	color: #fff;
+	border-color: #d43f3a;
+	background-color: #d9534f;
+}
+
+.daterangepicker .btn-danger:focus,
+.daterangepicker .btn-danger.focus {
+	color: #fff;
+	border-color: #761c19;
+	background-color: #c9302c;
+}
+
+.daterangepicker .btn-danger:hover {
+	color: #fff;
+	border-color: #ac2925;
+	background-color: #c9302c;
+}
+
+.daterangepicker .btn-danger:active,
+.daterangepicker .btn-danger.active,
+.daterangepicker .open > .dropdown-toggle.btn-danger {
+	color: #fff;
+	border-color: #ac2925;
+	background-color: #c9302c;
+}
+
+.daterangepicker .btn-danger:active:hover,
+.daterangepicker .btn-danger.active:hover,
+.daterangepicker .open > .dropdown-toggle.btn-danger:hover,
+.daterangepicker .btn-danger:active:focus,
+.daterangepicker .btn-danger.active:focus,
+.daterangepicker .open > .dropdown-toggle.btn-danger:focus,
+.daterangepicker .btn-danger:active.focus,
+.daterangepicker .btn-danger.active.focus,
+.daterangepicker .open > .dropdown-toggle.btn-danger.focus {
+	color: #fff;
+	border-color: #761c19;
+	background-color: #ac2925;
+}
+
+.daterangepicker .btn-danger:active,
+.daterangepicker .btn-danger.active,
+.daterangepicker .open > .dropdown-toggle.btn-danger {
+	background-image: none;
+}
+
+.daterangepicker .btn-danger.disabled:hover,
+.daterangepicker .btn-danger[disabled]:hover,
+.daterangepicker fieldset[disabled] .btn-danger:hover,
+.daterangepicker .btn-danger.disabled:focus,
+.daterangepicker .btn-danger[disabled]:focus,
+.daterangepicker fieldset[disabled] .btn-danger:focus,
+.daterangepicker .btn-danger.disabled.focus,
+.daterangepicker .btn-danger[disabled].focus,
+.daterangepicker fieldset[disabled] .btn-danger.focus {
+	border-color: #d43f3a;
+	background-color: #d9534f;
+}
+
+.daterangepicker .btn-danger .badge {
+	color: #d9534f;
+	background-color: #fff;
+}
+
+.daterangepicker .btn-link {
+	font-weight: normal;
+	color: #337ab7;
+	border-radius: 0;
+}
+
+.daterangepicker .btn-link,
+.daterangepicker .btn-link:active,
+.daterangepicker .btn-link.active,
+.daterangepicker .btn-link[disabled],
+.daterangepicker fieldset[disabled] .btn-link {
+	background-color: transparent;
+	box-shadow: none;
+}
+
+.daterangepicker .btn-link,
+.daterangepicker .btn-link:hover,
+.daterangepicker .btn-link:focus,
+.daterangepicker .btn-link:active {
+	border-color: transparent;
+}
+
+.daterangepicker .btn-link:hover,
+.daterangepicker .btn-link:focus {
+	text-decoration: underline;
+	color: #23527c;
+	background-color: transparent;
+}
+
+.daterangepicker .btn-link[disabled]:hover,
+.daterangepicker fieldset[disabled] .btn-link:hover,
+.daterangepicker .btn-link[disabled]:focus,
+.daterangepicker fieldset[disabled] .btn-link:focus {
+	text-decoration: none;
+	color: #777;
+}
+
+.daterangepicker .btn-lg,
+.daterangepicker .btn-group-lg > .btn {
+	font-size: 18px;
+	line-height: 1.3333333;
+	padding: 10px 16px;
+	border-radius: 6px;
+}
+
+.daterangepicker .btn-sm,
+.daterangepicker .btn-group-sm > .btn {
+	font-size: 12px;
+	line-height: 1.5;
+	padding: 5px 10px;
+	border-radius: 3px;
+}
+
+.daterangepicker .btn-xs,
+.daterangepicker .btn-group-xs > .btn {
+	font-size: 12px;
+	line-height: 1.5;
+	padding: 1px 5px;
+	border-radius: 3px;
+}
+
+.daterangepicker .btn-block {
+	display: block;
+	width: 100%;
+}
+
+.daterangepicker .btn-block + .btn-block {
+	margin-top: 5px;
+}
+
+.daterangepicker input[type='submit'].btn-block,
+.daterangepicker input[type='reset'].btn-block,
+.daterangepicker input[type='button'].btn-block {
+	width: 100%;
+}
+
+.daterangepicker .table-condensed > tbody > tr > td,
+.daterangepicker .table-condensed > tbody > tr > th,
+.daterangepicker .table-condensed > tfoot > tr > td,
+.daterangepicker .table-condensed > tfoot > tr > th,
+.daterangepicker .table-condensed > thead > tr > td,
+.daterangepicker .table-condensed > thead > tr > th {
+	padding: 5px;
+}
+
 @media screen and (min-width: 1px) {
 
 select {

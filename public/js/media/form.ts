@@ -4,11 +4,14 @@ class MediaForm {
     private isNew: boolean = false;
     private isCanceled: boolean = false;
     private file: any = null;
+
+    private id: string = null;
+    private assetId: string = null;
+    private filename: string = null;
     private extension: string = null;
     private size: number = null;
-    private assetId: string = null;
+
     private container: string = null;
-    private filename: string = null;
     private chunkSize = 4194304; // byte
     private division: number = null;
     private createBlobBlockTimer = null;
@@ -16,6 +19,7 @@ class MediaForm {
     private blobBlockUncreatedIndexes: Array<any> = []; // 未作成ブロックインデックス
     private blobBlockCreatedIndexes: Array<any> = []; // 作成済みブロックインデックス
     private blobBlockCreatingIndexes: Array<any> = []; // 作成中ブロックインデックス
+
     private messages: Array<string> = [];
 
     constructor() {
@@ -57,9 +61,11 @@ class MediaForm {
             if (this.file != null) {
                 $('.file-value').text(this.file.name);
                 let f = this.file.name.split('.');
-                this.extension = f[f.length-1];
-                this.size = parseInt(this.file.size);
-                this.division = Math.ceil(this.size / this.chunkSize);
+                $('form input[name="extension"]').val(f[f.length-1]);
+                $('form input[name="size"]').val(this.file.size);
+                // this.extension = f[f.length-1];
+                // this.size = parseInt(this.file.size);
+                // this.division = Math.ceil(this.size / this.chunkSize);
             }
         });
     }
@@ -74,9 +80,12 @@ class MediaForm {
         if (!$('input[name="uploaded_by"]', $('form')).val()) {
             this.messages.push('動画登録者名が未登録です。');
         }
-        let inputElement: any = $('form input[name="file"]')[0];
-        if (inputElement.files.length == 0) {
-            this.messages.push('動画が未登録です。');
+
+        if (this.isNew) {
+            let inputElement: any = $('form input[name="file"]')[0];
+            if (inputElement.files.length == 0) {
+                this.messages.push('動画が未登録です。');
+            }
         }
 
         return (this.messages.length < 1);
@@ -91,8 +100,14 @@ class MediaForm {
         this.assetId = null;
         this.container = null;
         this.filename = null;
-    //	this.chunkSize = parseInt($('select[name="chunk_size"]', $('form')).val());
         this.createBlobBlockTimer = null;
+        this.id = $('input[name="id"]', $('form')).val();
+        this.assetId = $('input[name="asset_id"]', $('form')).val();
+        this.filename = $('input[name="filename"]', $('form')).val();
+        this.extension = $('input[name="extension"]', $('form')).val();
+        this.size = parseInt($('input[name="size"]', $('form')).val());
+
+        this.division = Math.ceil(this.size / this.chunkSize);
         this.blobBlockMaxSize = parseInt($('input[name="max_block_size"]', $('form')).val());
         this.blobBlockUncreatedIndexes = [];
         this.blobBlockCreatedIndexes = [];
@@ -123,15 +138,16 @@ class MediaForm {
         let blobBlockCreatedCount = this.blobBlockCreatedIndexes.length;
         console.log('blobBlockCreatedCount:' + blobBlockCreatedCount);
 
-        // if (blobBlockCreatedCount > 0) {
-            let rate = Math.floor(blobBlockCreatedCount * 100 / this.division);
-            $('.modal .progress-bar .progress-inner').width(rate + '%');
+        let rate = Math.floor(blobBlockCreatedCount * 100 / this.division);
+        $('.modal .progress-bar .progress-inner').width(rate + '%');
 
-            let uploadedSize = (blobBlockCreatedCount < this.division) ? this.chunkSize * blobBlockCreatedCount : this.size;
-            $('.modal .progress-bar-text').html(uploadedSize + '/' + this.size);
-        // }
+        let uploadedSize = (blobBlockCreatedCount < this.division) ? this.chunkSize * blobBlockCreatedCount : this.size;
+        $('.modal .progress-bar-text').html(uploadedSize + '/' + this.size);
     }
 
+    /**
+     * 失敗をお知らせする
+     */
     private informFailure() {
         $('.modal-cover').addClass('active');
         if (!$('.modal.type-08').hasClass('active')) {
@@ -271,13 +287,6 @@ class MediaForm {
     }
 
     public createAsset() {
-        // this.file = $('input[name="file"]', $('form'))[0].files[0];
-        // f = this.file.name.split('.');
-        // this.extension = f[f.length-1];
-        // this.size = parseInt(this.file.size);
-        // this.division = Math.ceil(this.size / this.chunkSize);
-        console.log(this.extension, this.size, this.division);
-
         for (let i=0; i<this.division; i++) {
             this.blobBlockUncreatedIndexes.push(i);
         }
@@ -297,7 +306,7 @@ class MediaForm {
                 $('p.error').append(data.messages.join('<br>'));
             } else {
                 // アセットIDとファイル名を取得
-                console.log(data.params);
+                console.log('asset created. params:', data.params);
                 this.assetId = data.params.assetId;
                 this.container = data.params.container;
                 this.filename = data.params.filename;
@@ -328,7 +337,7 @@ class MediaForm {
     }
 
     private createMedia() {
-        console.log('inserting...');
+        console.log('inserting or updating...');
         let formData = new FormData();
         formData.append('id', $('input[name="id"]', $('form')).val());
         formData.append('title', $('input[name="title"]', $('form')).val());
@@ -358,13 +367,10 @@ class MediaForm {
                     $('textarea[name="description"]', $('form')).val('');
                     $('input[name="uploaded_by"]', $('form')).val('');
                     $('input[name="file"]', $('form')).val('');
-
-                    $('.modal-cover').addClass('active');
-                    $('.modal').removeClass('active');
-                    $('.modal.type-02').addClass('active');
                 }
 
-                console.log('create completed.');
+                $('.modal').removeClass('active');
+                $('.modal-cover, .modal.type-02').addClass('active');
             }
         })
         .fail(() => {

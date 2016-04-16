@@ -19,7 +19,7 @@ SELECT * FROM media WHERE event_id = :eventId AND status <> :status
     public create(params: any, cb: Function): void {
         let query = `
 INSERT INTO media
- (event_id, title, description, uploaded_by, status, filename, size, extension, playtime_string, playtime_seconds, asset_id, created_at, updated_at)'
+ (event_id, title, description, uploaded_by, status, filename, size, extension, playtime_string, playtime_seconds, asset_id, created_at, updated_at)
  VALUES (:eventId, :title, :description, :uploadedBy, :status, :filename, :size, :extension, :playtimeString, :playtimeSeconds, :assetId, NOW(), NOW())
 `;
         let queryParams = {
@@ -39,7 +39,7 @@ INSERT INTO media
         this.query(query, queryParams, cb);
     }
 
-    public update(params, cb): void {
+    public update(params: any, cb: Function): void {
         let query: string = `
 UPDATE media SET
  title = :title, description = :description, uploaded_by = :uploadedBy, updated_at = NOW()
@@ -48,7 +48,7 @@ UPDATE media SET
 
         let queryParams: Object = {
             'id':  params.id,
-            'title':  params.user_id,
+            'title':  params.title,
             'description':  params.description,
             'uploadedBy':  params.uploaded_by
         };

@@ -234,15 +234,10 @@ export default class Media extends Base
                 this.logger.debug('update media result...', result);
                 if (err) {
                     this.logger.error('update media fail. err:', err);
-                    messages.push('更新できませんでした');
-
-                    return res.json({
-                        isSuccess: false,
-                        messages: messages
-                    });
+                    return next(err);
                 }
 
-                return res.json({
+                res.json({
                     isSuccess: true,
                     messages: messages
                 });
