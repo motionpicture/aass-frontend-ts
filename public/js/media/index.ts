@@ -1,12 +1,12 @@
 /// <reference path="../../../typings/main.d.ts" />
 
 class MediaIndex {
-    constructor() {
-        this.initialize();
-    }
+    private modelDeleteComplete = $('.modal.type-06');
 
-    public initialize(): void {
-        console.log('adding event delete_media...');
+    constructor() {
+        let self = this;
+
+        // 削除イベント
         $('.remove-btn a').on('click', function(e) {
             var rootRow = $(this).parent().parent().parent().parent().parent();
             console.log(rootRow);
@@ -25,7 +25,8 @@ class MediaIndex {
                     alert("削除に失敗しました\n" + data.messages.join("\n"));
                 } else {
                     rootRow.remove();
-                    $('.modal-cover, .modal.type-06').addClass('active');
+                    $('.modal-cover').addClass('active');
+                    self.modelDeleteComplete.addClass('active');
                 }
             })
             .fail(function() {
@@ -35,6 +36,12 @@ class MediaIndex {
             });
         });
 
+        // 削除完了閉じるイベント
+        this.modelDeleteComplete.on('click', '.close-btn a,.gray-btn', () => {
+            $('.modal-cover, .modal').removeClass('active');
+        });
+
+        // 申請イベント
         $('.apply_media a').on('click', function(e) {
             var rootRow = $(this).parent().parent();
             var id = $('input[name="id"]', rootRow).val();
