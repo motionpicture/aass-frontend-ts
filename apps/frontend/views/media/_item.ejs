@@ -1,8 +1,10 @@
 <div class="item">
     <input type="hidden" name="id" value="<%- media.id %>" />
+    <input type="hidden" name="title" value="<%- media.title %>" />
     <input type="hidden" name="status" value="<%- media.status %>" />
     <input type="hidden" name="asset_id" value="<%- media.asset_id %>" />
     <input type="hidden" name="size" value="<%- media.size %>" />
+
     <div class="d-table">
         <div class="d-td thumb">
             <a href="<%- url('media.update', {id: media.id}) %>"><img src="#" alt="#"></a>

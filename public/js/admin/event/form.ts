@@ -85,16 +85,6 @@ class AdminEventForm {
             return false;
         });
 
-        // 確認いいえイベント
-        $('.modal.type-05 .btn.prev-btn a').on('click', (e) => {
-            $('.modal-cover, .modal.type-05').removeClass('active');
-        });
-
-        // 確認閉じるイベント
-        $('.modal.type-05 .close-btn a').on('click', (e) => {
-            $('.modal-cover, .modal.type-05').removeClass('active');
-        });
-
         // 上映日時フォーム
         let inputHeld: any = $('input[name="held"]');
         inputHeld.daterangepicker({
