@@ -1,5 +1,4 @@
 import BaseMedia from '../../common/models/Media';
-import Constants from '../../common/modules/Constants';
 
 export default class Media extends BaseMedia
 {
@@ -10,7 +9,7 @@ SELECT * FROM media WHERE event_id = :eventId AND status <> :status
 
         let queryParams = {
             eventId: eventId,
-            status: Constants.MEDIA_STATUS_DELETED
+            status: Media.STATUS_DELETED
         };
 
         this.query(query, queryParams, cb);
@@ -27,7 +26,7 @@ INSERT INTO media
             title: params.title,
             description: params.description,
             uploadedBy: params.uploaded_by,
-            status: Constants.MEDIA_STATUS_ASSET_CREATED,
+            status: Media.STATUS_ASSET_CREATED,
             filename: params.filename,
             size: params.size,
             extension: params.extension,
@@ -63,7 +62,7 @@ UPDATE media SET status = :status, deleted_at = NOW(), updated_at = NOW() WHERE 
 
         let queryParams = {
             id: id,
-            status: Constants.MEDIA_STATUS_DELETED
+            status: Media.STATUS_DELETED
         };
 
         this.query(query, queryParams, cb);

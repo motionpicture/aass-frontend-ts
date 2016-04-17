@@ -1,0 +1,72 @@
+<div class="item">
+    <input type="hidden" name="id" value="<%- media.id %>" />
+    <input type="hidden" name="status" value="<%- media.status %>" />
+    <input type="hidden" name="asset_id" value="<%- media.asset_id %>" />
+    <input type="hidden" name="size" value="<%- media.size %>" />
+    <div class="d-table">
+        <div class="d-td thumb">
+            <a href="<%- url('media.update', {id: media.id}) %>"><img src="#" alt="#"></a>
+        </div>
+        <div class="d-td info">
+            <div class="group">
+                <span class="type text-center">動画</span>
+                <span class="date"><%- media.created_at %></span>
+                <span class="author"><%- media.uploaded_by %></span>
+                <span class="time">再生時間 : ??分??秒</span>
+            </div>
+            <div class="title"><a href="<%- url('media.update', {id: media.id}) %>"><%- media.title %></a></div>
+        </div>
+        <div class="d-td control">
+            <div class="group clearfix">
+                <div class="btn gray-btn edit-btn ">
+                    <a href="<%- url('media.update', {id: media.id}) %>">編集</a>
+                </div>
+                <div class="btn gray-btn remove-btn ">
+                    <a href="javascript:void(0);">削除</a>
+                </div>
+            </div>
+        </div>
+        <div class="d-td status">
+            <% if (media.status === mediaModel.STATUS_ASSET_CREATED) { %>
+                <div class="status-box status-encod-waiting">
+                    <div class="text">動画変換待機中</div><div class="progress-bar"></div>
+                </div>
+
+            <% } else if (media.status === mediaModel.STATUS_JOB_CREATED
+                       || media.status === mediaModel.STATUS_JOB_FINISHED
+                       || media.status === mediaModel.STATUS_JPEG2000_READY) { %>
+            <div class="status-box status-encoding">
+                <div class="text">動画変換中</div><div class="progress-bar"><div class="progress-inner"></div></div><div class="time">70% / 残り約50分</div>
+            </div>
+
+            <% } else if (media.status === mediaModel.STATUS_JPEG2000_ENCODED) { %>
+            <div class="btn status-btn application-btn red-btn">
+                <a href="#">動画申請</a>
+            </div>
+
+            <% } else if (media.status === mediaModel.STATUS_ERROR) { %>
+            <div class="btn status-btn error-btn blue-btn">
+                <a href="#">エラーが発生しました</a>
+            </div>
+
+            <% } else if (media.status === mediaModel.STATUS_DELETED) { %>
+
+            <% } else { %>
+            <% } %>
+            <!--
+            <div class="status-box status-waiting">
+                動画申請待ち
+            </div>
+            <div class="btn status-btn filed-btn yellow-btn not-active pressed">
+                <a href="#">動画承認済</a>
+            </div>
+            <div class="btn status-btn other-filed-btn gray-btn not-active pressed">
+                <a href="#">他の動画が承認済です</a>
+            </div>
+            <div class="btn status-btn reapplication-btn blue-btn">
+                <a href="#">再申請のお願い</a>
+            </div>
+            -->
+        </div>
+    </div>
+</div>

@@ -16,7 +16,8 @@ export default class Media extends Base
 
             this.logger.info('rows count:' + rows.length);
             res.render('media/index', {
-                medias: rows
+                medias: rows,
+                mediaModel: MediaModel
             });
         });
     }
