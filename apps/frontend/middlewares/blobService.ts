@@ -1,5 +1,5 @@
 //http://azure.github.io/azure-storage-node/index.html
-import azure = require('azure');
+import azure = require('azure-storage');
 import conf = require('config');
 
 export default function (req, res, next) {

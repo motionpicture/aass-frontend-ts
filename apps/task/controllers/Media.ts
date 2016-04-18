@@ -1,6 +1,8 @@
 import Base from './Base';
 import MediaModel from '../models/Media';
-import AzureMediaService from '../modules/mediaService';
+import AzureMediaService from '../../common/modules/mediaService';
+import azureStorage = require('azure-storage');
+import conf = require('config');
 import datetime = require('node-datetime');
 import fs = require('fs');
 import util = require('util');
@@ -8,10 +10,6 @@ import util = require('util');
 
 export default class Media extends Base
 {
-    public test()
-    {
-    }
-
     /**
      * エンコード処理を施す
      */
@@ -317,8 +315,31 @@ export default class Media extends Base
     // https://msdn.microsoft.com/ja-jp/library/azure/mt427372.aspx
     public copyFile(): void {
         let model = new MediaModel();
-        model.getListByStatus(MediaModel.STATUS_JOB_FINISHED, 10, (err, rows) => {
+        model.getListByStatus(MediaModel.STATUS_JOB_FINISHED, 1, (err, rows) => {
             if (err) throw err;
+
+            if (rows.length > 0) {
+                rows.forEach((media) => {
+                    let to = MediaModel.getFilePath4Jpeg2000Ready(media.filename);
+                    let sourceUrl = media.url_mp4;
+
+                    let fileService = azureStorage.createFileService(
+                        conf.get<string>('storage_account_name'),
+                        conf.get<string>('storage_account_key')
+                    );
+
+                    fileService.startCopyFile(sourceUrl, 'jpeg2000', '', media.filename, {}, (error, result) => {
+                        if (error) throw error;
+                        
+                        this.logger.trace('startCopyFile result:', result);
+                    });
+
+                    // this.logger.trace("changing status to copied... id:{media['id']}");
+                    // result = mediaModel->updateStatus(media['id'], MediaModel::STATUS_JPEG2000_READY);
+
+                });
+                
+            }
         });
 
         // if (!empty(medias)) {
@@ -326,13 +347,6 @@ export default class Media extends Base
         //         result = false;
 
         //         try {
-        //             to = MediaModel::getFilePath4Jpeg2000Ready(media['filename']);
-        //             sourceUrl = media['url_mp4'];
-
-        //             this->fileService->copyFile(sourceUrl, to);
-
-        //             this.logger.trace("changing status to copied... id:{media['id']}");
-        //             result = mediaModel->updateStatus(media['id'], MediaModel::STATUS_JPEG2000_READY);
         //         } catch (\Exception e) {
         //             this->logger->addError("copy failed. message:{e}");
         //         }
@@ -378,6 +392,16 @@ export default class Media extends Base
         let model = new MediaModel();
         model.getListByStatus(MediaModel.STATUS_DELETED, 10, (err, rows) => {
             if (err) throw err;
+
+            if (rows.length > 0) {
+                rows.forEach((media) => {
+                    
+                    AzureMediaService.setToken((err) => {
+                        if (err) throw err;
+                    });
+                });
+                
+            }
         });
 
         // if (!empty(medias)) {

@@ -3,8 +3,8 @@ import conf = require('config');
 
 // カスタム
 ams.prototype.getJobOutputMediaAssets = function ( jobId, cb ) {
-  var params = { id : jobId, secondEndpoint: 'OutputMediaAssets' }
-  return this.request.get('Jobs', params, cb)
+    var params = { id : jobId, secondEndpoint: 'OutputMediaAssets' }
+    return this.request.get('Jobs', params, cb)
 }
 
 ams.prototype.ACCESS_POLICY_PERMISSIONS_NONE = 0; // The access rights the client has when interacting with the Asset. (None)
