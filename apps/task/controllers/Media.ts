@@ -1,12 +1,12 @@
 import Base from './Base';
 import MediaModel from '../models/Media';
-import AzureMediaService from '../../common/modules/mediaService';
+import azureMediaService from '../../common/modules/azureMediaService';
+import azureFileService from '../../common/modules/azureFileService';
 import azureStorage = require('azure-storage');
 import conf = require('config');
 import datetime = require('node-datetime');
 import fs = require('fs');
 import util = require('util');
-// import path = require('path');
 
 export default class Media extends Base
 {
@@ -21,7 +21,7 @@ export default class Media extends Base
             this.logger.trace('medias:', rows);
             if (rows.length > 0) {
                 rows.forEach((media) => {
-                    AzureMediaService.setToken((err) => {
+                    azureMediaService.setToken((err) => {
                         if (err) throw err;
 
                         this.logger.debug('creating job...');
@@ -32,7 +32,7 @@ export default class Media extends Base
                         };
 
                         // ジョブ作成
-                        AzureMediaService.createMultiTaskJob(assetId, options, (error, response) => {
+                        azureMediaService.createMultiTaskJob(assetId, options, (error, response) => {
                             this.logger.debug('error:', error);
                             this.logger.debug('response body:', response.body);
                             if (error) throw error;
@@ -96,7 +96,7 @@ export default class Media extends Base
             if (rows.length > 0) {
                 rows.forEach((media) => {
                     
-                    AzureMediaService.setToken((err) => {
+                    azureMediaService.setToken((err) => {
                         if (err) throw err;
 
                         this.logger.trace('getting job...');
@@ -106,7 +106,7 @@ export default class Media extends Base
                             Tasks: this.getTasks(media.filename)
                         };
 
-                        AzureMediaService.getJobStatus(media.job_id, (error, response) => {
+                        azureMediaService.getJobStatus(media.job_id, (error, response) => {
                             if (error) throw error;
 
                             let job = JSON.parse(response.body).d;
@@ -118,9 +118,9 @@ export default class Media extends Base
                                 this.logger.trace('job state change. new state:', state);
 
                                 // ジョブが完了の場合、URL発行プロセス
-                                if (state == AzureMediaService.JOB_STATE_FINISHED) {
-                                    AzureMediaService.getJobOutputMediaAssets(media.job_id, (error, response) => {
-                                    // AzureMediaService.getJobTasks(media.job_id, (error, response) => {
+                                if (state == azureMediaService.JOB_STATE_FINISHED) {
+                                    azureMediaService.getJobOutputMediaAssets(media.job_id, (error, response) => {
+                                    // azureMediaService.getJobTasks(media.job_id, (error, response) => {
                                         if (error) throw error;
 
                                         let outputMediaAssets = JSON.parse(response.body).d.results;
@@ -165,7 +165,7 @@ export default class Media extends Base
                                             });
                                         }
                                     });
-                                } else if (state == AzureMediaService.JOB_STATE_ERROR || state == AzureMediaService.JOB_STATE_CANCELED) {
+                                } else if (state == azureMediaService.JOB_STATE_ERROR || state == azureMediaService.JOB_STATE_CANCELED) {
                                     this.logger.trace("changing status to STATUS_ERROR... id:", media.id);
                                     model.updateJobState(media.id, state, MediaModel.STATUS_ERROR, {}, (err, result) => {
                                         process.exit(0);
@@ -188,10 +188,10 @@ export default class Media extends Base
 
     private createUrlThumbnail(assetId, filename, cb): void {
         // 読み取りアクセス許可を持つAccessPolicyの作成
-        AzureMediaService.createAccessPolicy({
+        azureMediaService.createAccessPolicy({
             Name: 'ThumbnailPolicy',
             DurationInMinutes: 25920000,
-            Permissions: AzureMediaService.ACCESS_POLICY_PERMISSIONS_READ
+            Permissions: azureMediaService.ACCESS_POLICY_PERMISSIONS_READ
         }, (error, response) => {
             if (error) throw error;
 
@@ -202,11 +202,11 @@ export default class Media extends Base
             let d = new Date();
             d.setMinutes(d.getMinutes() - 5);
             let startTime = d.toISOString();
-            AzureMediaService.createLocator({
+            azureMediaService.createLocator({
                 AccessPolicyId: accessPolicy.Id,
                 AssetId: assetId,
                 StartTime: startTime,
-                Type: AzureMediaService.LOCATOR_TYPE_SAS,
+                Type: azureMediaService.LOCATOR_TYPE_SAS,
                 Name: 'ThumbnailLocator_' + assetId
             }, (error, response) => {
                 if (error) throw error;
@@ -230,10 +230,10 @@ export default class Media extends Base
 
     private createUrlMp4(assetId, filename, cb): void {
         // 読み取りアクセス許可を持つAccessPolicyの作成
-        AzureMediaService.createAccessPolicy({
+        azureMediaService.createAccessPolicy({
             Name: 'MP4Policy',
             DurationInMinutes: 25920000,
-            Permissions: AzureMediaService.ACCESS_POLICY_PERMISSIONS_READ
+            Permissions: azureMediaService.ACCESS_POLICY_PERMISSIONS_READ
         }, (error, response) => {
             if (error) throw error;
 
@@ -244,11 +244,11 @@ export default class Media extends Base
             let d = new Date();
             d.setMinutes(d.getMinutes() - 5);
             let startTime = d.toISOString();
-            AzureMediaService.createLocator({
+            azureMediaService.createLocator({
                 AccessPolicyId: accessPolicy.Id,
                 AssetId: assetId,
                 StartTime: startTime,
-                Type: AzureMediaService.LOCATOR_TYPE_SAS,
+                Type: azureMediaService.LOCATOR_TYPE_SAS,
                 Name: 'MP4Locator_' + assetId
             }, (error, response) => {
                 if (error) throw error;
@@ -273,10 +273,10 @@ export default class Media extends Base
     // http://msdn.microsoft.com/ja-jp/library/jj889436.aspx
     private createUrl(assetId, filename, cb): void {
         // 読み取りアクセス許可を持つAccessPolicyの作成
-        AzureMediaService.createAccessPolicy({
+        azureMediaService.createAccessPolicy({
             Name: 'StreamingPolicy',
             DurationInMinutes: 25920000,
-            Permissions: AzureMediaService.ACCESS_POLICY_PERMISSIONS_READ
+            Permissions: azureMediaService.ACCESS_POLICY_PERMISSIONS_READ
         }, (error, response) => {
             if (error) throw error;
 
@@ -287,11 +287,11 @@ export default class Media extends Base
             let d = new Date();
             d.setMinutes(d.getMinutes() - 5);
             let startTime = d.toISOString();
-            AzureMediaService.createLocator({
+            azureMediaService.createLocator({
                 AccessPolicyId: accessPolicy.Id,
                 AssetId: assetId,
                 StartTime: startTime,
-                Type: AzureMediaService.LOCATOR_TYPE_ON_DEMAND_ORIGIN,
+                Type: azureMediaService.LOCATOR_TYPE_ON_DEMAND_ORIGIN,
                 Name: 'StreamingLocator_' + assetId
             }, (error, response) => {
                 if (error) throw error;
@@ -323,103 +323,101 @@ export default class Media extends Base
                     let to = MediaModel.getFilePath4Jpeg2000Ready(media.filename);
                     let sourceUrl = media.url_mp4;
 
-                    let fileService = azureStorage.createFileService(
-                        conf.get<string>('storage_account_name'),
-                        conf.get<string>('storage_account_key')
-                    );
-
-                    fileService.startCopyFile(sourceUrl, 'jpeg2000', '', media.filename, {}, (error, result) => {
+                    // Fileへコピー
+                    azureFileService.startCopyFile(
+                        sourceUrl,
+                        MediaModel.AZURE_FILE_SHARE_NAME_JPEG2000_READY,
+                        '',
+                        media.filename + '.mp4',
+                        {},
+                        (error, result) => {
                         if (error) throw error;
-                        
+
                         this.logger.trace('startCopyFile result:', result);
+                        this.logger.trace('changing status to copied... id:', media.id);
+                        model.updateStatus(media.id, MediaModel.STATUS_JPEG2000_READY, (err, result) => {
+                            if (err) throw err;
+
+                            this.logger.trace('status changed to STATUS_JPEG2000_READY. id:', media.id);
+                            process.exit(0);
+                        });
                     });
-
-                    // this.logger.trace("changing status to copied... id:{media['id']}");
-                    // result = mediaModel->updateStatus(media['id'], MediaModel::STATUS_JPEG2000_READY);
-
                 });
-                
             }
         });
-
-        // if (!empty(medias)) {
-        //     foreach (medias as media) {
-        //         result = false;
-
-        //         try {
-        //         } catch (\Exception e) {
-        //             this->logger->addError("copy failed. message:{e}");
-        //         }
-
-        //         if (!result) {
-        //             try {
-        //                 this.logger.trace("changing status to error... id:{media['id']}");
-        //                 mediaModel->updateStatus(media['id'], MediaModel::STATUS_ERROR);
-        //             } catch (Exception e) {
-        //                 this->logger->addError("updateStatus to error failed. message:{e}");
-        //             }
-        //         }
-        //     }
-        // }
     }
 
     public checkJpeg2000Encode(): void {
         let model = new MediaModel();
-        model.getListByStatus(MediaModel.STATUS_JPEG2000_READY, 10, (err, rows) => {
+        model.getListByStatus(MediaModel.STATUS_JPEG2000_READY, 1, (err, rows) => {
             if (err) throw err;
+
+            if (rows.length > 0) {
+                rows.forEach((media) => {
+                    // Fileへコピー
+                    azureFileService.doesFileExist(
+                        MediaModel.AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED,
+                        '',
+                        media.filename + '.jpeg2000',
+                        {},
+                        (error, result, response) => {
+                        if (error) throw error;
+
+                        this.logger.trace('doesFileExist result:', result);
+
+                        // TODO
+                        if (result.exists) {
+                            this.logger.trace('changing status to encoded... id:', media.id);
+                            process.exit(0);
+                        } else {
+                            this.logger.trace('not encoded yet. id:', media.id);
+                            process.exit(0);
+                        }
+                    });
+                });
+            }
         });
-
-        // if (!empty(medias)) {
-        //     foreach (medias as media) {
-        //         try {
-        //             properties = this->fileService->getFileProperties(MediaModel::getFilePath4Jpeg2000Encoded(media['filename']));
-        //             this->logger->addDebug(var_export(properties, true));
-
-        //             // TODO
-        //             if (!is_null(properties)) {
-        //                 this.logger.trace("changing status to encoded... id:{media['id']}");
-        //             } else {
-        //                 this.logger.trace("not encoded yet. id:{media['id']}");
-        //             }
-        //         } catch (\Exception e) {
-        //             this->logger->addError("getFile failed. message:{e}");
-        //         }
-        //     }
-        // }
     }
 
-    public deleteAsset(): void {
+    public delete(): void {
         let model = new MediaModel();
         model.getListByStatus(MediaModel.STATUS_DELETED, 10, (err, rows) => {
             if (err) throw err;
 
             if (rows.length > 0) {
-                rows.forEach((media) => {
-                    
-                    AzureMediaService.setToken((err) => {
-                        if (err) throw err;
-                    });
+                azureMediaService.setToken((err) => {
+                    if (err) throw err;
+
+                    let i = 0;
+                    let loop = () => {
+                        i++;
+                        if (i > rows.length) {
+                            process.exit(0);
+                        }
+
+                        let media = rows[i - 1];
+                        this.logger.trace('deleting asset... asset_id:', media.asset_id);
+                        azureMediaService.removeAsset(media.asset_id, (error, response) => {
+                            if (error) throw error;
+
+                            this.logger.trace('removeAsset response body:', response.body);
+
+                            this.logger.trace('deleting media... id:', media.id);
+                            model.delete(media.id, (err, result) => {
+                                if (err) throw err;
+
+                                this.logger.trace('media deleted. id:', media.id);
+
+                                loop();
+                            });
+                        });
+                    }
+
+                    loop();
                 });
-                
+            } else {
+                process.exit(0);
             }
         });
-
-        // if (!empty(medias)) {
-        //     foreach (medias as media) {
-        //         try {
-        //             this.logger.trace("deleting asset... asset_id:{media['asset_id']}");
-        //             this->AzureMediaService->deleteAsset(media['asset_id']);
-        //         } catch (\Exception e) {
-        //             this->logger->addError("deleteAsset failed. message:{e}");
-        //         }
-
-        //         try {
-        //             this.logger.trace("deleting media... id:{media['id']}");
-        //             mediaModel->delete(media['id']);
-        //         } catch (\Exception e) {
-        //             this->logger->addError("delete failed. message:{e}");
-        //         }
-        //     }
-        // }
     }
 }

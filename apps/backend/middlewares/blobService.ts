@@ -1,14 +1,7 @@
-//http://azure.github.io/azure-storage-node/index.html
-import azure = require('azure-storage');
-import conf = require('config');
+import AzureBlobService from '../../common/modules/azureBlobService';
 
 export default function (req, res, next) {
-    if (req.blobService) next();
-
-    req.blobService = azure.createBlobService(
-        conf.get<string>('storage_account_name'),
-        conf.get<string>('storage_account_key')
-    );
-
+    if (req.mediaService) next();
+    req.mediaService = AzureBlobService;
     next();
 };
