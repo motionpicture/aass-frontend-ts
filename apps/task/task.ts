@@ -61,7 +61,7 @@ program
 // program
 //   .command('media delete')
 //   .description('削除済みメディアの処理')
-//   .action(() => {media.delete()});
+//   .action(() => {media.deleteAsset()});
 
 program
   .command('*')
