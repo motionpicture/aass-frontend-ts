@@ -8,16 +8,20 @@ import logger from './middlewares/logger';
 import benchmarks from './middlewares/benchmarks';
 import session from './middlewares/session';
 import user from './middlewares/user';
-import blobService from './middlewares/blobService';
-import mediaService from './middlewares/mediaService';
+import AzureBlobService from '../common/modules/azureBlobService';
+import AzureMediaService from '../common/modules/azureMediaService';
 
 let app = express();
 
 app.use(logger);
 app.use(benchmarks); // ベンチマーク的な
 app.use(session);
-app.use(blobService);
-app.use(mediaService);
+
+app.use(function (req: any, res: any, next: any) {
+    req.blobService = AzureBlobService;
+    req.mediaService = AzureMediaService;
+    next();
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

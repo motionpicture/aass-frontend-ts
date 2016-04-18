@@ -1,0 +1,74 @@
+<div class="item">
+    <input type="hidden" name="id" value="<%- event.id %>" />
+    <input type="hidden" name="user_id" value="<%- event.user_id %>" />
+    <input type="hidden" name="place" value="<%- event.place %>" />
+    <input type="hidden" name="held_from" value="<%- event.held_from %>" />
+    <input type="hidden" name="held_to" value="<%- event.held_to %>" />
+    <input type="hidden" name="media_id" value="<%- event.media_id %>" />
+    <input type="hidden" name="media_title" value="<%- event.media_title %>" />
+    <input type="hidden" name="media_uploaded_by" value="<%- event.media_uploaded_by %>" />
+    <input type="hidden" name="media_url_thumbnail" value="<%- event.media_url_thumbnail %>" />
+    <input type="hidden" name="media_url_mp4" value="<%- event.media_url_mp4 %>" />
+    <input type="hidden" name="media_url_streaming" value="<%- event.media_url_streaming %>" />
+    <input type="hidden" name="media_status" value="<%- event.media_status %>" />
+    <input type="hidden" name="media_job_end_at" value="<%- event.media_job_end_at %>" />
+    <input type="hidden" name="application_id" value="<%- event.application_id %>" />
+    <input type="hidden" name="application_status" value="<%- event.application_status %>" />
+
+    <div class="d-table">
+        <div class="d-td thumb">
+            <% if (event.application_id) { %>
+            <a href="<%- url('event.update', {id: event.id}) %>"><img src="<%- event.media_url_mp4 %>" alt="000000002"></a>
+            <% } %>
+        </div>
+        <div class="d-td info">
+            <div class="title"><a href="<%- url('event.update', {id: event.id}) %>"><%- event.user_id %></a></div>
+            <div class="d-table">
+                <% if (event.application_id) { %>
+                <dl class="d-td upload">
+                    <dt class="d-td"><span>アップロード</span></dt>
+                    <dd class="d-td"><span class="date">2016/3/10/14:32</span><span class="author"><%- event.media_uploaded_by %></span></dd>
+                </dl>
+                <% } %>
+                <dl class="d-td release">
+                    <dt class="d-td"><span>上映公開日</span></dt>
+                    <dd class="d-td"><span class="date"><%- event.held_from %></span><span class="screen"><%- event.place %></span></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="d-td control clearfix">
+            <% if (!event.application_id) { %>
+            <div class="btn approval-btn blue-btn not-active pressed">
+                <a href="javascript:void(0);">動画待ち </a>
+            </div>
+            <% } else { %>
+            <div class="btn approval-btn red-btn">
+                <a href="javascript:void(0);">動画認証を行う </a>
+            </div>
+            <div class="btn approval-btn light-gray-btn not-active pressed">
+                <a href="000000003">上映済み </a>
+            </div>
+            
+            <div class="btn approval-btn light-gray-btn not-active pressed">
+                <a href="000000004">動画認証済み </a>
+            </div>
+            <% } %>
+
+            <% if (event.application_id) { %>
+            <div class="btn gray-btn download-btn hidden">
+                <a href="000000002"></a>
+            </div>
+            <% } %>
+
+            <div class="btn gray-btn list-btn">
+                <a href="/admin/event/<%- event.id %>/medias">動画一覧</a>
+            </div>
+
+            <% if (event.application_id) { %>
+            <div class="btn gray-btn remove-btn">
+                <a href="javascript:void(0);">予約削除</a>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</div>
