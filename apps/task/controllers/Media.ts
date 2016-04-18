@@ -1,16 +1,21 @@
 import Base from './Base';
 import MediaModel from '../models/Media';
-import mediaService from '../modules/mediaService';
+import AzureMediaService from '../modules/mediaService';
+import datetime = require('node-datetime');
+import fs = require('fs');
+import util = require('util');
 // import path = require('path');
-// import fs = require('fs')
 
 export default class Media extends Base
 {
+    public test()
+    {
+    }
+
     /**
      * エンコード処理を施す
      */
-    public encode()
-    {
+    public encode(): void {
         let model = new MediaModel();
         model.getListByStatus(MediaModel.STATUS_ASSET_CREATED, 10, (err, rows) => {
             if (err) throw err;
@@ -18,12 +23,8 @@ export default class Media extends Base
             this.logger.trace('medias:', rows);
             if (rows.length > 0) {
                 rows.forEach((media) => {
-                    mediaService.setToken((err) => {
+                    AzureMediaService.setToken((err) => {
                         if (err) throw err;
-
-                        // mediaService.listMediaProcessors((error, response) => {
-                        //     this.logger.debug(response);
-                        // });
 
                         this.logger.debug('creating job...');
                         let assetId  = media.asset_id;
@@ -32,29 +33,44 @@ export default class Media extends Base
                             Tasks: this.getTasks(media.filename)
                         };
 
-                        mediaService.createMultiTaskJob(assetId, options, (error, response) => {
+                        // ジョブ作成
+                        AzureMediaService.createMultiTaskJob(assetId, options, (error, response) => {
                             this.logger.debug('error:', error);
                             this.logger.debug('response body:', response.body);
                             if (error) throw error;
 
                             let job = JSON.parse(response.body).d;
+
+                            // メディアにジョブを登録
                             this.logger.trace('job created. job:', job);
-                            // model.addJob(media.id, job.Id, job.State, (err, result) => {
-                            //     this.logger.trace("media added job. id:{media['id']}");
-                            // });
+                            model.addJob(media.id, job.Id, job.State, (err, result) => {
+                                if (err) throw err;
+
+                                this.logger.trace('media added job. id:', media.id, ' / result:', result);
+                            });
+
+                            process.exit(0);
                         });
                     });
                 });
+            } else {
+                process.exit(0);
             }
         });
-
-        return;
     }
 
-    private getTasks(filename)
-    {
+    private getTasks(filename): Array<any> {
         let task;
         let tasks = [];
+
+        // thumbnail task
+        let config = fs.readFileSync(__dirname + '/../../../config/thumbnailConfig.json').toString();
+        this.logger.debug('thumbnailConfig:', config);
+        task = {
+            Configuration: config,
+            OutputAssetName: 'AassMediaAsset[' + filename + '][thumbnails]'
+        };
+        tasks.push(task);
 
         // single bitrate mp4 task
         task = {
@@ -70,180 +86,236 @@ export default class Media extends Base
         };
         tasks.push(task);
 
-        // thumbnail task
-        task = {
-            Configuration: 'Thumbnails',
-            OutputAssetName: 'AassMediaAsset[' + filename + '][thumbnails]',
-            OutputFileName: 'Test_Thumbnail',
-            Value: '00:00:10',
-            Type: 'Jpeg',
-            Width: 120,
-            Height: 120,
-        };
-        tasks.push(task);
-        // taskBody = this->getMediaServicesTaskBody(
-        //     'JobInputAsset(0)',
-        //     'JobOutputAsset(0)',
-        //     Asset::OPTIONS_NONE,
-        //     "AassMediaAsset[{filename}][thumbnails]"
-        // );
-        // task = new Task(taskBody, mediaProcessor->getId(), TaskOptions::NONE);
-        // configurationFile  = __DIR__ . '/../../../config/thumbnailConfig.json';
-        // task->setConfiguration(file_get_contents(configurationFile));
-        // tasks[] = task;
-
         return tasks;
     }
 
-    public checkJob()
-    {
+    public checkJob(): void {
         let model = new MediaModel();
-        model.getListByStatus(MediaModel.STATUS_JOB_CREATED, 10, (err, rows) => {
+        model.getListByStatus(MediaModel.STATUS_JOB_CREATED, 1, (err, rows) => {
             if (err) throw err;
+            
+            this.logger.trace('medias:', rows);
+            if (rows.length > 0) {
+                rows.forEach((media) => {
+                    
+                    AzureMediaService.setToken((err) => {
+                        if (err) throw err;
+
+                        this.logger.trace('getting job...');
+                        let assetId  = media.asset_id;
+                        let options = {
+                            Name: 'AassJob[' + media.filename + ']',
+                            Tasks: this.getTasks(media.filename)
+                        };
+
+                        AzureMediaService.getJobStatus(media.job_id, (error, response) => {
+                            if (error) throw error;
+
+                            let job = JSON.parse(response.body).d;
+                            this.logger.trace('job exists. job:', job);
+
+                            // ジョブのステータスを更新
+                            if (media.job_state != job.State) {
+                                let state: number = job.State;
+                                this.logger.trace('job state change. new state:', state);
+
+                                // ジョブが完了の場合、URL発行プロセス
+                                if (state == AzureMediaService.JOB_STATE_FINISHED) {
+                                    AzureMediaService.getJobOutputMediaAssets(media.job_id, (error, response) => {
+                                    // AzureMediaService.getJobTasks(media.job_id, (error, response) => {
+                                        if (error) throw error;
+
+                                        let outputMediaAssets = JSON.parse(response.body).d.results;
+                                        this.logger.trace('outputMediaAssets:', outputMediaAssets);
+
+                                        if (outputMediaAssets.length > 0) {
+                                            let urls: any = {};
+
+                                            this.createUrlThumbnail(outputMediaAssets[0].Id, media.filename, (error, url) => {
+                                                if (error) throw error;
+
+                                                urls.thumbnail = url;
+    
+                                                this.createUrlMp4(outputMediaAssets[1].Id, media.filename, (error, url) => {
+                                                    if (error) throw error;
+
+                                                    urls.mp4 = url;
+
+                                                    this.createUrl(outputMediaAssets[2].Id, media.filename, (error, url) => {
+                                                        if (error) throw error;
+
+                                                        urls.streaming = url;
+
+                                                        this.logger.trace('urls created. urls:', urls);
+
+                                                        // ジョブに関する情報更新と、URL更新
+                                                        this.logger.trace('changing status to STATUS_JOB_FINISHED... id:', media.id);
+                                                        model.updateJobState(media.id, state, MediaModel.STATUS_JOB_FINISHED, urls, (err, result) => {
+                                                            if (err) throw err;
+
+                                                            this.logger.trace('status changed. id:', media.id, ' / result:', result);
+                                                            // TODO URL通知
+                                                            // if (!is_null(url)) {
+                                                            //     this->sendEmail(media);
+                                                            // }
+
+                                                            process.exit(0);
+                                                        });
+                                                    });
+                                                });
+                                                
+                                            });
+                                        }
+                                    });
+                                } else if (state == AzureMediaService.JOB_STATE_ERROR || state == AzureMediaService.JOB_STATE_CANCELED) {
+                                    this.logger.trace("changing status to STATUS_ERROR... id:", media.id);
+                                    model.updateJobState(media.id, state, MediaModel.STATUS_ERROR, {}, (err, result) => {
+                                        process.exit(0);
+                                    });
+                                } else {
+                                    this.logger.trace("changing state_job to {state}... id:", media.id);
+                                    model.updateJobState(media.id, state, MediaModel.STATUS_JOB_CREATED, {}, (err, result) => {
+                                        process.exit(0);
+                                    });
+                                }
+                            }
+                        });
+                    });
+                });
+            } else {
+                process.exit(0);
+            }
         });
-
-        // if (!empty(medias)) {
-        //     foreach (medias as media) {
-        //         job = this->mediaService->getJob(media['job_id']);
-
-        //         // ジョブのステータスを更新
-        //         if (!is_null(job) && media['job_state'] != job->getState()) {
-        //             state = job->getState();
-        //             this.logger.trace("job state change. new state:{state}");
-        //             try {
-        //                 // ジョブが完了の場合、URL発行プロセス
-        //                 if (state == Job::STATE_FINISHED) {
-        //                     // ジョブのアウトプットアセットを取得
-        //                     assets = this->mediaService->getJobOutputMediaAssets(job->getId());
-
-        //                     urls = [];
-        //                     asset = assets[0];
-        //                     urls['thumbnail'] = this->createUrlThumbnail(asset->getId(), media['filename']);
-        //                     asset = assets[1];
-        //                     urls['mp4'] = this->createUrlMp4(asset->getId(), media['filename']);
-        //                     asset = assets[2];
-        //                     urls['streaming'] = this->createUrl(asset->getId(), media['filename']);
-
-        //                     // ジョブに関する情報更新と、URL更新
-        //                     this.logger.trace("changing status to STATUS_JOB_FINISHED... id:{media['id']}");
-        //                     mediaModel->updateJobState(media['id'], state, MediaModel::STATUS_JOB_FINISHED, urls);
-
-        //                     // TODO URL通知
-        //                     if (!is_null(url)) {
-        //                         this->sendEmail(media);
-        //                     }
-        //                 } else if (state == Job::STATE_ERROR || state == Job::STATE_CANCELED) {
-        //                     this.logger.trace("changing status to STATUS_ERROR... id:{media['id']}");
-        //                     mediaModel->updateJobState(media['id'], state, MediaModel::STATUS_ERROR);
-        //                 } else {
-        //                     this.logger.trace("changing state_job to {state}... id:{media['id']}");
-        //                     mediaModel->updateJobState(media['id'], state, MediaModel::STATUS_JOB_CREATED);
-        //                 }
-        //             } catch (\Exception e) {
-        //                 this->logger->addError("delivering url for streaming throw exception. message:{e}");
-        //             }
-        //         }
-        //     }
-        // }
-    }
-/*
-    private createUrlThumbnail(assetId, filename)
-    {
-        // 特定のAssetに対して、同時に5つを超える一意のLocatorを関連付けることはできない
-        // 万が一OnDemandOriginロケーターがあれば削除
-        locators = this->mediaService->getAssetLocators(assetId);
-        foreach (locators as locator) {
-            if (locator->getType() == Locator::TYPE_SAS) {
-                this->mediaService->deleteLocator(locator);
-                this.logger.trace("OnDemandOrigin locator has been deleted. locator:". var_export(locator, true));
-            }
-        }
-
-        // 読み取りアクセス許可を持つAccessPolicyの作成
-        accessPolicy = new AccessPolicy('ThumbnailPolicy');
-        accessPolicy->setDurationInMinutes(25920000);
-        accessPolicy->setPermissions(AccessPolicy::PERMISSIONS_READ);
-        accessPolicy = this->mediaService->createAccessPolicy(accessPolicy);
-
-        // サムネイル用のURL作成
-        locator = new Locator(assetId, accessPolicy, Locator::TYPE_SAS);
-        locator->setName('ThumbnailLocator_' . assetId);
-        locator->setStartTime(new \DateTime('now -5 minutes'));
-        locator = this->mediaService->createLocator(locator);
-
-        // URLを生成
-        url = "{locator->getBaseUri()}/{filename}_000001.jpg{locator->getContentAccessComponent()}";
-        this.logger.trace("thumbnail url created. url:{url}");
-
-        return url;
     }
 
-    private createUrlMp4(assetId, filename)
-    {
-        // 特定のAssetに対して、同時に5つを超える一意のLocatorを関連付けることはできない
-        // 万が一OnDemandOriginロケーターがあれば削除
-        locators = this->mediaService->getAssetLocators(assetId);
-        foreach (locators as locator) {
-            if (locator->getType() == Locator::TYPE_SAS) {
-                this->mediaService->deleteLocator(locator);
-                this.logger.trace("OnDemandOrigin locator has been deleted. locator:". var_export(locator, true));
-            }
-        }
-
+    private createUrlThumbnail(assetId, filename, cb): void {
         // 読み取りアクセス許可を持つAccessPolicyの作成
-        accessPolicy = new AccessPolicy('MP4Policy');
-        accessPolicy->setDurationInMinutes(25920000);
-        accessPolicy->setPermissions(AccessPolicy::PERMISSIONS_READ);
-        accessPolicy = this->mediaService->createAccessPolicy(accessPolicy);
+        AzureMediaService.createAccessPolicy({
+            Name: 'ThumbnailPolicy',
+            DurationInMinutes: 25920000,
+            Permissions: AzureMediaService.ACCESS_POLICY_PERMISSIONS_READ
+        }, (error, response) => {
+            if (error) throw error;
 
-        // サムネイル用のURL作成
-        locator = new Locator(assetId, accessPolicy, Locator::TYPE_SAS);
-        locator->setName('MP4Locator_' . assetId);
-        locator->setStartTime(new \DateTime('now -5 minutes'));
-        locator = this->mediaService->createLocator(locator);
+            let accessPolicy = JSON.parse(response.body).d;
+            this.logger.trace('accessPolicy:', accessPolicy);
 
-        // URLを生成
-        url = "{locator->getBaseUri()}/{filename}_1920x1080_6750.mp4{locator->getContentAccessComponent()}";
-        this.logger.trace("mp4 url created. url:{url}");
+            // サムネイル用のURL作成
+            let d = new Date();
+            d.setMinutes(d.getMinutes() - 5);
+            let startTime = d.toISOString();
+            AzureMediaService.createLocator({
+                AccessPolicyId: accessPolicy.Id,
+                AssetId: assetId,
+                StartTime: startTime,
+                Type: AzureMediaService.LOCATOR_TYPE_SAS,
+                Name: 'ThumbnailLocator_' + assetId
+            }, (error, response) => {
+                if (error) throw error;
 
-        return url;
+                let locator = JSON.parse(response.body).d;
+                this.logger.trace('locator:', locator);
+
+                // URLを生成
+                let url = util.format(
+                    '%s/%s_000001.jpg%s',
+                    locator.BaseUri,
+                    filename,
+                    locator.ContentAccessComponent
+                );
+                this.logger.trace('thumbnail url created. url:', url);
+
+                cb(null, url);
+            });
+        });
+    }
+
+    private createUrlMp4(assetId, filename, cb): void {
+        // 読み取りアクセス許可を持つAccessPolicyの作成
+        AzureMediaService.createAccessPolicy({
+            Name: 'MP4Policy',
+            DurationInMinutes: 25920000,
+            Permissions: AzureMediaService.ACCESS_POLICY_PERMISSIONS_READ
+        }, (error, response) => {
+            if (error) throw error;
+
+            let accessPolicy = JSON.parse(response.body).d;
+            this.logger.trace('accessPolicy:', accessPolicy);
+
+            // サムネイル用のURL作成
+            let d = new Date();
+            d.setMinutes(d.getMinutes() - 5);
+            let startTime = d.toISOString();
+            AzureMediaService.createLocator({
+                AccessPolicyId: accessPolicy.Id,
+                AssetId: assetId,
+                StartTime: startTime,
+                Type: AzureMediaService.LOCATOR_TYPE_SAS,
+                Name: 'MP4Locator_' + assetId
+            }, (error, response) => {
+                if (error) throw error;
+
+                let locator = JSON.parse(response.body).d;
+                this.logger.trace('locator:', locator);
+
+                // URLを生成
+                let url = util.format(
+                    '%s/%s_1920x1080_6750.mp4%s',
+                    locator.BaseUri,
+                    filename,
+                    locator.ContentAccessComponent
+                );
+                this.logger.trace('mp4 url created. url:', url);
+
+                cb(null, url);
+            });
+        });
     }
 
     // http://msdn.microsoft.com/ja-jp/library/jj889436.aspx
-    private createUrl(assetId, filename)
-    {
-        // 特定のAssetに対して、同時に5つを超える一意のLocatorを関連付けることはできない
-        // 万が一OnDemandOriginロケーターがあれば削除
-        locators = this->mediaService->getAssetLocators(assetId);
-        foreach (locators as locator) {
-            if (locator->getType() == Locator::TYPE_ON_DEMAND_ORIGIN) {
-                this->mediaService->deleteLocator(locator);
-                this.logger.trace("OnDemandOrigin locator has been deleted. locator:". var_export(locator, true));
-            }
-        }
-
+    private createUrl(assetId, filename, cb): void {
         // 読み取りアクセス許可を持つAccessPolicyの作成
-        accessPolicy = new AccessPolicy('StreamingPolicy');
-        accessPolicy->setDurationInMinutes(25920000);
-        accessPolicy->setPermissions(AccessPolicy::PERMISSIONS_READ);
-        accessPolicy = this->mediaService->createAccessPolicy(accessPolicy);
+        AzureMediaService.createAccessPolicy({
+            Name: 'StreamingPolicy',
+            DurationInMinutes: 25920000,
+            Permissions: AzureMediaService.ACCESS_POLICY_PERMISSIONS_READ
+        }, (error, response) => {
+            if (error) throw error;
 
-        // コンテンツストリーミング用の配信元URLの作成
-        locator = new Locator(assetId, accessPolicy, Locator::TYPE_ON_DEMAND_ORIGIN);
-        locator->setName('StreamingLocator_' . assetId);
-        locator->setStartTime(new \DateTime('now -5 minutes'));
-        locator = this->mediaService->createLocator(locator);
+            let accessPolicy = JSON.parse(response.body).d;
+            this.logger.trace('accessPolicy:', accessPolicy);
 
-        // URLを生成
-        url = "{locator->getPath()}{filename}.ism/Manifest";
-        this.logger.trace("streaming url created. url:{url}");
+            // サムネイル用のURL作成
+            let d = new Date();
+            d.setMinutes(d.getMinutes() - 5);
+            let startTime = d.toISOString();
+            AzureMediaService.createLocator({
+                AccessPolicyId: accessPolicy.Id,
+                AssetId: assetId,
+                StartTime: startTime,
+                Type: AzureMediaService.LOCATOR_TYPE_ON_DEMAND_ORIGIN,
+                Name: 'StreamingLocator_' + assetId
+            }, (error, response) => {
+                if (error) throw error;
 
-        return url;
+                let locator = JSON.parse(response.body).d;
+                this.logger.trace('locator:', locator);
+
+                // URLを生成
+                let url = util.format(
+                    '%s/%s.ism/Manifest',
+                    locator.Path,
+                    filename
+                );
+                this.logger.trace('streaming url created. url:', url);
+
+                cb(null, url);
+            });
+        });
     }
-*/
+
     // https://msdn.microsoft.com/ja-jp/library/azure/mt427372.aspx
-    public copyFile()
-    {
+    public copyFile(): void {
         let model = new MediaModel();
         model.getListByStatus(MediaModel.STATUS_JOB_FINISHED, 10, (err, rows) => {
             if (err) throw err;
@@ -277,8 +349,7 @@ export default class Media extends Base
         // }
     }
 
-    public checkJpeg2000Encode()
-    {
+    public checkJpeg2000Encode(): void {
         let model = new MediaModel();
         model.getListByStatus(MediaModel.STATUS_JPEG2000_READY, 10, (err, rows) => {
             if (err) throw err;
@@ -303,8 +374,7 @@ export default class Media extends Base
         // }
     }
 
-    public deleteAsset()
-    {
+    public deleteAsset(): void {
         let model = new MediaModel();
         model.getListByStatus(MediaModel.STATUS_DELETED, 10, (err, rows) => {
             if (err) throw err;
@@ -314,7 +384,7 @@ export default class Media extends Base
         //     foreach (medias as media) {
         //         try {
         //             this.logger.trace("deleting asset... asset_id:{media['asset_id']}");
-        //             this->mediaService->deleteAsset(media['asset_id']);
+        //             this->AzureMediaService->deleteAsset(media['asset_id']);
         //         } catch (\Exception e) {
         //             this->logger->addError("deleteAsset failed. message:{e}");
         //         }

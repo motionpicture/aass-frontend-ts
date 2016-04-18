@@ -35,7 +35,7 @@ SELECT id, title, status, filename, extension, url_thumbnail, url_mp4, url_strea
         this.query(query, queryParams, cb);
     }
 
-    public addJob(id: string, jobId: string, jobState: string, cb: Function): void {
+    public addJob(id: string, jobId: string, jobState: number, cb: Function): void {
         let query = `
 UPDATE media SET
  status = :status, job_id = :jobId, job_state = :jobState, updated_at = NOW()
@@ -52,7 +52,7 @@ UPDATE media SET
         this.query(query, queryParams, cb);
     }
 
-    public updateJobState(id: string, state: string, status: number, urls: any, cb: Function): void {
+    public updateJobState(id: string, state: number, status: number, urls: any, cb: Function): void {
         let query = `
 UPDATE media SET
  url_thumbnail = :urlThumbnail, url_mp4 = :urlMp4, url_streaming = :urlStreaming,

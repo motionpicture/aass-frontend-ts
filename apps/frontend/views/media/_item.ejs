@@ -7,7 +7,9 @@
 
     <div class="d-table">
         <div class="d-td thumb">
-            <a href="<%- url('media.update', {id: media.id}) %>"><img src="#" alt="#"></a>
+            <% if (media.url_thumbnail) { %>
+            <a href="<%- url('media.update', {id: media.id}) %>"><img src="<%- media.url_thumbnail %>" alt="<%- media.title %>"></a>
+            <% } %>
         </div>
         <div class="d-td info">
             <div class="group">

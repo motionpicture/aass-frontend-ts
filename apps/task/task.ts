@@ -6,6 +6,8 @@ let media = new Media();
 
 
 
+
+
 import log4js = require('log4js');
 let env = process.env.NODE_ENV || 'dev';
 log4js.configure({
@@ -34,39 +36,16 @@ log4js.configure({
 
 program
   .version('0.0.1')
-//   .option('-C, --chdir <path>', 'change the working directory')
-//   .option('-c, --config <path>', 'set config path. defaults to ./deploy.conf')
-//   .option('-T, --no-tests', 'ignore test hook')
 
 program
-  .command('media encode')
-  .description('サムネイル、mp4、ストリーミング用のジョブを作成')
-  .action(() => {media.encode()});
+  .command('media <method>')
+  .description('メディアに対する処理')
+  .action((method) => {media[method]()});
 
 // program
-//   .command('media checkJob')
-//   .description('ジョブの進捗確認')
-//   .action(() => {media.checkJob()});
-
-// program
-//   .command('media copyFile')
-//   .description('ジョブ完了後のmp4をblobからfileへコピー')
-//   .action(() => {media.copyFile()});
-
-// program
-//   .command('media checkJpeg2000Encode')
-//   .description('jpeg2000エンコード進捗確認')
-//   .action(() => {media.checkJpeg2000Encode()});
-
-// program
-//   .command('media delete')
-//   .description('削除済みメディアの処理')
-//   .action(() => {media.deleteAsset()});
-
-program
-  .command('*')
-  .action(function(env){
-    console.log('deploying "%s"', env);
-  });
+//   .command('*')
+//   .action(function(env){
+//     console.log('deploying "%s"', env);
+//   });
 
 program.parse(process.argv);
