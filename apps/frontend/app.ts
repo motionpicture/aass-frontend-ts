@@ -8,7 +8,6 @@ import logger from './middlewares/logger';
 import benchmarks from './middlewares/benchmarks';
 import session from './middlewares/session';
 import user from './middlewares/user';
-import db from './middlewares/db';
 import blobService from './middlewares/blobService';
 import mediaService from './middlewares/mediaService';
 
@@ -17,7 +16,6 @@ let app = express();
 app.use(logger);
 app.use(benchmarks); // ベンチマーク的な
 app.use(session);
-app.use(db);
 app.use(blobService);
 app.use(mediaService);
 

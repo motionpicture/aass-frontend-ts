@@ -1,9 +1,11 @@
+import db from '../modules/DB';
+
 export default class Base {
-    constructor(protected req: any) {
+    constructor() {
     }
 
     protected query(query: string, queryParams: Object, cb: Function): void {
-        this.req.db.getConnection((err, connection) => {
+        db.getConnection((err, connection) => {
             if (err) {
                 return cb(err, null, null);
             }

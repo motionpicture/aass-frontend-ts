@@ -20,10 +20,4 @@ let db = mysql.createPool({
     dateStrings: true // Force date types (TIMESTAMP, DATETIME, DATE) to be returned as strings rather then inflated into JavaScript Date objects.
 });
 
-export default function (req, res, next) {
-    if (req.db) next();
-
-    req.db = db;
-
-    next();
-};
+export default db;

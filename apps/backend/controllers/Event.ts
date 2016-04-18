@@ -8,7 +8,7 @@ export default class Event extends Base {
     public list(req: any, res: any, next: any): void {
         let events: Array<any> = [];
 
-        let eventModel = new EventModel(req);
+        let eventModel = new EventModel();
         eventModel.getAll((err, rows, fields) => {
             this.logger.debug('err:', err);
             this.logger.debug('rows:', rows);
@@ -27,7 +27,7 @@ export default class Event extends Base {
 
             form.handle(req, {
                 success: (form) => {
-                    let model = new EventModel(req);
+                    let model = new EventModel();
 
                     model.getByUserId(req.body.user_id, (err, rows) => {
                         if (err) {
@@ -92,7 +92,7 @@ export default class Event extends Base {
 
         if (req.method == "POST") {
             let messages: Array<string> = [];
-            let model = new EventModel(req);
+            let model = new EventModel();
 
             this.logger.trace('creating event... user_id:' , req.body.user_id);
             model.create(req.body, (err, result) => {
@@ -119,7 +119,7 @@ export default class Event extends Base {
     }
 
     public update(req: any, res: any, next: any): void {
-        let model = new EventModel(req);
+        let model = new EventModel();
         let form = EventForm;
 
         if (req.method == "POST") {
@@ -161,9 +161,9 @@ export default class Event extends Base {
         let medias: Array<any> = [];
         let application: Object;
 
-        let applicationModel = new ApplicationModel(req);
-        let eventModel = new EventModel(req);
-        let mediaModel = new MediaModel(req);
+        let applicationModel = new ApplicationModel();
+        let eventModel = new EventModel();
+        let mediaModel = new MediaModel();
 
         eventModel.getById(req.params.id, (err, rows, fields) => {
             this.logger.debug('err:', err);

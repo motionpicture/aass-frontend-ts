@@ -11,7 +11,7 @@ export default class Auth extends Base {
                 success: (form) => {
                     // there is a request and the form is valid
                     // form.data contains the submitted data
-                    let model = new EventModel(req);
+                    let model = new EventModel();
                     this.logger.debug('logining... user_id:' , req.body.user_id);
                     model.getLoginUser(req.body.user_id, req.body.password, (err, rows, fields) => {
                         if (err) {

@@ -7,7 +7,7 @@ import fs = require('fs')
 export default class Media extends Base
 {
     public list(req: any, res: any, next: any): void {
-        let model = new MediaModel(req);
+        let model = new MediaModel();
         model.getListByEventId(req.user.getId(), (err, rows, fields) => {
             if (err) {
                 next(err);
@@ -36,7 +36,7 @@ export default class Media extends Base
                     params.id = '';
                     params.event_id = req.user.getId();
 
-                    let model = new MediaModel(req);
+                    let model = new MediaModel();
                     this.logger.info('inserting media... title:', params.title);
                     model.create(params, (err, result) => {
                         this.logger.info('insert media result:', result);
@@ -224,7 +224,7 @@ export default class Media extends Base
     }
 
     public update(req: any, res: any, next: any): void {
-        let model = new MediaModel(req);
+        let model = new MediaModel();
         let form = MediaForm;
 
         if (req.method == "POST") {
@@ -262,7 +262,7 @@ export default class Media extends Base
         this.logger.debug('deleting media... id:', req.params.id);
 
         try {
-            let model = new MediaModel(req);
+            let model = new MediaModel();
             model.deleteById(req.params.id, (err, result) => {
                 this.logger.debug('delete result...', result);
                 if (err) {

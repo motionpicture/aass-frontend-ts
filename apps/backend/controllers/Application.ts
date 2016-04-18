@@ -6,7 +6,7 @@ export default class Application extends Base {
         let isSuccess: boolean = false;
         let message: string = '' ;
 
-        let applicationModel = new ApplicationModel(req);
+        let applicationModel = new ApplicationModel();
         applicationModel.updateStatus(req.params.id, ApplicationModel.STATUS_ACCEPTED, (err, rows, fields) => {
             this.logger.debug('err:', err);
             if (err) {
@@ -26,7 +26,7 @@ export default class Application extends Base {
         let isSuccess: boolean = false;
         let message: string = '' ;
 
-        let applicationModel = new ApplicationModel(req);
+        let applicationModel = new ApplicationModel();
         applicationModel.updateStatus(req.params.id, ApplicationModel.STATUS_REJECTED, (err, rows, fields) => {
             this.logger.debug('err:', err);
             if (err) {
@@ -46,7 +46,7 @@ export default class Application extends Base {
         let isSuccess: boolean = false;
         let message: string = '' ;
 
-        let applicationModel = new ApplicationModel(req);
+        let applicationModel = new ApplicationModel();
         applicationModel.deleteById(req.params.id, (err, rows, fields) => {
             this.logger.debug('err:', err);
             if (err) {
