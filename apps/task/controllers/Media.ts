@@ -19,41 +19,45 @@ export default class Media extends Base
             if (err) throw err;
 
             this.logger.trace('medias:', rows);
-            if (rows.length > 0) {
-                rows.forEach((media) => {
-                    azureMediaService.setToken((err) => {
-                        if (err) throw err;
+            azureMediaService.setToken((err) => {
+                if (err) throw err;
 
-                        this.logger.debug('creating job...');
-                        let assetId  = media.asset_id;
-                        let options = {
-                            Name: 'AassJob[' + media.filename + ']',
-                            Tasks: this.getTasks(media.filename)
-                        };
+                let i = 0;
+                let next = () => {
+                    i++;
+                    if (i > rows.length) {
+                        process.exit(0);
+                    }
 
-                        // ジョブ作成
-                        azureMediaService.createMultiTaskJob(assetId, options, (error, response) => {
-                            this.logger.debug('error:', error);
-                            this.logger.debug('response body:', response.body);
-                            if (error) throw error;
+                    let media = rows[i - 1];
+                    this.logger.debug('creating job...media.id:', media.id);
+                    let assetId  = media.asset_id;
+                    let options = {
+                        Name: 'AassJob[' + media.filename + ']',
+                        Tasks: this.getTasks(media.filename)
+                    };
 
-                            let job = JSON.parse(response.body).d;
+                    // ジョブ作成
+                    azureMediaService.createMultiTaskJob(assetId, options, (error, response) => {
+                        this.logger.debug('error:', error);
+                        this.logger.debug('response body:', response.body);
+                        if (error) throw error;
 
-                            // メディアにジョブを登録
-                            this.logger.trace('job created. job:', job);
-                            model.addJob(media.id, job.Id, job.State, (err, result) => {
-                                if (err) throw err;
+                        let job = JSON.parse(response.body).d;
 
-                                this.logger.trace('media added job. id:', media.id, ' / result:', result);
-                            });
+                        // メディアにジョブを登録
+                        this.logger.trace('job created. job:', job);
+                        model.addJob(media.id, job.Id, job.State, (err, result) => {
+                            if (err) throw err;
 
-                            process.exit(0);
+                            this.logger.trace('media added job. id:', media.id, ' / result:', result);
+                            next();
                         });
                     });
-                });
-            } else {
-                process.exit(0);
-            }
+                }
+
+                next();
+            });
         });
     }
 
@@ -63,7 +67,6 @@ export default class Media extends Base
 
         // thumbnail task
         let config = fs.readFileSync(__dirname + '/../../../config/thumbnailConfig.json').toString();
-        this.logger.debug('thumbnailConfig:', config);
         task = {
             Configuration: config,
             OutputAssetName: 'AassMediaAsset[' + filename + '][thumbnails]'
@@ -89,100 +92,106 @@ export default class Media extends Base
 
     public checkJob(): void {
         let model = new MediaModel();
-        model.getListByStatus(MediaModel.STATUS_JOB_CREATED, 1, (err, rows) => {
+        model.getListByStatus(MediaModel.STATUS_JOB_CREATED, 10, (err, rows) => {
             if (err) throw err;
             
             this.logger.trace('medias:', rows);
-            if (rows.length > 0) {
-                rows.forEach((media) => {
-                    
-                    azureMediaService.setToken((err) => {
-                        if (err) throw err;
+            azureMediaService.setToken((err) => {
+                if (err) throw err;
 
-                        this.logger.trace('getting job...');
-                        let assetId  = media.asset_id;
-                        let options = {
-                            Name: 'AassJob[' + media.filename + ']',
-                            Tasks: this.getTasks(media.filename)
-                        };
+                let i = 0;
+                let next = () => {
+                    i++;
+                    if (i > rows.length) {
+                        process.exit(0);
+                    }
 
-                        azureMediaService.getJobStatus(media.job_id, (error, response) => {
-                            if (error) throw error;
+                    let media = rows[i - 1];
 
-                            let job = JSON.parse(response.body).d;
-                            this.logger.trace('job exists. job:', job);
+                    this.logger.trace('getting job...media.id:', media.id);
+                    let assetId  = media.asset_id;
+                    let options = {
+                        Name: 'AassJob[' + media.filename + ']',
+                        Tasks: this.getTasks(media.filename)
+                    };
 
-                            // ジョブのステータスを更新
-                            if (media.job_state != job.State) {
-                                let state: number = job.State;
-                                this.logger.trace('job state change. new state:', state);
+                    azureMediaService.getJobStatus(media.job_id, (error, response) => {
+                        if (error) throw error;
 
-                                // ジョブが完了の場合、URL発行プロセス
-                                if (state == azureMediaService.JOB_STATE_FINISHED) {
-                                    azureMediaService.getJobOutputMediaAssets(media.job_id, (error, response) => {
-                                    // azureMediaService.getJobTasks(media.job_id, (error, response) => {
-                                        if (error) throw error;
+                        let job = JSON.parse(response.body).d;
+                        this.logger.trace('job exists. job:', job);
 
-                                        let outputMediaAssets = JSON.parse(response.body).d.results;
-                                        this.logger.trace('outputMediaAssets:', outputMediaAssets);
+                        // ジョブのステータスを更新
+                        if (media.job_state != job.State) {
+                            let state: number = job.State;
+                            this.logger.trace('job state change. new state:', state);
 
-                                        if (outputMediaAssets.length > 0) {
-                                            let urls: any = {};
+                            // ジョブが完了の場合、URL発行プロセス
+                            if (state == azureMediaService.JOB_STATE_FINISHED) {
+                                azureMediaService.getJobOutputMediaAssets(media.job_id, (error, response) => {
+                                    if (error) throw error;
 
-                                            this.createUrlThumbnail(outputMediaAssets[0].Id, media.filename, (error, url) => {
+                                    let outputMediaAssets = JSON.parse(response.body).d.results;
+                                    this.logger.trace('outputMediaAssets:', outputMediaAssets);
+
+                                    if (outputMediaAssets.length > 0) {
+                                        let urls: any = {};
+
+                                        this.createUrlThumbnail(outputMediaAssets[0].Id, media.filename, (error, url) => {
+                                            if (error) throw error;
+
+                                            urls.thumbnail = url;
+
+                                            this.createUrlMp4(outputMediaAssets[1].Id, media.filename, (error, url) => {
                                                 if (error) throw error;
 
-                                                urls.thumbnail = url;
-    
-                                                this.createUrlMp4(outputMediaAssets[1].Id, media.filename, (error, url) => {
+                                                urls.mp4 = url;
+
+                                                this.createUrl(outputMediaAssets[2].Id, media.filename, (error, url) => {
                                                     if (error) throw error;
 
-                                                    urls.mp4 = url;
+                                                    urls.streaming = url;
 
-                                                    this.createUrl(outputMediaAssets[2].Id, media.filename, (error, url) => {
-                                                        if (error) throw error;
+                                                    this.logger.trace('urls created. urls:', urls);
 
-                                                        urls.streaming = url;
+                                                    // ジョブに関する情報更新と、URL更新
+                                                    this.logger.trace('changing status to STATUS_JOB_FINISHED... id:', media.id);
+                                                    model.updateJobState(media.id, state, MediaModel.STATUS_JOB_FINISHED, urls, (err, result) => {
+                                                        if (err) throw err;
 
-                                                        this.logger.trace('urls created. urls:', urls);
+                                                        this.logger.trace('status changed. id:', media.id, ' / result:', result);
+                                                        // TODO URL通知
+                                                        // if (!is_null(url)) {
+                                                        //     this->sendEmail(media);
+                                                        // }
 
-                                                        // ジョブに関する情報更新と、URL更新
-                                                        this.logger.trace('changing status to STATUS_JOB_FINISHED... id:', media.id);
-                                                        model.updateJobState(media.id, state, MediaModel.STATUS_JOB_FINISHED, urls, (err, result) => {
-                                                            if (err) throw err;
-
-                                                            this.logger.trace('status changed. id:', media.id, ' / result:', result);
-                                                            // TODO URL通知
-                                                            // if (!is_null(url)) {
-                                                            //     this->sendEmail(media);
-                                                            // }
-
-                                                            process.exit(0);
-                                                        });
+                                                        next();
                                                     });
                                                 });
-                                                
                                             });
-                                        }
-                                    });
-                                } else if (state == azureMediaService.JOB_STATE_ERROR || state == azureMediaService.JOB_STATE_CANCELED) {
-                                    this.logger.trace("changing status to STATUS_ERROR... id:", media.id);
-                                    model.updateJobState(media.id, state, MediaModel.STATUS_ERROR, {}, (err, result) => {
-                                        process.exit(0);
-                                    });
-                                } else {
-                                    this.logger.trace("changing state_job to {state}... id:", media.id);
-                                    model.updateJobState(media.id, state, MediaModel.STATUS_JOB_CREATED, {}, (err, result) => {
-                                        process.exit(0);
-                                    });
-                                }
+                                            
+                                        });
+                                    }
+                                });
+                            } else if (state == azureMediaService.JOB_STATE_ERROR || state == azureMediaService.JOB_STATE_CANCELED) {
+                                this.logger.trace("changing status to STATUS_ERROR... id:", media.id);
+                                model.updateJobState(media.id, state, MediaModel.STATUS_ERROR, {}, (err, result) => {
+                                    next();
+                                });
+                            } else {
+                                this.logger.trace("changing state_job to {state}... id:", media.id);
+                                model.updateJobState(media.id, state, MediaModel.STATUS_JOB_CREATED, {}, (err, result) => {
+                                    next();
+                                });
                             }
-                        });
+                        } else {
+                            next();
+                        }
                     });
-                });
-            } else {
-                process.exit(0);
-            }
+                }
+
+                next();
+            });
         });
     }
 
@@ -315,67 +324,77 @@ export default class Media extends Base
     // https://msdn.microsoft.com/ja-jp/library/azure/mt427372.aspx
     public copyFile(): void {
         let model = new MediaModel();
-        model.getListByStatus(MediaModel.STATUS_JOB_FINISHED, 1, (err, rows) => {
+        model.getListByStatus(MediaModel.STATUS_JOB_FINISHED, 10, (err, rows) => {
             if (err) throw err;
 
-            if (rows.length > 0) {
-                rows.forEach((media) => {
-                    let to = MediaModel.getFilePath4Jpeg2000Ready(media.filename);
-                    let sourceUrl = media.url_mp4;
+            let i = 0;
+            let next = () => {
+                i++;
+                if (i > rows.length) {
+                    process.exit(0);
+                }
 
-                    // Fileへコピー
-                    azureFileService.startCopyFile(
-                        sourceUrl,
-                        MediaModel.AZURE_FILE_SHARE_NAME_JPEG2000_READY,
-                        '',
-                        media.filename + '.mp4',
-                        {},
-                        (error, result) => {
-                        if (error) throw error;
+                let media = rows[i - 1];
+                let source = media.url_mp4;
+                let share = MediaModel.AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED;
 
-                        this.logger.trace('startCopyFile result:', result);
-                        this.logger.trace('changing status to copied... id:', media.id);
-                        model.updateStatus(media.id, MediaModel.STATUS_JPEG2000_READY, (err, result) => {
-                            if (err) throw err;
+                // Fileへコピー
+                azureFileService.startCopyFile(source, share, '', media.filename + '.mp4', {}, (error, result, response) => {
+                    if (error) throw error;
 
-                            this.logger.trace('status changed to STATUS_JPEG2000_READY. id:', media.id);
-                            process.exit(0);
-                        });
+                    this.logger.trace('startCopyFile result:', result);
+                    this.logger.trace('changing status to copied... id:', media.id);
+                    model.updateStatus(media.id, MediaModel.STATUS_JPEG2000_READY, (err, result) => {
+                        if (err) throw err;
+
+                        this.logger.trace('status changed to STATUS_JPEG2000_READY. id:', media.id);
+                        next();
                     });
                 });
             }
+
+            next();
         });
     }
 
     public checkJpeg2000Encode(): void {
         let model = new MediaModel();
-        model.getListByStatus(MediaModel.STATUS_JPEG2000_READY, 1, (err, rows) => {
+        model.getListByStatus(MediaModel.STATUS_JPEG2000_READY, 10, (err, rows) => {
             if (err) throw err;
 
-            if (rows.length > 0) {
-                rows.forEach((media) => {
-                    // Fileへコピー
-                    azureFileService.doesFileExist(
-                        MediaModel.AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED,
-                        '',
-                        media.filename + '.jpeg2000',
-                        {},
-                        (error, result, response) => {
-                        if (error) throw error;
+            let i = 0;
+            let next = () => {
+                i++;
+                if (i > rows.length) {
+                    process.exit(0);
+                }
 
-                        this.logger.trace('doesFileExist result:', result);
+                let media = rows[i - 1];
+                let share = MediaModel.AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED;
 
-                        // TODO
-                        if (result.exists) {
-                            this.logger.trace('changing status to encoded... id:', media.id);
-                            process.exit(0);
-                        } else {
-                            this.logger.trace('not encoded yet. id:', media.id);
-                            process.exit(0);
-                        }
-                    });
+                // Fileへコピー
+                azureFileService.doesFileExist(share, '', media.filename + '.jpeg2000', {}, (error, result, response) => {
+                    if (error) throw error;
+
+                    this.logger.trace('doesFileExist result:', result);
+
+                    // TODO
+                    if (result.exists) {
+                        this.logger.trace('changing status to encoded... id:', media.id);
+                        model.updateStatus(media.id, MediaModel.STATUS_JPEG2000_ENCODED, (err, result) => {
+                            if (err) throw err;
+
+                            this.logger.trace('status changed to STATUS_JPEG2000_ENCODED. id:', media.id);
+                            next();
+                        });
+                    } else {
+                        this.logger.trace('not encoded yet. id:', media.id);
+                        next();
+                    }
                 });
             }
+
+            next();
         });
     }
 
@@ -384,40 +403,36 @@ export default class Media extends Base
         model.getListByStatus(MediaModel.STATUS_DELETED, 10, (err, rows) => {
             if (err) throw err;
 
-            if (rows.length > 0) {
-                azureMediaService.setToken((err) => {
-                    if (err) throw err;
+            azureMediaService.setToken((err) => {
+                if (err) throw err;
 
-                    let i = 0;
-                    let loop = () => {
-                        i++;
-                        if (i > rows.length) {
-                            process.exit(0);
-                        }
-
-                        let media = rows[i - 1];
-                        this.logger.trace('deleting asset... asset_id:', media.asset_id);
-                        azureMediaService.removeAsset(media.asset_id, (error, response) => {
-                            if (error) throw error;
-
-                            this.logger.trace('removeAsset response body:', response.body);
-
-                            this.logger.trace('deleting media... id:', media.id);
-                            model.delete(media.id, (err, result) => {
-                                if (err) throw err;
-
-                                this.logger.trace('media deleted. id:', media.id);
-
-                                loop();
-                            });
-                        });
+                let i = 0;
+                let next = () => {
+                    i++;
+                    if (i > rows.length) {
+                        process.exit(0);
                     }
 
-                    loop();
-                });
-            } else {
-                process.exit(0);
-            }
+                    let media = rows[i - 1];
+                    this.logger.trace('deleting asset... asset_id:', media.asset_id);
+                    azureMediaService.removeAsset(media.asset_id, (error, response) => {
+                        if (error) throw error;
+
+                        this.logger.trace('removeAsset response body:', response.body);
+
+                        this.logger.trace('deleting media... id:', media.id);
+                        model.delete(media.id, (err, result) => {
+                            if (err) throw err;
+
+                            this.logger.trace('media deleted. id:', media.id);
+
+                            next();
+                        });
+                    });
+                }
+
+                next();
+            });
         });
     }
 }

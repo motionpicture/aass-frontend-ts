@@ -29,7 +29,6 @@ export default class Media extends Base {
     static STATUS_ERROR = 8; // エンコード失敗
     static STATUS_DELETED = 9; // 削除済み
 
-    static AZURE_FILE_SHARE_NAME_JPEG2000_READY = 'mp4';
     static AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED = 'jpeg2000';
 
     public static status2string(status: Number): String {
@@ -95,10 +94,6 @@ SELECT * FROM media WHERE id = :id AND status <> :status
         };
 
         this.query(query, queryParams, cb);
-    }
-
-    public static getFilePath4Jpeg2000Ready(filename): String {
-        return Media.AZURE_FILE_SHARE_NAME_JPEG2000_READY + '/' + filename + '.mp4';
     }
 
     public static getFilePath4Jpeg2000Encoded(filename): String {
