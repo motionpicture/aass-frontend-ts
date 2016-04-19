@@ -83,6 +83,21 @@ SELECT * FROM media WHERE id = :id AND status <> :status
         this.query(query, queryParams, cb);
     }
 
+    public updateStatus(id: string, status: number, cb: Function): void {
+        let query = `
+UPDATE media SET
+ status = :status, updated_at = NOW()
+ WHERE id = :id
+`;
+
+        let queryParams = {
+            id: id,
+            status: status
+        };
+
+        this.query(query, queryParams, cb);
+    }
+
     public static getFilePath4Jpeg2000Encoded(filename: string): String {
         return Media.AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED + '/' + filename + '.jpeg2000';
     }

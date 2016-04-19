@@ -11,7 +11,7 @@ export default class Application extends Base {
 
             res.json({
                 isSuccess: true,
-                message: message
+                messages: []
             });
         });
     }
@@ -20,12 +20,12 @@ export default class Application extends Base {
         let message: string = '' ;
 
         let applicationModel = new ApplicationModel();
-        applicationModel.updateStatus(req.params.id, ApplicationModel.STATUS_REJECTED, (err, result) => {
+        applicationModel.reject(req.params.id, req.body.reason, (err, result) => {
             if (err) throw err;
 
             res.json({
                 isSuccess: true,
-                message: message
+                messages: []
             });
         });
     }
@@ -39,7 +39,7 @@ export default class Application extends Base {
 
             res.json({
                 isSuccess: true,
-                message: message
+                messages: []
             });
         });
     }

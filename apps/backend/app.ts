@@ -9,6 +9,7 @@ import benchmarks from './middlewares/benchmarks';
 import session from './middlewares/session';
 import user from './middlewares/user';
 import AzureBlobService from '../common/modules/azureBlobService';
+import AzureFileService from '../common/modules/azureFileService';
 import AzureMediaService from '../common/modules/azureMediaService';
 
 let app = express();
@@ -19,7 +20,9 @@ app.use(session);
 
 app.use(function (req: any, res: any, next: any) {
     req.blobService = AzureBlobService;
+    req.fileService = AzureFileService;
     req.mediaService = AzureMediaService;
+
     next();
 });
 

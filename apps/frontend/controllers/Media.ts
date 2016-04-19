@@ -298,8 +298,11 @@ export default class Media extends Base
         this.logger.trace('applying media... id:', req.params.id);
 
         let model = new ApplicationModel();
-        let params = req.body;
-        params.event_id = req.user.getId();
+        let params = {
+            event_id: req.user.getId(),
+            media_id: req.body.media_id,
+            remarks: req.body.remarks
+        };
         model.create(params, (err, result) => {
             this.logger.trace('apply result...', result);
             if (err) throw err;

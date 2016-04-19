@@ -55,7 +55,7 @@
                         <a href="javascript:void(0);">他の動画が承認済です</a>
                     </div>
                 <% } else { %>
-                    <% var applicationStatus = req.user.get('application_status') %>
+                    <% var applicationStatus = media.application_status %>
                     <% if (req.user.get('application_media_id') === media.id) { %>
                         <% if (applicationStatus === applicationModel.STATUS_CREATED) { // 申請中 %>
                             <div class="status-box status-waiting">

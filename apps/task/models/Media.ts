@@ -71,19 +71,4 @@ UPDATE media SET
 
         this.query(query, queryParams, cb);
     }
-
-    public updateStatus(id: string, status: number, cb: Function): void {
-        let query = `
-UPDATE media SET
- status = :status, updated_at = NOW()
- WHERE id = :id
-`;
-
-        let queryParams = {
-            id: id,
-            status: status
-        };
-
-        this.query(query, queryParams, cb);
-    }
 }
