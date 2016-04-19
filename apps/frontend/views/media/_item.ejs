@@ -1,9 +1,20 @@
 <div class="item">
     <input type="hidden" name="id" value="<%- media.id %>" />
+    <input type="hidden" name="event_id" value="<%- media.event_id %>" />
     <input type="hidden" name="title" value="<%- media.title %>" />
-    <input type="hidden" name="status" value="<%- media.status %>" />
+    <input type="hidden" name="description" value="<%- media.description %>" />
+    <input type="hidden" name="uploaded_by" value="<%- media.uploaded_by %>" />
+    <input type="hidden" name="filename" value="<%- media.filename %>" />
+    <input type="hidden" name="extension" value="<%- media.extension %>" />
     <input type="hidden" name="asset_id" value="<%- media.asset_id %>" />
-    <input type="hidden" name="size" value="<%- media.size %>" />
+    <input type="hidden" name="job_id" value="<%- media.job_id %>" />
+    <input type="hidden" name="deleted_at" value="<%- media.deleted_at %>" />
+    <input type="hidden" name="created_at" value="<%- media.created_at %>" />
+    <input type="hidden" name="updated_at" value="<%- media.updated_at %>" />
+    <input type="hidden" name="application_id" value="<%- media.application_id %>" />
+    <input type="hidden" name="application_remarks" value="<%- media.application_remarks %>" />
+    <input type="hidden" name="application_reject_reason" value="<%- media.application_reject_reason %>" />
+    <input type="hidden" name="application_status" value="<%- media.application_status %>" />
 
     <div class="d-table">
         <div class="d-td thumb">
@@ -39,38 +50,56 @@
             <% } else if (media.status === mediaModel.STATUS_JOB_CREATED
                        || media.status === mediaModel.STATUS_JOB_FINISHED
                        || media.status === mediaModel.STATUS_JPEG2000_READY) { %>
-            <div class="status-box status-encoding">
-                <div class="text">動画変換中</div><div class="progress-bar"><div class="progress-inner"></div></div><div class="time">70% / 残り約50分</div>
-            </div>
+                <div class="status-box status-encoding">
+                    <div class="text">動画変換中</div><div class="progress-bar"><div class="progress-inner"></div></div><div class="time">70% / 残り約50分</div>
+                </div>
 
             <% } else if (media.status === mediaModel.STATUS_JPEG2000_ENCODED) { %>
-            <div class="btn status-btn application-btn red-btn">
-                <a href="#">動画申請</a>
-            </div>
+                <% if (req.user.get('application_media_id') && req.user.get('application_media_id') !== media.id) { // 他が申請済 %>
+                    <div class="btn status-btn other-filed-btn gray-btn not-active pressed">
+                        <a href="javascript:void(0);">他の動画が承認済です</a>
+                    </div>
+                <% } else { %>
+                    <% var applicationStatus = req.user.get('application_status') %>
+                    <% if (req.user.get('application_media_id') === media.id) { %>
+                        <% if (applicationStatus === applicationModel.STATUS_CREATED) { // 申請中 %>
+                            <div class="status-box status-waiting">
+                                動画申請待ち
+                            </div>
+                        <% } else if (applicationStatus === applicationModel.STATUS_ACCEPTED) { // 承認 %>
+                            <div class="btn status-btn filed-btn yellow-btn not-active pressed">
+                                <a href="javascript:void(0);">動画承認済</a>
+                            </div>
+                        <% } else if (applicationStatus === applicationModel.STATUS_REJECTED) { // 却下 %>
+                            <div class="btn status-btn reapplication-btn blue-btn">
+                                <a href="javascript:void(0);">再申請のお願い</a>
+                            </div>
+                        <% } else if (applicationStatus === applicationModel.STATUS_DELETED) { // 削除済み %>
+                            <div class="status-box status-waiting">
+                                削除済み
+                            </div>
+                        <% } else if (applicationStatus === applicationModel.STATUS_END) { // 上映済み %>
+                            <div class="status-box status-waiting">
+                                上映済み
+                            </div>
+                        <% } %>
+                    <% } else { %>
+                        <div class="btn status-btn application-btn red-btn">
+                            <a href="javascript:void(0);">動画申請</a>
+                        </div>
+                    <% } %>
+                <% } %>
 
             <% } else if (media.status === mediaModel.STATUS_ERROR) { %>
-            <div class="btn status-btn error-btn blue-btn">
-                <a href="#">エラーが発生しました</a>
-            </div>
+                <div class="btn status-btn error-btn blue-btn">
+                    <a href="javascript:void(0);">エラーが発生しました</a>
+                </div>
 
             <% } else if (media.status === mediaModel.STATUS_DELETED) { %>
 
             <% } else { %>
+
             <% } %>
-            <!--
-            <div class="status-box status-waiting">
-                動画申請待ち
-            </div>
-            <div class="btn status-btn filed-btn yellow-btn not-active pressed">
-                <a href="#">動画承認済</a>
-            </div>
-            <div class="btn status-btn other-filed-btn gray-btn not-active pressed">
-                <a href="#">他の動画が承認済です</a>
-            </div>
-            <div class="btn status-btn reapplication-btn blue-btn">
-                <a href="#">再申請のお願い</a>
-            </div>
-            -->
         </div>
     </div>
 </div>

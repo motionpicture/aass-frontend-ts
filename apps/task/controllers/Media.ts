@@ -435,4 +435,32 @@ export default class Media extends Base
             });
         });
     }
+
+    public jpeg2000ManualEncode(): void {
+        let model = new MediaModel();
+        model.getListByStatus(MediaModel.STATUS_JPEG2000_READY, 10, (err, rows) => {
+            if (err) throw err;
+
+            let i = 0;
+            let next = () => {
+                i++;
+                if (i > rows.length) {
+                    process.exit(0);
+                }
+
+                let media = rows[i - 1];
+                let share = MediaModel.AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED;
+
+                // 手動でjpeg2000ファイル作成(開発用)
+                azureFileService.createFile(share, '', media.filename + '.jpeg2000', 0, {}, (error, result, response) => {
+                    if (error) throw error;
+
+                    this.logger.trace('createFileFromLocalFile result:', result);
+                    next();
+                });
+            }
+
+            next();
+        });
+    }
 }

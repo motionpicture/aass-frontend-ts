@@ -40,4 +40,8 @@ class User {
     getUserId(): string {
         return (this.session.hasOwnProperty(this.authSessionName)) ? this.session[this.authSessionName].user_id : null;
     }
+
+    get(key: string): string {
+        return (this.session.hasOwnProperty(this.authSessionName)) ? this.session[this.authSessionName][key] : null;
+    }
 }

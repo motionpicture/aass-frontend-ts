@@ -14,7 +14,8 @@ export default class Event extends Base {
             this.logger.debug('rows:', rows);
 
             res.render('event/index', {
-                events: rows
+                events: rows,
+                applicationModel: ApplicationModel
             });
         });
     }

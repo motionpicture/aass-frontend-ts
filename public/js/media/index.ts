@@ -3,7 +3,13 @@
 class MediaIndex {
     private modelDeleteConfirm = $('.modal.type-05');
     private modelDeleteComplete = $('.modal.type-06');
+    private modelApplyConfirm = $('.modal.type-07');
+    private modelError = $('.modal.type-08');
+    private modelEditConfirm = $('.modal.type-09');
+    private modelApplyComplete = $('.modal.type-10');
+
     private mediaRow4delete: any;
+    private mediaRow4apply: any;
 
     constructor() {
         let self = this;
@@ -23,7 +29,6 @@ class MediaIndex {
         // 削除確認はいイベント
         $(this.modelDeleteConfirm).on('click', '.next-btn', () => {
             let id = $('input[name="id"]', this.mediaRow4delete).val();
-            console.log('deleting media...id:', id);
             $.ajax({
                 type: 'post',
                 url: '/media/' + id + '/delete',
@@ -56,32 +61,53 @@ class MediaIndex {
         });
 
         // 申請イベント
-        $('.apply_media a').on('click', function(e) {
-            let rootRow = $(this).parent().parent();
+        $('.application-btn a').on('click', function(e) {
+            let rootRow = $(this).parent().parent().parent().parent().parent();
+            let title = $('input[name="title"]', rootRow).val();
             let id = $('input[name="id"]', rootRow).val();
+
+            self.mediaRow4apply = rootRow;
+            $('.title', self.modelApplyConfirm).text(title);
+            $('.modal-cover').addClass('active');
+            self.modelApplyConfirm.addClass('active');
+        });
+
+        // 申請確認はいイベント
+        $(this.modelApplyConfirm).on('click', '.next-btn', () => {
+            let id = $('input[name="id"]', this.mediaRow4apply).val();
 
             $.ajax({
                 type: 'post',
                 url: '/media/' + id + '/apply',
-                data: {},
+                data: {
+                    media_id: id,
+                    remarks: $('.text-area textarea', this.modelApplyConfirm).val()
+                },
                 dataType: 'json'
             })
-            .done(function(data) {
+            .done((data) => {
                 // エラーメッセー時表示
                 if (!data.isSuccess) {
-                    alert('apply fail!');
+                    $('.modal-cover, .modal').removeClass('active');
+                    alert("申請に失敗しました\n" + data.messages.join("\n"));
                 } else {
-                    $('.apply_media').hide();
-                    $('.no_apply_media').show();
-                    $('.no_apply_media', rootRow).html('申請中');
-                    alert('apply success!');
+                    $('.modal-cover').addClass('active');
+                    $('.modal').removeClass('active');
+                    this.modelApplyComplete.addClass('active');
                 }
             })
-            .fail(function() {
-                alert('fail');
+            .fail(() => {
+                $('.modal-cover, .modal').removeClass('active');
+                alert("申請に失敗しました");
             })
-            .always(function() {
+            .always(() => {
             });
+        });
+
+        // エラーが発生しましたイベント
+        $('.error-btn a').on('click', (e) => {
+            $('.modal-cover').addClass('active');
+            this.modelError.addClass('active');
         });
     }
 }

@@ -2,10 +2,6 @@ import Base from './Base';
 import Media from './Media';
 
 export default class Application extends Base {
-    public id;
-    public media_id;
-    public status; // ステータス
-
     static STATUS_CREATED = 1; // 申請中
     static STATUS_ACCEPTED = 2; // 承認
     static STATUS_REJECTED = 3; // 却下

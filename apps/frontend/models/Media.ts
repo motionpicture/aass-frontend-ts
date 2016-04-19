@@ -2,19 +2,6 @@ import BaseMedia from '../../common/models/Media';
 
 export default class Media extends BaseMedia
 {
-    public getListByEventId(eventId: string, cb: Function): void {
-        let query = `
-SELECT * FROM media WHERE event_id = :eventId AND status <> :status
-`;
-
-        let queryParams = {
-            eventId: eventId,
-            status: Media.STATUS_DELETED
-        };
-
-        this.query(query, queryParams, cb);
-    }
-
     public create(params: any, cb: Function): void {
         let query = `
 INSERT INTO media

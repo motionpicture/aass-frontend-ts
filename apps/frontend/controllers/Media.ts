@@ -1,5 +1,6 @@
 import Base from './Base';
 import MediaModel from '../models/Media';
+import ApplicationModel from '../models/Application';
 import MediaForm from '../forms/Media';
 import path = require('path');
 import fs = require('fs')
@@ -17,7 +18,8 @@ export default class Media extends Base
             this.logger.info('rows count:' + rows.length);
             res.render('media/index', {
                 medias: rows,
-                mediaModel: MediaModel
+                mediaModel: MediaModel,
+                applicationModel: ApplicationModel
             });
         });
     }
@@ -291,5 +293,19 @@ export default class Media extends Base
     }
 
     public apply(req: any, res: any, next: any): void {
+        let messages = [];
+
+        this.logger.trace('applying media... id:', req.params.id);
+
+        let model = new ApplicationModel();
+        model.create(req.body, (err, result) => {
+            this.logger.trace('apply result...', result);
+            if (err) throw err;
+
+            res.json({
+                isSuccess: true,
+                messages: messages
+            });
+        });
     }
 }
