@@ -90,11 +90,52 @@ export default class Media extends Base
         return tasks;
     }
 
+    public getJobProgress(): void {
+        let model = new MediaModel();
+        model.getListByStatus(MediaModel.STATUS_JOB_CREATED, 10, (err, rows) => {
+            if (err) throw err;
+
+            this.logger.trace('medias:', rows);
+            azureMediaService.setToken((err) => {
+                if (err) throw err;
+
+                let i = 0;
+                let next = () => {
+                    i++;
+                    if (i > rows.length) {
+                        process.exit(0);
+                    }
+
+                    let media = rows[i - 1];
+
+                    this.logger.trace('getting job...media.id:', media.id);
+                    let assetId  = media.asset_id;
+                    let options = {
+                        Name: 'AassJob[' + media.filename + ']',
+                        Tasks: this.getTasks(media.filename)
+                    };
+
+                    azureMediaService.getJobTasks(media.job_id, (error, response) => {
+                        if (error) throw error;
+
+                        let jobTasks = JSON.parse(response.body).d.results;
+                        this.logger.trace('job task1 progress:', jobTasks[0].Progress);
+                        this.logger.trace('job task2 progress:', jobTasks[1].Progress);
+                        this.logger.trace('job task3 progress:', jobTasks[2].Progress);
+                        next();
+                    });
+                }
+
+                next();
+            });
+        });
+    }
+
     public checkJob(): void {
         let model = new MediaModel();
         model.getListByStatus(MediaModel.STATUS_JOB_CREATED, 10, (err, rows) => {
             if (err) throw err;
-            
+
             this.logger.trace('medias:', rows);
             azureMediaService.setToken((err) => {
                 if (err) throw err;
