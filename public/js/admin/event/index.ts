@@ -69,7 +69,7 @@ class AdminEventIndex {
             this.modalRejectConfirm.addClass('active');
         });
 
-        // 否認するイベント
+        // ダウンロードイベント
         this.modalCheckConfirm.on('click', '.download-btn a', () => {
             let mediaId = $('input[name="media_id"]', this.eventRow4check).val();
             window.open('/admin/media/' + mediaId + '/download');
