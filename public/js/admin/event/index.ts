@@ -12,28 +12,30 @@ class AdminEventIndex {
     constructor() {
         let self = this;
 
-        // 動画認証を行うイベント
-        $('.approval-btn a').on('click', function(e) {
-            let rootRow = $(this).parent().parent().parent().parent();
-
+        // 動画詳細開くイベント
+        $('.thumb a').on('click', function(e) {
+            let rootRow = $(this).parent().parent().parent();
             self.eventRow4check = rootRow;
 
-            let videoOptions = {
-                "nativeControlsForTouch": false,
-                controls: true,
-                autoplay: true,
-                width: "600",
-                height: "300",
-            }
-            let player = amp("azuremediaplayer", videoOptions);
-            console.log('streaming...', $('input[name="media_url_streaming"]', rootRow).val());
-            player.src([
-                {
-                    // "src": "//amssamples.streaming.mediaservices.windows.net/91492735-c523-432b-ba01-faba6c2206a2/AzureMediaServicesPromo.ism/manifest",
-                    "src": $('input[name="media_url_streaming"]', rootRow).val(),
-                    "type": "application/vnd.ms-sstr+xml"
-                }
-            ]);
+            self.setPlayer($('input[name="media_url_streaming"]', rootRow).val());
+            $('.user-id', self.modalCheckConfirm).text($('input[name="user_id"]', rootRow).val());
+            $('.description', self.modalCheckConfirm).html($('input[name="remarks"]', rootRow).val().replace(/[\n\r]/g, "<br>"));
+            $('span.created_at', self.modalCheckConfirm).text($('input[name="media_created_at"]', rootRow).val());
+            $('span.uploaded_by', self.modalCheckConfirm).text($('input[name="media_uploaded_by"]', rootRow).val());
+            $('span.held_from', self.modalCheckConfirm).text($('input[name="held_from"]', rootRow).val());
+            $('span.place', self.modalCheckConfirm).text($('input[name="place"]', rootRow).val());
+
+            $('.modal-cover').addClass('active');
+            $('.modal').removeClass('active');
+            self.modalCheckConfirm.addClass('active');
+        });
+
+        // 動画詳細開くイベント
+        $('.approval-btn a').on('click', function(e) {
+            let rootRow = $(this).parent().parent().parent().parent();
+            self.eventRow4check = rootRow;
+
+            self.setPlayer($('input[name="media_url_streaming"]', rootRow).val());
             $('.user-id', self.modalCheckConfirm).text($('input[name="user_id"]', rootRow).val());
             $('.description', self.modalCheckConfirm).text($('input[name="remarks"]', rootRow).val());
             $('span.created_at', self.modalCheckConfirm).text($('input[name="media_created_at"]', rootRow).val());
@@ -65,6 +67,12 @@ class AdminEventIndex {
             $('.modal-cover').addClass('active');
             $('.modal').removeClass('active');
             this.modalRejectConfirm.addClass('active');
+        });
+
+        // 否認するイベント
+        this.modalCheckConfirm.on('click', '.download-btn a', () => {
+            let mediaId = $('input[name="media_id"]', this.eventRow4check).val();
+            window.open('/admin/media/' + mediaId + '/download');
         });
 
         // 承認決定イベント
@@ -158,6 +166,23 @@ class AdminEventIndex {
             .always(() => {
             });
         });
+    }
+
+    private setPlayer(src) {
+        let videoOptions = {
+            "nativeControlsForTouch": false,
+            controls: true,
+            autoplay: false,
+            width: "600",
+            height: "300",
+        }
+        let player = amp("azuremediaplayer", videoOptions);
+        player.src([
+            {
+                "src": src,
+                "type": "application/vnd.ms-sstr+xml"
+            }
+        ]);
     }
 }
 

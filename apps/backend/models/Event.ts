@@ -33,7 +33,11 @@ SELECT
 
     public getById(id, cb): void {
         let query = `
-SELECT * FROM event WHERE id = :id LIMIT 1
+SELECT e.*,
+ a.id AS application_id, a.media_id AS application_media_id, a.remarks AS application_remarks, a.status AS application_status, a.reject_reason AS application_reject_reason
+ FROM event AS e
+ LEFT JOIN application AS a ON a.event_id = e.id
+ WHERE e.id = :id LIMIT 1
 `;
 
         let queryParams = {

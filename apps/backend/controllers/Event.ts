@@ -160,32 +160,26 @@ export default class Event extends Base {
     public medias(req: any, res: any, next: any): void {
         let event: Object;
         let medias: Array<any> = [];
-        let application: Object;
 
         let applicationModel = new ApplicationModel();
         let eventModel = new EventModel();
         let mediaModel = new MediaModel();
 
         eventModel.getById(req.params.id, (err, rows, fields) => {
-            this.logger.debug('err:', err);
-            this.logger.debug('rows:', rows);
+            if (err) return next(err);
+
             event = rows[0];
 
             mediaModel.getListByEventId(req.params.id, (err, rows, fields) => {
-                this.logger.debug('err:', err);
-                this.logger.debug('rows:', rows);
-                    medias = rows;
+                if (err) return next(err);
 
-                applicationModel.getByEventId(req.params.id, (err, rows, fields) => {
-                    this.logger.debug('err:', err);
-                    this.logger.debug('rows:', rows);
-                    application = rows[0];
+                medias = rows;
 
-                    res.render('event/medias', {
-                        event: event,
-                        medias: rows,
-                        application: application
-                    });
+                res.render('event/medias', {
+                    event: event,
+                    medias: medias,
+                    mediaModel: MediaModel,
+                    applicationModel: ApplicationModel
                 });
             });
         });
