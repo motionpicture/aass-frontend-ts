@@ -1,5 +1,5 @@
 let program = require('commander');
-let fs = require('fs-extra')
+let fs = require('fs-extra');
 import Media from './controllers/Media';
 
 let media = new Media();

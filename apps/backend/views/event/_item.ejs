@@ -56,6 +56,9 @@
                         <a href="javascript:void(0);">動画認証済み </a>
                     </div>
                 <% } else if (applicationStatus === applicationModel.STATUS_REJECTED) { // 却下 %>
+                    <div class="btn approval-btn light-gray-btn not-active pressed">
+                        <a href="javascript:void(0);">動画否認済み </a>
+                    </div>
                 <% } else if (applicationStatus === applicationModel.STATUS_END) { // 上映済み %>
                     <div class="btn approval-btn light-gray-btn not-active pressed">
                         <a href="javascript:void(0);">上映済み </a>
@@ -64,8 +67,8 @@
             <% } %>
 
             <% if (event.application_id) { %>
-                <div class="btn gray-btn download-btn hidden">
-                    <a href="javascript:void(0);"></a>
+                <div class="btn gray-btn download-btn">
+                    <a target="_blank" href="<%-url('media.download', {id: event.media_id}) %>"></a>
                 </div>
             <% } %>
 
@@ -76,6 +79,9 @@
             <% if (event.application_id) { %>
                 <div class="btn gray-btn remove-btn">
                     <a href="javascript:void(0);">予約削除</a>
+                </div>
+                <div class="btn gray-btn encode-btn">
+                    <a href="javascript:void(0);">JPEG2000エンコード</a>
                 </div>
             <% } %>
         </div>

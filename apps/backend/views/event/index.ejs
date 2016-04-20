@@ -32,12 +32,13 @@
                         </dl>
                     </div>
                     -->
-                    <div class="list-number">200件中 1~10件を表示</div>
+                    <div class="list-number"><%- events.length %>件中 1~<%- events.length %>件を表示</div>
                     <div class="item-list">
                         <% events.forEach(function(event) { %>
                         <%- include('./_item', {event: event}) -%>
                         <% }) %>
                     </div>
+                    <!--
                     <div class="pager">
                         <ul>
                             <li class="prev-btn"><a href="#"></a></li>
@@ -50,6 +51,7 @@
                             <li class="next-btn"><a href="#"></a></li>
                         </ul>
                     </div>
+                    -->
                 </div>
             </div>
         </form>

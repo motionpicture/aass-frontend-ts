@@ -52,6 +52,7 @@ SELECT m.*,
  FROM media AS m
  LEFT JOIN application AS a ON m.id = a.media_id
  WHERE m.event_id = :eventId AND m.status <> :status
+ ORDER BY m.created_at DESC
 `;
 
         let queryParams = {

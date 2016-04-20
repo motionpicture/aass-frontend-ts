@@ -109,6 +109,35 @@ class AdminEventIndex {
             .always(() => {
             });
         });
+
+        // JPEG2000エンコードイベント
+        $(document).on('click', '.encode-btn a', function(e) {
+            let rootRow = $(this).parent().parent().parent().parent();
+            let mediaId = $('input[name="media_id"]', rootRow).val();
+
+            console.log('starting encode to jpeg2000... id:', mediaId);
+            $.ajax({
+                type: 'post',
+                url: '/admin/media/' + mediaId + '/encode2jpeg2000',
+                data: {},
+                dataType: 'json'
+            })
+            .done((data) => {
+                // エラーメッセー時表示
+                if (!data.isSuccess) {
+                    $('.modal-cover, .modal').removeClass('active');
+                    alert("エンコードに失敗しました\n" + data.messages.join("\n"));
+                } else {
+                    alert('エンコードを開始しました');
+                }
+            })
+            .fail(() => {
+                $('.modal-cover, .modal').removeClass('active');
+                alert("エンコードに失敗しました");
+            })
+            .always(() => {
+            });
+        });
     }
 }
 

@@ -16,7 +16,7 @@ let debug = debugModule('app:server');
  * Get port from environment and store in Express.
  */
 
-let port = normalizePort(process.env.PORT || '3000');
+let port = normalizePort(process.env.PORT || '3001');
 app.set('port', port);
 
 /**
