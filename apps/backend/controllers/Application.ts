@@ -20,6 +20,7 @@ export default class Application extends Base {
         let message: string = '' ;
 
         let applicationModel = new ApplicationModel();
+        this.logger.debug('rejecting...', req.params.id, req.body.reason);
         applicationModel.reject(req.params.id, req.body.reason, (err, result) => {
             if (err) throw err;
 

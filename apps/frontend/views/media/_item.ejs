@@ -50,30 +50,33 @@
             <% } else if (media.status === mediaModel.STATUS_JOB_FINISHED
                        || media.status === mediaModel.STATUS_JPEG2000_READY
                        || media.status === mediaModel.STATUS_JPEG2000_ENCODED) { %>
-                <% if (req.user.get('application_media_id') && req.user.get('application_media_id') !== media.id) { // 他が申請済 %>
+                <% if (application && application.media_id !== media.id) { // 他が申請済 %>
                     <div class="btn status-btn other-filed-btn gray-btn not-active pressed">
                         <a href="javascript:void(0);">他の動画が承認済です</a>
                     </div>
                 <% } else { %>
-                    <% var applicationStatus = media.application_status %>
-                    <% if (req.user.get('application_media_id') === media.id) { %>
-                        <% if (applicationStatus === applicationModel.STATUS_CREATED) { // 申請中 %>
+                    <% if (application && application.media_id === media.id) { %>
+                        <% if (application.status === applicationModel.STATUS_CREATED) { // 申請中 %>
                             <div class="status-box status-waiting">
                                 動画申請待ち
                             </div>
-                        <% } else if (applicationStatus === applicationModel.STATUS_ACCEPTED) { // 承認 %>
+                        <% } else if (application.status === applicationModel.STATUS_ACCEPTED) { // 承認 %>
                             <div class="btn status-btn filed-btn yellow-btn not-active pressed">
                                 <a href="javascript:void(0);">動画承認済</a>
                             </div>
-                        <% } else if (applicationStatus === applicationModel.STATUS_REJECTED) { // 却下 %>
+                        <% } else if (application.status === applicationModel.STATUS_REJECTED) { // 否認 %>
                             <div class="btn status-btn reapplication-btn blue-btn">
                                 <a href="javascript:void(0);">再申請のお願い</a>
                             </div>
-                        <% } else if (applicationStatus === applicationModel.STATUS_DELETED) { // 削除済み %>
+                        <% } else if (application.status === applicationModel.STATUS_REST) { // リセット %>
+                            <div class="btn status-btn reapplication-btn blue-btn">
+                                <a href="javascript:void(0);">動画申請</a>
+                            </div>
+                        <% } else if (application.status === applicationModel.STATUS_DELETED) { // 削除済み %>
                             <div class="status-box status-waiting">
                                 削除済み
                             </div>
-                        <% } else if (applicationStatus === applicationModel.STATUS_END) { // 上映済み %>
+                        <% } else if (application.status === applicationModel.STATUS_END) { // 上映済み %>
                             <div class="status-box status-waiting">
                                 上映済み
                             </div>

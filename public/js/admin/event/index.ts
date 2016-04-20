@@ -17,6 +17,23 @@ class AdminEventIndex {
             let rootRow = $(this).parent().parent().parent().parent();
 
             self.eventRow4check = rootRow;
+
+            let videoOptions = {
+                "nativeControlsForTouch": false,
+                controls: true,
+                autoplay: true,
+                width: "600",
+                height: "300",
+            }
+            let player = amp("azuremediaplayer", videoOptions);
+            console.log('streaming...', $('input[name="media_url_streaming"]', rootRow).val());
+            player.src([
+                {
+                    // "src": "//amssamples.streaming.mediaservices.windows.net/91492735-c523-432b-ba01-faba6c2206a2/AzureMediaServicesPromo.ism/manifest",
+                    "src": $('input[name="media_url_streaming"]', rootRow).val(),
+                    "type": "application/vnd.ms-sstr+xml"
+                }
+            ]);
             $('.user-id', self.modalCheckConfirm).text($('input[name="user_id"]', rootRow).val());
             $('.description', self.modalCheckConfirm).text($('input[name="remarks"]', rootRow).val());
             $('span.created_at', self.modalCheckConfirm).text($('input[name="media_created_at"]', rootRow).val());
@@ -85,10 +102,13 @@ class AdminEventIndex {
             let applicationId = $('input[name="application_id"]', this.eventRow4check).val();
 
             console.log('rejecting... id:', applicationId);
+            console.log('reason:', $('textarea', this.modalRejectConfirm).val());
             $.ajax({
                 type: 'post',
                 url: '/admin/application/' + applicationId + '/reject',
-                data: {},
+                data: {
+                    reason: $('textarea', this.modalRejectConfirm).val()
+                },
                 dataType: 'json'
             })
             .done((data) => {

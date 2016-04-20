@@ -8,18 +8,24 @@ import fs = require('fs')
 export default class Media extends Base
 {
     public list(req: any, res: any, next: any): void {
-        let model = new MediaModel();
-        model.getListByEventId(req.user.getId(), (err, rows, fields) => {
-            if (err) {
-                next(err);
-                return;
-            }
+        let mediaModel = new MediaModel();
+        mediaModel.getListByEventId(req.user.getId(), (err, rows, fields) => {
+            if (err) return next(err);
+            let medias = rows;
 
-            this.logger.info('rows count:' + rows.length);
-            res.render('media/index', {
-                medias: rows,
-                mediaModel: MediaModel,
-                applicationModel: ApplicationModel
+            let applicationModel = new ApplicationModel();
+            applicationModel.getByEventId(req.user.getId(), (err, rows, fields) => {
+                let application: any = null;
+                if (rows.length > 0) {
+                    application = rows[0];
+                }
+
+                res.render('media/index', {
+                    medias: medias,
+                    application: application,
+                    mediaModel: MediaModel,
+                    applicationModel: ApplicationModel
+                });
             });
         });
     }
@@ -298,19 +304,34 @@ export default class Media extends Base
         this.logger.trace('applying media... id:', req.params.id);
 
         let model = new ApplicationModel();
-        let params = {
-            event_id: req.user.getId(),
-            media_id: req.body.media_id,
-            remarks: req.body.remarks
-        };
-        model.create(params, (err, result) => {
-            this.logger.trace('apply result...', result);
-            if (err) throw err;
 
-            res.json({
-                isSuccess: true,
-                messages: messages
+        if (req.body.application_id) {
+            // 再申請の場合
+            model.recreate(req.body.application_id, req.body.remarks, (err, result) => {
+                this.logger.trace('apply update result...', result);
+                if (err) throw err;
+
+                res.json({
+                    isSuccess: true,
+                    messages: messages
+                });
             });
-        });
+        } else {
+            let params = {
+                event_id: req.user.getId(),
+                media_id: req.body.media_id,
+                remarks: req.body.remarks
+            };
+
+            model.create(params, (err, result) => {
+                this.logger.trace('apply result...', result);
+                if (err) throw err;
+
+                res.json({
+                    isSuccess: true,
+                    messages: messages
+                });
+            });
+        }
     }
 }

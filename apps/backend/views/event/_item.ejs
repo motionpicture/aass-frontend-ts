@@ -55,7 +55,8 @@
                     <div class="btn approval-btn light-gray-btn not-active pressed">
                         <a href="javascript:void(0);">動画認証済み </a>
                     </div>
-                <% } else if (applicationStatus === applicationModel.STATUS_REJECTED) { // 却下 %>
+                <% } else if (applicationStatus === applicationModel.STATUS_REJECTED
+                           || applicationStatus === applicationModel.STATUS_RESET) { // 却下 or リセット %>
                     <div class="btn approval-btn light-gray-btn not-active pressed">
                         <a href="javascript:void(0);">動画否認済み </a>
                     </div>

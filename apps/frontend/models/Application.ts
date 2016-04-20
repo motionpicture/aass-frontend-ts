@@ -18,29 +18,15 @@ INSERT INTO application
         this.query(query, queryParams, cb);
     }
 
-    public updateStatus(params: any, cb: Function): void {
-        let query: string = `
-UPDATE application SET
- status = :status, updated_at = NOW()
- WHERE id = :id
-`;
-
-        let queryParams: Object = {
-            'id':  params.id,
-            'status':  params.status
-        };
-
-        this.query(query, queryParams, cb);
-    }
-
-    public deleteById(id: string, cb: Function): void {
+    public recreate(id: string, remarks: string, cb: Function): void {
         let query = `
-UPDATE application SET status = :status, updated_at = NOW() WHERE id = :id
+UPDATE application SET status = :status, remarks = :remarks, updated_at = NOW() WHERE id = :id
 `;
 
         let queryParams = {
             id: id,
-            status: Application.STATUS_DELETED
+            remarks: remarks,
+            status: Application.STATUS_CREATED
         };
 
         this.query(query, queryParams, cb);

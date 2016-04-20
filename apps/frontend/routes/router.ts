@@ -1,5 +1,6 @@
 import Router = require('named-routes');
 
+import Application from '../controllers/Application';
 import Auth from '../controllers/Auth';
 import Media from '../controllers/Media';
 
@@ -10,6 +11,7 @@ export default function router(app: any) {
 
     let auth = new Auth();
     let media = new Media();
+    let application = new Application();
 
     app.get('/', 'home', function(req, res, next) {
         res.redirect('/medias');
@@ -27,4 +29,6 @@ export default function router(app: any) {
     app.get('/media/:id/download', 'media.download', (req, res, next) => {media.download(req, res, next)});
     app.post('/media/:id/delete', 'media.delete', (req, res, next) => {media.delete(req, res, next)});
     app.post('/media/:id/apply', 'media.apply', (req, res, next) => {media.apply(req, res, next)});
+
+    app.post('/application/:id/reset', 'application.reset', (req, res, next) => {application.reset(req, res, next)});
 }

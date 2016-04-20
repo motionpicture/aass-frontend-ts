@@ -16,7 +16,7 @@ SELECT
          , m.status AS media_status, m.job_end_at AS media_job_end_at
          , m.created_at AS media_created_at, m.updated_at AS media_updated_at
      FROM application AS a2 LEFT JOIN media AS m ON m.id = a2.media_id
-     WHERE m.status <> :mediaStatus AND a2.status <> :applicationStatus
+     WHERE m.status <> :mediaStatus AND a2.status <> :applicationStatus AND a2.status <> :applicationStatus2
  ) a ON a.application_event_id = e.id
  GROUP BY e.id
  ORDER BY held_from DESC
@@ -24,7 +24,8 @@ SELECT
 
         let queryParams = {
             mediaStatus: Media.STATUS_DELETED,
-            applicationStatus: Application.STATUS_DELETED
+            applicationStatus: Application.STATUS_DELETED,
+            applicationStatus2: Application.STATUS_RESET
         };
 
         this.query(query, queryParams, cb);
