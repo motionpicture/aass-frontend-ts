@@ -266,7 +266,6 @@ label {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
-	cursor: pointer;
 	border: none;
 	border-radius: 0;
 	background: none;
@@ -560,6 +559,10 @@ select {
 	margin: 0 10px;
 }
 
+.btn-area .btn div a {
+	font-size: 16px;
+}
+
 .btn-area .next-btn {
 	float: right;
 }
@@ -658,6 +661,15 @@ header .logo {
 	float: left;
 	width: 120px;
 	padding: 18px 0 0;
+}
+
+header .logo a {
+	display: block;
+	text-decoration: none;
+}
+
+header .logo a:hover {
+	opacity: .75;
 }
 
 header .logo .logo-image {
@@ -777,6 +789,10 @@ header nav ul li .active:after {
 	content: '';
 	background-image: url(/images/common/sprite.png);
 	background-position: -78px 0;
+}
+
+footer {
+	font-size: 12px;
 }
 
 .modal {
@@ -992,7 +1008,7 @@ header nav ul li .active:after {
 .admin .login .logo .page-type {
 	padding: 10px 0;
 	color: #fff;
-	border-radius: 5px;
+	border-radius: 10px;
 	background-color: #004277;
 }
 
@@ -1003,7 +1019,7 @@ header nav ul li .active:after {
 
 .admin .login .validation p {
 	display: inline-block;
-	padding: 10px;
+	padding: 8px;
 	border: 1px solid #f00;
 }
 
@@ -1100,6 +1116,12 @@ header nav ul li .active:after {
 .admin .reservation-list .item-list .item .thumb a {
 	position: relative;
 	display: block;
+	width: 90px;
+	height: 50px;
+}
+
+.admin .reservation-list .item-list .item .thumb a:hover {
+	opacity: .75;
 }
 
 .admin .reservation-list .item-list .item .thumb a:before {
@@ -1129,9 +1151,8 @@ header nav ul li .active:after {
 
 .admin .reservation-list .item-list .item .thumb a img {
 	zoom: 1;
-	width: 90px;
-	height: 50px;
-	background-color: #fff;
+	width: 100%;
+	max-width: none;
 }
 
 .admin .reservation-list .item-list .item .info {
@@ -1278,6 +1299,7 @@ header nav ul li .active:after {
 }
 
 .admin .reservation-edit .input-area .remarks dt {
+	padding-top: 8px;
 	vertical-align: top;
 }
 
@@ -1348,6 +1370,7 @@ header nav ul li .active:after {
 }
 
 .admin .reservation-add .input-area .remarks dt {
+	padding-top: 8px;
 	vertical-align: top;
 }
 
@@ -1396,6 +1419,12 @@ header nav ul li .active:after {
 .admin .movie-list .item-list .item .thumb a {
 	position: relative;
 	display: block;
+	width: 90px;
+	height: 50px;
+}
+
+.admin .movie-list .item-list .item .thumb a:hover {
+	opacity: .75;
 }
 
 .admin .movie-list .item-list .item .thumb a:before {
@@ -1425,9 +1454,8 @@ header nav ul li .active:after {
 
 .admin .movie-list .item-list .item .thumb a img {
 	zoom: 1;
-	width: 90px;
-	height: 50px;
-	background-color: #fff;
+	width: 100%;
+	max-width: none;
 }
 
 .admin .movie-list .item-list .item .info {
@@ -1497,10 +1525,15 @@ header nav ul li .active:after {
 
 .admin .movie-list .item-list .item .status .status-box {
 	font-size: 12px;
+	position: relative;
 	box-sizing: border-box;
 	height: 50px;
 	padding: 20px 0;
 	text-align: center;
+}
+
+.admin .movie-list .item-list .item .status .status-box:after {
+	left: 10px;
 }
 
 .admin .movie-list .item-list .item .status .status-box .text {
@@ -1552,12 +1585,12 @@ header nav ul li .active:after {
 }
 
 .admin .movie-list .item-list .item .status .status-applying {
-	color: #f7f8f8;
+	color: #7f7f7f;
 	background-color: #ccc;
 }
 
 .admin .movie-list .item-list .item .status .status-other-applying {
-	color: #f7f8f8;
+	color: #7f7f7f;
 	background-color: #ccc;
 }
 
@@ -1569,6 +1602,17 @@ header nav ul li .active:after {
 .admin .movie-list .item-list .item .status .status-denial {
 	color: #fff;
 	background-color: #0090d8;
+}
+
+.admin .movie-list .item-list .item .status .status-denial:after {
+	position: absolute;
+	top: 50%;
+	width: 14px;
+	height: 14px;
+	margin-top: -7px;
+	content: '';
+	background-image: url(/images/common/sprite.png);
+	background-position: -78px -49px;
 }
 
 .mypage.login-bg {
@@ -1600,7 +1644,7 @@ header nav ul li .active:after {
 .mypage .login .logo .page-type {
 	padding: 10px 0;
 	color: #fff;
-	border-radius: 5px;
+	border-radius: 10px;
 	background-color: #004277;
 }
 
@@ -1611,7 +1655,7 @@ header nav ul li .active:after {
 
 .mypage .login .validation p {
 	display: inline-block;
-	padding: 10px;
+	padding: 8px;
 	border: 1px solid #f00;
 }
 
@@ -1863,8 +1907,12 @@ header nav ul li .active:after {
 	background-position: 0 -57px;
 }
 
+.mypage .movie-list .contents .inner {
+	padding-top: 40px;
+}
+
 .mypage .movie-list .contents .read {
-	margin: 0 0 20px;
+	margin: 0 0 40px;
 }
 
 .mypage .movie-list .list-number {
@@ -1884,6 +1932,12 @@ header nav ul li .active:after {
 .mypage .movie-list .item-list .item .thumb a {
 	position: relative;
 	display: block;
+	width: 90px;
+	height: 50px;
+}
+
+.mypage .movie-list .item-list .item .thumb a:hover {
+	opacity: .75;
 }
 
 .mypage .movie-list .item-list .item .thumb a:before {
@@ -1913,9 +1967,8 @@ header nav ul li .active:after {
 
 .mypage .movie-list .item-list .item .thumb a img {
 	zoom: 1;
-	width: 90px;
-	height: 50px;
-	background-color: #fff;
+	width: 100%;
+	max-width: none;
 }
 
 .mypage .movie-list .item-list .item .info {
@@ -2073,6 +2126,34 @@ header nav ul li .active:after {
 
 .mypage .movie-list .item-list .item .status .filed-btn a {
 	color: #ccc;
+}
+
+.mypage .movie-list .item-list .item .status .filed-btn a:after {
+	position: absolute;
+	top: 50%;
+	width: 11px;
+	height: 11px;
+	margin-top: -5.5px;
+	content: '';
+	opacity: .75;
+	background-image: url(/images/common/sprite.png);
+	background-position: -26px -40px;
+}
+
+.mypage .movie-list .item-list .item .status .other-filed-btn a {
+	color: #ccc;
+}
+
+.mypage .movie-list .item-list .item .status .other-filed-btn a:after {
+	position: absolute;
+	top: 50%;
+	width: 11px;
+	height: 11px;
+	margin-top: -5.5px;
+	content: '';
+	opacity: .75;
+	background-image: url(/images/common/sprite.png);
+	background-position: -26px -40px;
 }
 
 .mypage .movie-list .item-list .item .status .reapplication-btn a:after {
@@ -3913,6 +3994,19 @@ select {
 	background-size: 16px 10px;
 }
 
+.admin .movie-list .item-list .item .status .status-denial:after {
+	display: block;
+	width: 28px;
+	width: 14px;
+	height: 28px;
+	height: 14px;
+	margin-top: -7px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -156px -98px;
+	background-position: -78px -49px;
+	background-size: 97px 75px;
+}
+
 .mypage .movie-edit .page-ttl:after {
 	display: block;
 	width: 52px;
@@ -3984,6 +4078,32 @@ select {
 }
 
 .mypage .movie-list .item-list .item .status .application-btn a:after {
+	display: block;
+	width: 28px;
+	width: 14px;
+	height: 28px;
+	height: 14px;
+	margin-top: -7px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -52px -80px;
+	background-position: -26px -40px;
+	background-size: 97px 75px;
+}
+
+.mypage .movie-list .item-list .item .status .filed-btn a:after {
+	display: block;
+	width: 28px;
+	width: 14px;
+	height: 28px;
+	height: 14px;
+	margin-top: -7px;
+	background-image: url(/images/common/@2x/sprite.png);
+	background-position: -52px -80px;
+	background-position: -26px -40px;
+	background-size: 97px 75px;
+}
+
+.mypage .movie-list .item-list .item .status .other-filed-btn a:after {
 	display: block;
 	width: 28px;
 	width: 14px;
