@@ -78,6 +78,9 @@ CREATE TABLE `media` (
   `job_state` tinyint(1) DEFAULT NULL,
   `job_start_at` datetime DEFAULT NULL,
   `job_end_at` datetime DEFAULT NULL,
+  `task_progress_thumbnail` INT(3) UNSIGNED NULL DEFAULT 0,
+  `task_progress_mp4` INT(3) UNSIGNED NULL DEFAULT 0,
+  `task_progress_streaming` INT(3) UNSIGNED NULL DEFAULT 0,
   `deleted_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL

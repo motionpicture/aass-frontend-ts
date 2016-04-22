@@ -68,6 +68,26 @@ UPDATE media SET
         this.query(query, queryParams, cb);
     }
 
+    public updateTaskProgress(id: string, progresses: any, cb: Function): void {
+        let query = `
+UPDATE media SET
+ task_progress_thumbnail = :taskProgressThumbnail,
+ task_progress_mp4 = :taskProgressMP4,
+ task_progress_streaming = :taskProgressStreaming,
+ updated_at = NOW()
+ WHERE id = :id
+`;
+
+        let queryParams = {
+            id: id,
+            taskProgressThumbnail: (progresses.hasOwnProperty('thumbnail')) ? progresses.thumbnail : null,
+            taskProgressMP4: (progresses.hasOwnProperty('mp4')) ? progresses.mp4 : null,
+            taskProgressStreaming: (progresses.hasOwnProperty('streaming')) ? progresses.streaming : null
+        };
+
+        this.query(query, queryParams, cb);
+    }
+
     public publish(id: string, urls: any, cb: Function): void {
         let query = `
 UPDATE media SET

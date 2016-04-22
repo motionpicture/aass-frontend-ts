@@ -48,7 +48,8 @@
                 </div>
             <% } else if (media.status < mediaModel.STATUS_PUBLISHED) { // ジョブ進行中 %>
                 <div class="status-box status-encoding">
-                    <div class="text">動画変換中</div><div class="progress-bar"><div class="progress-inner"></div></div><div class="time">70% / 残り約50分</div>
+                    <% var progress = Math.floor((media.task_progress_thumbnail + media.task_progress_mp4 + media.task_progress_streaming) / 3) %>
+                    <div class="text">動画変換中</div><div class="progress-bar"><div class="progress-inner" style="width: <%- progress %>%;"></div></div><div class="time"><%- progress %>%</div>
                 </div>
 
             <% } else if (media.status === mediaModel.STATUS_ERROR) { // エラー %>

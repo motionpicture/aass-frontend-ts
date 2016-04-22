@@ -90,7 +90,7 @@ export default class Media extends Base
         return tasks;
     }
 
-    public getJobProgress(): void {
+    public getTaskProgress(): void {
         let model = new MediaModel();
         model.getListByStatus(MediaModel.STATUS_JOB_CREATED, 10, (err, rows) => {
             if (err) throw err;
@@ -118,11 +118,24 @@ export default class Media extends Base
                     azureMediaService.getJobTasks(media.job_id, (error, response) => {
                         if (error) throw error;
 
-                        let jobTasks = JSON.parse(response.body).d.results;
-                        this.logger.trace('job task1 progress:', jobTasks[0].Progress);
-                        this.logger.trace('job task2 progress:', jobTasks[1].Progress);
-                        this.logger.trace('job task3 progress:', jobTasks[2].Progress);
-                        next();
+                        let tasks = JSON.parse(response.body).d.results;
+                        this.logger.trace('job task1 progress:', tasks[0].Progress);
+                        this.logger.trace('job task2 progress:', tasks[1].Progress);
+                        this.logger.trace('job task3 progress:', tasks[2].Progress);
+
+                        let progresses = {
+                            thumbnail: Math.floor(tasks[0].Progress),
+                            mp4: Math.floor(tasks[1].Progress),
+                            streaming: Math.floor(tasks[2].Progress)
+                        };
+
+                        this.logger.trace('updating tasks progress... id:', media.id);
+                        model.updateTaskProgress(media.id, progresses, (err, result) => {
+                            if (err) throw err;
+
+                            this.logger.trace('tasks progress updated. id:', media.id, ' / result:', result);
+                            next();
+                        });
                     });
                 }
 
@@ -432,42 +445,6 @@ export default class Media extends Base
 
                 cb(null, url);
             });
-        });
-    }
-
-    // https://msdn.microsoft.com/ja-jp/library/azure/mt427372.aspx
-    public copyFile(): void {
-        let model = new MediaModel();
-        model.getListByStatus(MediaModel.STATUS_JOB_FINISHED, 10, (err, rows) => {
-            if (err) throw err;
-
-            let i = 0;
-            let next = () => {
-                i++;
-                if (i > rows.length) {
-                    process.exit(0);
-                }
-
-                let media = rows[i - 1];
-                let source = media.url_mp4;
-                let share = MediaModel.AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED;
-
-                // Fileへコピー
-                azureFileService.startCopyFile(source, share, '', media.filename + '.mp4', {}, (error, result, response) => {
-                    if (error) throw error;
-
-                    this.logger.trace('startCopyFile result:', result);
-                    this.logger.trace('changing status to copied... id:', media.id);
-                    model.updateStatus(media.id, MediaModel.STATUS_JPEG2000_READY, (err, result) => {
-                        if (err) throw err;
-
-                        this.logger.trace('status changed to STATUS_JPEG2000_READY. id:', media.id);
-                        next();
-                    });
-                });
-            }
-
-            next();
         });
     }
 
