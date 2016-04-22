@@ -1,13 +1,14 @@
 import Base from './Base';
 
 export default class Media extends Base {
-    static STATUS_ASSET_CREATED = 1; // アセット作成済み(ジョブ待ち)
-    static STATUS_JOB_CREATED = 2; // ジョブ作成済み(mp4エンコード中)
-    static STATUS_JOB_FINISHED = 3; // ジョブ完了
-    static STATUS_JPEG2000_READY = 4; // JPEG2000エンコード待ち
-    static STATUS_JPEG2000_ENCODED = 5; // JPEG2000エンコード済み
-    static STATUS_ERROR = 8; // エンコード失敗
-    static STATUS_DELETED = 9; // 削除済み
+    static STATUS_ASSET_CREATED = 100; // アセット作成済み(ジョブ待ち)
+    static STATUS_JOB_CREATED = 200; // ジョブ作成済み(mp4エンコード中)
+    static STATUS_JOB_FINISHED = 201; // ジョブ完了
+    static STATUS_PUBLISHED = 300; // URL発行済み
+    static STATUS_JPEG2000_READY = 400; // JPEG2000エンコード待ち
+    static STATUS_JPEG2000_ENCODED = 401; // JPEG2000エンコード済み
+    static STATUS_ERROR = 800; // エンコード失敗
+    static STATUS_DELETED = 900; // 削除済み
 
     static AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED = 'jpeg2000';
 

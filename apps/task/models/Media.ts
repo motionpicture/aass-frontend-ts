@@ -52,21 +52,37 @@ UPDATE media SET
         this.query(query, queryParams, cb);
     }
 
-    public updateJobState(id: string, state: number, status: number, urls: any, cb: Function): void {
+    public updateJobState(id: string, state: number, status: number, cb: Function): void {
         let query = `
 UPDATE media SET
- url_thumbnail = :urlThumbnail, url_mp4 = :urlMp4, url_streaming = :urlStreaming,
  job_state = :jobState, status = :status, updated_at = NOW()
  WHERE id = :id
 `;
 
         let queryParams = {
             id: id,
+            jobState: state,
+            status: status
+        };
+
+        this.query(query, queryParams, cb);
+    }
+
+    public publish(id: string, urls: any, cb: Function): void {
+        let query = `
+UPDATE media SET
+ url_origin = :urlOrigin, url_thumbnail = :urlThumbnail, url_mp4 = :urlMp4, url_streaming = :urlStreaming,
+ status = :status, updated_at = NOW()
+ WHERE id = :id
+`;
+
+        let queryParams = {
+            id: id,
+            urlOrigin: (urls.hasOwnProperty('origin')) ? urls.origin : null,
             urlThumbnail: (urls.hasOwnProperty('thumbnail')) ? urls.thumbnail : null,
             urlMp4: (urls.hasOwnProperty('mp4')) ? urls.mp4 : null,
             urlStreaming: (urls.hasOwnProperty('streaming')) ? urls.streaming : null,
-            jobState: state,
-            status: status
+            status: Media.STATUS_PUBLISHED
         };
 
         this.query(query, queryParams, cb);

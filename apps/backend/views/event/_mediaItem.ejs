@@ -36,21 +36,34 @@
                 <div class="btn gray-btn original-btn ">
                     <a href="javascript:void(0);"><span>元データ</span></a>
                 </div>
+                <%  if (media.status !== mediaModel.STATUS_JPEG2000_READY
+                     && media.status !== mediaModel.STATUS_JPEG2000_ENCODED) { %>
                 <div class="btn gray-btn encode-btn ">
                     <a href="javascript:void(0);"><span>JPEG2000</span></a>
                 </div>
+                <% } else { %>
+                <%- mediaModel.status2string(media.status) %>
+                <% } %>
             </div>
         </div>
 
         <div class="d-td status">
-            <% if (media.status === mediaModel.STATUS_JOB_CREATED && media.job_state === req.mediaService.JOB_STATE_PROCESSING) { // ジョブ進行中 %>
+            <% if (media.status < mediaModel.STATUS_JOB_CREATED) { // ジョブ登録待ち %>
+                <div class="status-box status-encod-waiting">
+                    <div class="text">動画変換待機中</div><div class="progress-bar"></div>
+                </div>
+
+            <% } else if (media.status < mediaModel.STATUS_PUBLISHED) { // ジョブ進行中 %>
                 <div class="status-box status-encoding">
                     <div class="text">動画変換中</div><div class="progress-bar"><div class="progress-inner"></div></div><div class="time">70% / 残り約50分</div>
                 </div>
 
-            <% } else if (media.status === mediaModel.STATUS_JOB_FINISHED
-                       || media.status === mediaModel.STATUS_JPEG2000_READY
-                       || media.status === mediaModel.STATUS_JPEG2000_ENCODED) { %>
+            <% } else if (media.status === mediaModel.STATUS_ERROR) { // エラー %>
+                <div class="btn status-btn error-btn blue-btn">
+                    <a href="javascript:void(0);">エラーが発生しました</a>
+                </div>
+
+            <% } else if (media.status >= mediaModel.STATUS_PUBLISHED) { %>
                 <% if (event.application_media_id !== media.id) { // 他が申請済 %>
                     <div class="btn status-btn other-filed-btn gray-btn not-active pressed">
                         <a href="javascript:void(0);">他の動画が承認済です</a>
@@ -89,17 +102,7 @@
                     <% } %>
                 <% } %>
 
-            <% } else if (media.status === mediaModel.STATUS_ERROR) { %>
-                <div class="btn status-btn error-btn blue-btn">
-                    <a href="javascript:void(0);">エラーが発生しました</a>
-                </div>
-
-            <% } else if (media.status === mediaModel.STATUS_DELETED) { %>
-
-            <% } else { // ジョブ登録待ち %>
-                <div class="status-box status-encod-waiting">
-                    <div class="text">動画変換待機中</div><div class="progress-bar"></div>
-                </div>
+            <% } else { %>
             <% } %>
         </div>
 <!--

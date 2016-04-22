@@ -149,13 +149,7 @@ export default class Media extends Base
 
                     let media = rows[i - 1];
 
-                    this.logger.trace('getting job...media.id:', media.id);
-                    let assetId  = media.asset_id;
-                    let options = {
-                        Name: 'AassJob[' + media.filename + ']',
-                        Tasks: this.getTasks(media.filename)
-                    };
-
+                    this.logger.trace('getting job state...media.id:', media.id);
                     azureMediaService.getJobStatus(media.job_id, (error, response) => {
                         if (error) throw error;
 
@@ -169,59 +163,20 @@ export default class Media extends Base
 
                             // ジョブが完了の場合、URL発行プロセス
                             if (state == azureMediaService.JOB_STATE_FINISHED) {
-                                azureMediaService.getJobOutputMediaAssets(media.job_id, (error, response) => {
-                                    if (error) throw error;
-
-                                    let outputMediaAssets = JSON.parse(response.body).d.results;
-                                    this.logger.trace('outputMediaAssets:', outputMediaAssets);
-
-                                    if (outputMediaAssets.length > 0) {
-                                        let urls: any = {};
-
-                                        this.createUrlThumbnail(outputMediaAssets[0].Id, media.filename, (error, url) => {
-                                            if (error) throw error;
-
-                                            urls.thumbnail = url;
-
-                                            this.createUrlMp4(outputMediaAssets[1].Id, media.filename, (error, url) => {
-                                                if (error) throw error;
-
-                                                urls.mp4 = url;
-
-                                                this.createUrl(outputMediaAssets[2].Id, media.filename, (error, url) => {
-                                                    if (error) throw error;
-
-                                                    urls.streaming = url;
-
-                                                    this.logger.trace('urls created. urls:', urls);
-
-                                                    // ジョブに関する情報更新と、URL更新
-                                                    this.logger.trace('changing status to STATUS_JOB_FINISHED... id:', media.id);
-                                                    model.updateJobState(media.id, state, MediaModel.STATUS_JOB_FINISHED, urls, (err, result) => {
-                                                        if (err) throw err;
-
-                                                        this.logger.trace('status changed. id:', media.id, ' / result:', result);
-                                                        // TODO URL通知
-                                                        // if (!is_null(url)) {
-                                                        //     this->sendEmail(media);
-                                                        // }
-
-                                                        next();
-                                                    });
-                                                });
-                                            });
-                                            
-                                        });
-                                    }
+                                // ジョブに関する情報更新と、URL更新
+                                this.logger.trace('changing status to STATUS_JOB_FINISHED... id:', media.id);
+                                model.updateJobState(media.id, state, MediaModel.STATUS_JOB_FINISHED, (err, result) => {
+                                    if (err) throw err;
+                                    this.logger.trace('status changed. id:', media.id, ' / result:', result);
+                                    next();
                                 });
                             } else if (state == azureMediaService.JOB_STATE_ERROR || state == azureMediaService.JOB_STATE_CANCELED) {
                                 this.logger.trace("changing status to STATUS_ERROR... id:", media.id);
-                                model.updateJobState(media.id, state, MediaModel.STATUS_ERROR, {}, (err, result) => {
+                                model.updateJobState(media.id, state, MediaModel.STATUS_ERROR, (err, result) => {
                                     next();
                                 });
                             } else {
-                                this.logger.trace("changing state_job to {state}... id:", media.id);
-                                model.updateJobState(media.id, state, MediaModel.STATUS_JOB_CREATED, {}, (err, result) => {
+                                model.updateJobState(media.id, state, MediaModel.STATUS_JOB_CREATED, (err, result) => {
                                     next();
                                 });
                             }
@@ -232,6 +187,125 @@ export default class Media extends Base
                 }
 
                 next();
+            });
+        });
+    }
+
+    public publish(): void {
+        let model = new MediaModel();
+        model.getListByStatus(MediaModel.STATUS_JOB_FINISHED, 10, (err, rows) => {
+            if (err) throw err;
+
+            this.logger.trace('medias count:', rows.length);
+            azureMediaService.setToken((err) => {
+                if (err) throw err;
+
+                let i = 0;
+                let next = () => {
+                    i++;
+                    if (i > rows.length) {
+                        process.exit(0);
+                    }
+
+                    let media = rows[i - 1];
+                    // ジョブが完了の場合、URL発行プロセス
+                    if (media.job_state == azureMediaService.JOB_STATE_FINISHED) {
+                        azureMediaService.getJobOutputMediaAssets(media.job_id, (error, response) => {
+                            if (error) throw error;
+
+                            let outputMediaAssets = JSON.parse(response.body).d.results;
+                            this.logger.trace('outputMediaAssets:', outputMediaAssets);
+
+                            if (outputMediaAssets.length > 0) {
+                                let urls: any = {};
+
+                                this.createUrlOrigin(media.asset_id, media.filename, media.extension, (error, url) => {
+                                    if (error) throw error;
+
+                                    urls.origin = url;
+
+                                    this.createUrlThumbnail(outputMediaAssets[0].Id, media.filename, (error, url) => {
+                                        if (error) throw error;
+
+                                        urls.thumbnail = url;
+
+                                        this.createUrlMp4(outputMediaAssets[1].Id, media.filename, (error, url) => {
+                                            if (error) throw error;
+
+                                            urls.mp4 = url;
+
+                                            this.createUrl(outputMediaAssets[2].Id, media.filename, (error, url) => {
+                                                if (error) throw error;
+
+                                                urls.streaming = url;
+
+                                                // URL更新
+                                                this.logger.trace('urls created. urls:', urls);
+                                                this.logger.trace('publishing... id:', media.id);
+                                                model.publish(media.id, urls, (err, result) => {
+                                                    if (err) throw err;
+
+                                                    this.logger.trace('published. id:', media.id, ' / result:', result);
+                                                    // TODO URL通知
+                                                    // if (!is_null(url)) {
+                                                    //     this->sendEmail(media);
+                                                    // }
+
+                                                    next();
+                                                });
+                                            });
+                                        });
+                                    });
+                                });
+                            }
+                        });
+                    }
+                }
+
+                next();
+            });
+        });
+    }
+
+    private createUrlOrigin(assetId, filename, extension, cb): void {
+        // 読み取りアクセス許可を持つAccessPolicyの作成
+        azureMediaService.createAccessPolicy({
+            Name: 'OriginPolicy',
+            DurationInMinutes: 25920000,
+            Permissions: azureMediaService.ACCESS_POLICY_PERMISSIONS_READ
+        }, (error, response) => {
+            if (error) throw error;
+
+            let accessPolicy = JSON.parse(response.body).d;
+            this.logger.trace('accessPolicy:', accessPolicy);
+
+            // 元ファイル用のURL作成
+            let d = new Date();
+            d.setMinutes(d.getMinutes() - 5);
+            let startTime = d.toISOString();
+            azureMediaService.createLocator({
+                AccessPolicyId: accessPolicy.Id,
+                AssetId: assetId,
+                StartTime: startTime,
+                Type: azureMediaService.LOCATOR_TYPE_SAS,
+                Name: 'OriginLocator_' + assetId
+            }, (error, response) => {
+                if (error) throw error;
+
+                let locator = JSON.parse(response.body).d;
+                this.logger.trace('locator:', locator);
+
+                // URLを生成
+                let url = util.format(
+                    '%s/%s.%s%s',
+                    locator.BaseUri,
+                    filename,
+                    extension,
+                    locator.ContentAccessComponent
+                );
+                this.logger.trace('origin url created. url:', url);
+
+                cb(null, url);
             });
         });
     }
@@ -333,7 +407,6 @@ export default class Media extends Base
             let accessPolicy = JSON.parse(response.body).d;
             this.logger.trace('accessPolicy:', accessPolicy);
 
-            // サムネイル用のURL作成
             let d = new Date();
             d.setMinutes(d.getMinutes() - 5);
             let startTime = d.toISOString();
