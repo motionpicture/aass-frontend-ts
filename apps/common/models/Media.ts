@@ -25,6 +25,9 @@ export default class Media extends Base {
             case Media.STATUS_JOB_FINISHED:
                 str =  'ジョブ完了';
                 break;
+            case Media.STATUS_PUBLISHED:
+                str =  'URL発行';
+                break;
             case Media.STATUS_JPEG2000_READY:
                 str =  'JPEG2000エンコード待ち';
                 break;
