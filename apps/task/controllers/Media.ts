@@ -18,7 +18,7 @@ export default class Media extends Base
         model.getListByStatus(MediaModel.STATUS_ASSET_CREATED, 10, (err, rows) => {
             if (err) throw err;
 
-            this.logger.trace('medias:', rows);
+            this.logger.trace('medias count:', rows.length);
             azureMediaService.setToken((err) => {
                 if (err) throw err;
 
@@ -37,21 +37,26 @@ export default class Media extends Base
                         Tasks: this.getTasks(media.filename)
                     };
 
-                    // ジョブ作成
-                    azureMediaService.createMultiTaskJob(assetId, options, (error, response) => {
-                        this.logger.debug('error:', error);
-                        this.logger.debug('response body:', response.body);
-                        if (error) throw error;
+                    Promise.resolve().then(() => {
+                        // ジョブ作成
+                        return new Promise((resolve, reject) => {
+                            azureMediaService.createMultiTaskJob(assetId, options, (error, response) => {
+                                this.logger.debug('error:', error);
+                                this.logger.debug('response body:', response.body);
+                                if (error) throw error;
 
-                        let job = JSON.parse(response.body).d;
-
+                                let job = JSON.parse(response.body).d;
+                                this.logger.trace('job created. job:', job);
+                                resolve(job);
+                            });
+                        });
+                    }).then((job: any) => {
                         // メディアにジョブを登録
-                        this.logger.trace('job created. job:', job);
                         model.addJob(media.id, job.Id, job.State, (err, result) => {
                             if (err) throw err;
 
                             this.logger.trace('media added job. id:', media.id, ' / result:', result);
-                            next();
+                            return next();
                         });
                     });
                 }
@@ -61,7 +66,10 @@ export default class Media extends Base
         });
     }
 
-    private getTasks(filename): Array<any> {
+    /**
+     * ジョブタスクリストを取得する
+     */
+    private getTasks(filename: string): Array<any> {
         let task;
         let tasks = [];
 
@@ -90,23 +98,39 @@ export default class Media extends Base
         return tasks;
     }
 
+    /**
+     * ジョブタスク進捗を取得する
+     */
     public getTaskProgress(): void {
         let model = new MediaModel();
-        model.getListByStatus(MediaModel.STATUS_JOB_CREATED, 10, (err, rows) => {
-            if (err) throw err;
 
-            this.logger.trace('medias:', rows);
-            azureMediaService.setToken((err) => {
-                if (err) throw err;
+        Promise.resolve().then(() => {
+            return new Promise((resolve, reject) => {
+                azureMediaService.setToken((err) => {
+                    if (err) throw err;
 
+                    resolve();
+                });
+            });
+        }).then(() => {
+            return new Promise((resolve, reject) => {
+                model.getListByStatus(MediaModel.STATUS_JOB_CREATED, 10, (err, rows) => {
+                    if (err) throw err;
+
+                    this.logger.trace('medias count:', rows.length);
+                    resolve(rows);
+                });
+            });
+        }).then((medias: Array<any>) => {
+            return new Promise((resolve, reject) => {
                 let i = 0;
                 let next = () => {
                     i++;
-                    if (i > rows.length) {
-                        process.exit(0);
+                    if (i > medias.length) {
+                        return resolve();
                     }
 
-                    let media = rows[i - 1];
+                    let media = medias[i - 1];
 
                     this.logger.trace('getting job...media.id:', media.id);
                     let assetId  = media.asset_id;
@@ -134,22 +158,27 @@ export default class Media extends Base
                             if (err) throw err;
 
                             this.logger.trace('tasks progress updated. id:', media.id, ' / result:', result);
-                            next();
+                            return next();
                         });
                     });
                 }
 
                 next();
             });
+        }).then(() => {
+            process.exit(0);
         });
     }
 
+    /**
+     * ジョブ進捗を確認する
+     */
     public checkJob(): void {
         let model = new MediaModel();
         model.getListByStatus(MediaModel.STATUS_JOB_CREATED, 10, (err, rows) => {
             if (err) throw err;
 
-            this.logger.trace('medias:', rows);
+            this.logger.trace('medias count:', rows.length);
             azureMediaService.setToken((err) => {
                 if (err) throw err;
 
@@ -204,6 +233,9 @@ export default class Media extends Base
         });
     }
 
+    /**
+     * URLを発行する
+     */
     public publish(): void {
         let model = new MediaModel();
         model.getListByStatus(MediaModel.STATUS_JOB_FINISHED, 10, (err, rows) => {
@@ -232,43 +264,56 @@ export default class Media extends Base
                             if (outputMediaAssets.length > 0) {
                                 let urls: any = {};
 
-                                this.createUrlOrigin(media.asset_id, media.filename, media.extension, (error, url) => {
-                                    if (error) throw error;
+                                let p1 = new Promise((resolve, reject) => {
+                                    this.createUrlOrigin(media.asset_id, media.filename, media.extension, (error, url) => {
+                                        if (error) reject(error);
 
-                                    urls.origin = url;
-
+                                        urls.origin = url;
+                                        resolve();
+                                    });
+                                }); 
+                                let p2 = new Promise((resolve, reject) => {  
                                     this.createUrlThumbnail(outputMediaAssets[0].Id, media.filename, (error, url) => {
-                                        if (error) throw error;
+                                        if (error) reject(error);
 
                                         urls.thumbnail = url;
-
-                                        this.createUrlMp4(outputMediaAssets[1].Id, media.filename, (error, url) => {
-                                            if (error) throw error;
-
-                                            urls.mp4 = url;
-
-                                            this.createUrl(outputMediaAssets[2].Id, media.filename, (error, url) => {
-                                                if (error) throw error;
-
-                                                urls.streaming = url;
-
-                                                // URL更新
-                                                this.logger.trace('urls created. urls:', urls);
-                                                this.logger.trace('publishing... id:', media.id);
-                                                model.publish(media.id, urls, (err, result) => {
-                                                    if (err) throw err;
-
-                                                    this.logger.trace('published. id:', media.id, ' / result:', result);
-                                                    // TODO URL通知
-                                                    // if (!is_null(url)) {
-                                                    //     this->sendEmail(media);
-                                                    // }
-
-                                                    next();
-                                                });
-                                            });
-                                        });
+                                        resolve();
                                     });
+                                });
+                                let p3 = new Promise((resolve, reject) => { 
+                                    this.createUrlMp4(outputMediaAssets[1].Id, media.filename, (error, url) => {
+                                        if (error) reject(error);
+
+                                        urls.mp4 = url;
+                                        resolve();
+                                    });
+                                });
+                                let p4 = new Promise((resolve, reject) => { 
+                                    this.createUrl(outputMediaAssets[2].Id, media.filename, (error, url) => {
+                                        if (error) reject(error);
+
+                                        urls.streaming = url;
+                                        resolve();
+                                    });
+                                });
+
+                                Promise.all([p1, p2, p3, p4]).then(() => {
+                                    // URL更新
+                                    this.logger.trace('urls created. urls:', urls);
+                                    this.logger.trace('publishing... id:', media.id);
+                                    model.publish(media.id, urls, (err, result) => {
+                                        if (err) throw err;
+
+                                        this.logger.trace('published. id:', media.id, ' / result:', result);
+                                        // TODO URL通知
+                                        // if (!is_null(url)) {
+                                        //     this->sendEmail(media);
+                                        // }
+
+                                        next();
+                                    });
+                                }, (err) => {
+                                    throw err;
                                 });
                             }
                         });
@@ -290,7 +335,7 @@ export default class Media extends Base
             if (error) throw error;
 
             let accessPolicy = JSON.parse(response.body).d;
-            this.logger.trace('accessPolicy:', accessPolicy);
+            this.logger.debug('accessPolicy:', accessPolicy);
 
             // 元ファイル用のURL作成
             let d = new Date();
@@ -306,7 +351,7 @@ export default class Media extends Base
                 if (error) throw error;
 
                 let locator = JSON.parse(response.body).d;
-                this.logger.trace('locator:', locator);
+                this.logger.debug('locator:', locator);
 
                 // URLを生成
                 let url = util.format(
@@ -333,7 +378,7 @@ export default class Media extends Base
             if (error) throw error;
 
             let accessPolicy = JSON.parse(response.body).d;
-            this.logger.trace('accessPolicy:', accessPolicy);
+            this.logger.debug('accessPolicy:', accessPolicy);
 
             // サムネイル用のURL作成
             let d = new Date();
@@ -349,7 +394,7 @@ export default class Media extends Base
                 if (error) throw error;
 
                 let locator = JSON.parse(response.body).d;
-                this.logger.trace('locator:', locator);
+                this.logger.debug('locator:', locator);
 
                 // URLを生成
                 let url = util.format(
@@ -375,7 +420,7 @@ export default class Media extends Base
             if (error) throw error;
 
             let accessPolicy = JSON.parse(response.body).d;
-            this.logger.trace('accessPolicy:', accessPolicy);
+            this.logger.debug('accessPolicy:', accessPolicy);
 
             // サムネイル用のURL作成
             let d = new Date();
@@ -391,7 +436,7 @@ export default class Media extends Base
                 if (error) throw error;
 
                 let locator = JSON.parse(response.body).d;
-                this.logger.trace('locator:', locator);
+                this.logger.debug('locator:', locator);
 
                 // URLを生成
                 let url = util.format(
@@ -418,7 +463,7 @@ export default class Media extends Base
             if (error) throw error;
 
             let accessPolicy = JSON.parse(response.body).d;
-            this.logger.trace('accessPolicy:', accessPolicy);
+            this.logger.debug('accessPolicy:', accessPolicy);
 
             let d = new Date();
             d.setMinutes(d.getMinutes() - 5);
@@ -433,7 +478,7 @@ export default class Media extends Base
                 if (error) throw error;
 
                 let locator = JSON.parse(response.body).d;
-                this.logger.trace('locator:', locator);
+                this.logger.debug('locator:', locator);
 
                 // URLを生成
                 let url = util.format(
@@ -448,6 +493,9 @@ export default class Media extends Base
         });
     }
 
+    /**
+     * JPEG2000エンコード状態を確認する
+     */
     public checkJpeg2000Encode(): void {
         let model = new MediaModel();
         model.getListByStatus(MediaModel.STATUS_JPEG2000_READY, 10, (err, rows) => {
@@ -490,6 +538,9 @@ export default class Media extends Base
         });
     }
 
+    /**
+     * メディアを物理削除する
+     */
     public delete(): void {
         let model = new MediaModel();
         model.getListByStatus(MediaModel.STATUS_DELETED, 10, (err, rows) => {
@@ -525,34 +576,6 @@ export default class Media extends Base
 
                 next();
             });
-        });
-    }
-
-    public jpeg2000ManualEncode(): void {
-        let model = new MediaModel();
-        model.getListByStatus(MediaModel.STATUS_JPEG2000_READY, 10, (err, rows) => {
-            if (err) throw err;
-
-            let i = 0;
-            let next = () => {
-                i++;
-                if (i > rows.length) {
-                    process.exit(0);
-                }
-
-                let media = rows[i - 1];
-                let share = MediaModel.AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED;
-
-                // 手動でjpeg2000ファイル作成(開発用)
-                azureFileService.createFile(share, '', media.filename + '.jpeg2000', 0, {}, (error, result, response) => {
-                    if (error) throw error;
-
-                    this.logger.trace('createFileFromLocalFile result:', result);
-                    next();
-                });
-            }
-
-            next();
         });
     }
 }
