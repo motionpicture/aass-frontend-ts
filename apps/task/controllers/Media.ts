@@ -462,14 +462,15 @@ export default class Media extends Base
 
                 let media = rows[i - 1];
                 let share = MediaModel.AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED;
+                let directory = MediaModel.AZURE_FILE_DIRECTORY_JPEG2000_ENCODED;
+                let extension = MediaModel.EXTENSION_JPEG2000_ENCODED;
+                let file = media.filename + '.' + extension;
 
-                // Fileへコピー
-                azureFileService.doesFileExist(share, '', media.filename + '.jpeg2000', {}, (error, result, response) => {
+                azureFileService.doesFileExist(share, directory, file, {}, (error, result, response) => {
                     if (error) throw error;
 
                     this.logger.trace('doesFileExist result:', result);
 
-                    // TODO
                     if (result.exists) {
                         this.logger.trace('changing status to encoded... id:', media.id);
                         model.updateStatus(media.id, MediaModel.STATUS_JPEG2000_ENCODED, (err, result) => {

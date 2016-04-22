@@ -32,5 +32,6 @@ export default function router(app: any) {
     app.get('/admin/event/:id/medias', 'event.medias', (req, res, next) => {event.medias(req, res, next)});
 
     app.get('/admin/media/:id/download', 'media.download', (req, res, next) => {media.download(req, res, next)});
+    app.get('/admin/media/:id/download/jpeg2000', 'media.downloadJpeg2000', (req, res, next) => {media.downloadJpeg2000(req, res, next)});
     app.post('/admin/media/:id/encode2jpeg2000', 'media.encode2jpeg2000', (req, res, next) => {media.encode2jpeg2000(req, res, next)});
 }

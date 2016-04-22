@@ -47,6 +47,13 @@ class AdminEventMedias {
             .always(() => {
             });
         });
+
+        // JPEG2000DLイベント
+        $(document).on('click', '.download-jpeg2000-btn a', function(e) {
+            let rootRow = $(this).parent().parent().parent().parent().parent();
+            let id = $('input[name="id"]', rootRow).val();
+            window.open('/admin/media/' + id + '/download/jpeg2000');
+        });
     }
 
     private setPlayer(src) {

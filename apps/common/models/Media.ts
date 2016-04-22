@@ -11,6 +11,8 @@ export default class Media extends Base {
     static STATUS_DELETED = 900; // 削除済み
 
     static AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED = 'jpeg2000';
+    static AZURE_FILE_DIRECTORY_JPEG2000_ENCODED = 'Output';
+    static EXTENSION_JPEG2000_ENCODED = 'mxf';
 
     public static status2string(status: Number): String {
         let str: String;

@@ -20,6 +20,8 @@
         <div class="d-td thumb">
             <% if (media.url_thumbnail) { %>
             <a href="<%- url('media.update', {id: media.id}) %>"><img src="<%- media.url_thumbnail %>" alt="<%- media.title %>"></a>
+            <% } else { %>
+            <span></span>
             <% } %>
         </div>
         <div class="d-td info">

@@ -23,6 +23,8 @@
         <div class="d-td thumb">
             <% if (event.application_id) { %>
             <a href="javascript:void(0);"><img src="<%- event.media_url_thumbnail %>" alt="<%- event.media_title %>"></a>
+            <% } else { %>
+            <span></span>
             <% } %>
         </div>
         <div class="d-td info">

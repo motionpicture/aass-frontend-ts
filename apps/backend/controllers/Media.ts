@@ -1,5 +1,6 @@
 import Base from './Base';
 import MediaModel from '../models/Media';
+var azure = require('azure-storage');
 
 export default class Media extends Base {
     public encode2jpeg2000(req: any, res: any, next: any): void {
@@ -45,6 +46,58 @@ export default class Media extends Base {
             let uri = media.url_origin;
 
             res.attachment(filename);
+            res.set('Content-Type', 'application/octet-stream');
+
+            let https = require('https');
+            https.get(uri, (response) => {
+                response.on('data', (chunk) => {
+                    res.write(chunk);
+                });
+
+                response.on('end', () => {
+                    res.end();
+                });
+            })
+            .on('error', (e) => {
+                next(e);
+            });
+        });
+    }
+
+    /**
+     * ダウンロード(jpeg2000)
+     */
+    public downloadJpeg2000(req: any, res: any, next: any): void {
+        let model = new MediaModel();
+        model.getById(req.params.id, (err, rows) => {
+            if (err) throw err;
+
+            let media = rows[0];
+
+            let share = MediaModel.AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED;
+            let directory = MediaModel.AZURE_FILE_DIRECTORY_JPEG2000_ENCODED;
+            let extension = MediaModel.EXTENSION_JPEG2000_ENCODED;
+            let file = media.filename + '.' + extension;
+
+            // 期限つきのURLを発行する
+            let startDate = new Date();
+            let expiryDate = new Date();
+            startDate.setMinutes(startDate.getMinutes() - 5);
+            expiryDate.setMinutes(expiryDate.getMinutes() + 1440);
+
+            let sharedAccessPolicy = {
+                AccessPolicy: {
+                    Permissions: azure.FileUtilities.SharedAccessPermissions.READ,
+                    Start: startDate,
+                    Expiry: expiryDate,
+                }
+            };
+
+            let signature = req.fileService.generateSharedAccessSignature(share, directory, file, sharedAccessPolicy, null);
+            let uri = req.fileService.getUrl(share, directory, file, signature, true);
+
+            // 出力
+            res.attachment(file);
             res.set('Content-Type', 'application/octet-stream');
 
             let https = require('https');
