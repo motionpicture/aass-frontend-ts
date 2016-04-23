@@ -35,20 +35,24 @@
         </div>
         <div class="d-td control">
             <div class="group clearfix">
-                <div class="btn gray-btn original-btn ">
-                    <a href="javascript:void(0);"><span>元データ</span></a>
-                </div>
-                <%  if (media.status === mediaModel.STATUS_JPEG2000_ENCODED) { %>
-                <div class="btn gray-btn download-jpeg2000-btn ">
-                    <a href="javascript:void(0);"><span>JPEG2000<br>DL</span></a>
-                </div>
-                <%  } else if (media.status !== mediaModel.STATUS_JPEG2000_READY
-                     && media.status !== mediaModel.STATUS_JPEG2000_ENCODED) { %>
-                <div class="btn gray-btn encode-btn ">
-                    <a href="javascript:void(0);"><span>JPEG2000</span></a>
-                </div>
-                <% } else { %>
-                <%- mediaModel.status2string(media.status) %>
+                <% if (media.status !== mediaModel.STATUS_ERROR) { %>
+                    <%  if (media.status >= mediaModel.STATUS_PUBLISHED) { %>
+                    <div class="btn gray-btn original-btn ">
+                        <a href="javascript:void(0);"><span>元データ</span></a>
+                    </div>
+                    <% } %>
+
+                    <%  if (media.status === mediaModel.STATUS_JPEG2000_PUBLISHED) { %>
+                    <div class="btn gray-btn download-jpeg2000-btn ">
+                        <a href="javascript:void(0);"><span>JPEG2000<br>DL</span></a>
+                    </div>
+                    <%  } else if (media.status === mediaModel.STATUS_PUBLISHED) { %>
+                    <div class="btn gray-btn encode-btn ">
+                        <a href="javascript:void(0);"><span>JPEG2000</span></a>
+                    </div>
+                    <%  } else if (media.status === mediaModel.STATUS_JPEG2000_READY) { %>
+                    <%- mediaModel.status2string(media.status) %>
+                    <% } %>
                 <% } %>
             </div>
         </div>

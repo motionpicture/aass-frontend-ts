@@ -73,6 +73,7 @@ CREATE TABLE `media` (
   `url_thumbnail` text DEFAULT NULL,
   `url_mp4` text DEFAULT NULL,
   `url_streaming` text DEFAULT NULL,
+  `url_jpeg2000` text DEFAULT NULL,
   `asset_id` varchar(255) DEFAULT NULL,
   `job_id` varchar(255) DEFAULT NULL,
   `job_state` tinyint(1) DEFAULT NULL,

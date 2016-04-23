@@ -7,6 +7,7 @@ export default class Media extends Base {
     static STATUS_PUBLISHED = 300; // URL発行済み
     static STATUS_JPEG2000_READY = 400; // JPEG2000エンコード待ち
     static STATUS_JPEG2000_ENCODED = 401; // JPEG2000エンコード済み
+    static STATUS_JPEG2000_PUBLISHED = 402; // JPEG2000発行済み
     static STATUS_ERROR = 800; // エンコード失敗
     static STATUS_DELETED = 900; // 削除済み
 
@@ -35,6 +36,9 @@ export default class Media extends Base {
                 break;
             case Media.STATUS_JPEG2000_ENCODED:
                 str =  'JPEG2000エンコード完了';
+                break;
+            case Media.STATUS_JPEG2000_PUBLISHED:
+                str =  'JPEG2000発行済み';
                 break;
             case Media.STATUS_ERROR:
                 str =  'エンコード失敗';

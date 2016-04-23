@@ -7,6 +7,7 @@ import conf = require('config');
 import datetime = require('node-datetime');
 import fs = require('fs');
 import util = require('util');
+let azure = require('azure-storage');
 
 export default class Media extends Base
 {
@@ -531,6 +532,59 @@ export default class Media extends Base
                         this.logger.trace('not encoded yet. id:', media.id);
                         next();
                     }
+                });
+            }
+
+            next();
+        });
+    }
+
+    public publishJpeg2000() {
+        let model = new MediaModel();
+        model.getListByStatus(MediaModel.STATUS_JPEG2000_ENCODED, 10, (err, rows) => {
+            if (err) throw err;
+
+            let i = 0;
+            let next = () => {
+                i++;
+                if (i > rows.length) {
+                    process.exit(0);
+                }
+
+                let media = rows[i-1];
+                let share = MediaModel.AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED;
+                let directory = MediaModel.AZURE_FILE_DIRECTORY_JPEG2000_ENCODED;
+                let extension = MediaModel.EXTENSION_JPEG2000_ENCODED;
+                let file = media.filename + '.' + extension;
+
+                // 期限つきのURLを発行する
+                let startDate = new Date();
+                let expiryDate = new Date();
+                startDate.setMinutes(startDate.getMinutes() - 5);
+                expiryDate.setMinutes(expiryDate.getMinutes() + 25920000);
+
+                let sharedAccessPolicy = {
+                    AccessPolicy: {
+                        Permissions: azure.FileUtilities.SharedAccessPermissions.READ,
+                        Start: startDate,
+                        Expiry: expiryDate,
+                    }
+                };
+
+                let signature = azureFileService.generateSharedAccessSignature(share, directory, file, sharedAccessPolicy, null);
+                let url = azureFileService.getUrl(share, directory, file, signature, true);
+
+                this.logger.trace('publishing jpeg2000... id:', media.id);
+                model.publishJpeg2000(media.id, url, (err, result) => {
+                    if (err) throw err;
+
+                    this.logger.trace('published jpeg2000. id:', media.id, ' / result:', result);
+                    // TODO URL通知
+                    // if (!is_null(url)) {
+                    //     this->sendEmail(media);
+                    // }
+
+                    next();
                 });
             }
 

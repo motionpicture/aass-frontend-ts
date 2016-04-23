@@ -107,4 +107,20 @@ UPDATE media SET
 
         this.query(query, queryParams, cb);
     }
+
+    public publishJpeg2000(id: string, url: string, cb: Function): void {
+        let query = `
+UPDATE media SET
+ url_jpeg2000 = :url, status = :status, updated_at = NOW()
+ WHERE id = :id
+`;
+
+        let queryParams = {
+            id: id,
+            url: url,
+            status: Media.STATUS_JPEG2000_PUBLISHED
+        };
+
+        this.query(query, queryParams, cb);
+    }
 }

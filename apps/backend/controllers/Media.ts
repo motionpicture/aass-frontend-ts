@@ -1,6 +1,6 @@
 import Base from './Base';
 import MediaModel from '../models/Media';
-var azure = require('azure-storage');
+let azure = require('azure-storage');
 
 export default class Media extends Base {
     public encode2jpeg2000(req: any, res: any, next: any): void {
@@ -42,10 +42,10 @@ export default class Media extends Base {
             if (err) throw err;
 
             let media = rows[0];
-            let filename = media.filename + '.' + media.extension;
+            let file = media.filename + '.' + media.extension;
             let uri = media.url_origin;
 
-            res.attachment(filename);
+            res.attachment(file);
             res.set('Content-Type', 'application/octet-stream');
 
             let https = require('https');
@@ -78,23 +78,7 @@ export default class Media extends Base {
             let directory = MediaModel.AZURE_FILE_DIRECTORY_JPEG2000_ENCODED;
             let extension = MediaModel.EXTENSION_JPEG2000_ENCODED;
             let file = media.filename + '.' + extension;
-
-            // 期限つきのURLを発行する
-            let startDate = new Date();
-            let expiryDate = new Date();
-            startDate.setMinutes(startDate.getMinutes() - 5);
-            expiryDate.setMinutes(expiryDate.getMinutes() + 1440);
-
-            let sharedAccessPolicy = {
-                AccessPolicy: {
-                    Permissions: azure.FileUtilities.SharedAccessPermissions.READ,
-                    Start: startDate,
-                    Expiry: expiryDate,
-                }
-            };
-
-            let signature = req.fileService.generateSharedAccessSignature(share, directory, file, sharedAccessPolicy, null);
-            let uri = req.fileService.getUrl(share, directory, file, signature, true);
+            let uri = media.url_jpeg2000;
 
             // 出力
             res.attachment(file);
