@@ -1,11 +1,13 @@
+@if "%SCM_TRACE_LEVEL%" NEQ "4" @echo off
+
 set SCM_COMMAND_IDLE_TIMEOUT 9999
 xcopy /E /Y %DEPLOYMENT_SOURCE% %DEPLOYMENT_TARGET%
 
 cd %DEPLOYMENT_TARGET%
 
-rem npm install -g typescript
+npm install -g typescript
 
-rem npm install -g typings
+npm install -g typings
 
 npm install
 typings install
