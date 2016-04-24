@@ -1,14 +1,18 @@
 {
-  "name": "public",
-  "version": "1.0.0",
-  "description": "",
-  "main": "js/common.js",
+  "name": "aass_public",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "jquery": "^2.2.3"
-  }
+  },
+  "main": "js/common.js",
+  "devDependencies": {},
+  "repository": {
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
