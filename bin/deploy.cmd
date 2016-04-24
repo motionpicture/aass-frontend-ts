@@ -1,4 +1,5 @@
-cd %DEPLOYMENT_SOURCE%
+xcopy /e %DEPLOYMENT_SOURCE% %DEPLOYMENT_TARGET%
+cd %DEPLOYMENT_TARGET%
 npm install -g typescript
 npm install -g typings
 npm install
