@@ -1,4 +1,5 @@
 /// <reference path="../../../typings/main.d.ts" />
+/// <reference path="../../../definitions/main.d.ts" />
 
 class AdminEventIndex {
     private modalAcceptComplete = $('.modal.type-01');
