@@ -1,4 +1,5 @@
-xcopy /e %DEPLOYMENT_SOURCE% %DEPLOYMENT_TARGET%
+set SCM_COMMAND_IDLE_TIMEOUT 9999
+xcopy /E /Y %DEPLOYMENT_SOURCE% %DEPLOYMENT_TARGET%
 cd %DEPLOYMENT_TARGET%
 npm install -g typescript
 npm install -g typings
