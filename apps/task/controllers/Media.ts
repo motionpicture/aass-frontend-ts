@@ -2,12 +2,12 @@ import Base from './Base';
 import MediaModel from '../models/Media';
 import azureMediaService from '../../common/modules/azureMediaService';
 import azureFileService from '../../common/modules/azureFileService';
-import azureStorage = require('azure-storage');
 import conf = require('config');
 import datetime = require('node-datetime');
 import fs = require('fs');
 import util = require('util');
-let azure = require('azure-storage');
+import azure = require('azure-storage');
+import FileUtilities = azure.FileUtilities;
 
 export default class Media extends Base
 {
@@ -565,7 +565,7 @@ export default class Media extends Base
 
                 let sharedAccessPolicy = {
                     AccessPolicy: {
-                        Permissions: azure.FileUtilities.SharedAccessPermissions.READ,
+                        Permissions: azure.BlobUtilities.SharedAccessPermissions.READ,
                         Start: startDate,
                         Expiry: expiryDate,
                     }

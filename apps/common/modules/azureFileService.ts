@@ -4,7 +4,8 @@ import conf = require('config');
 
 let azureFileService = azure.createFileService(
     conf.get<string>('storage_account_name'),
-    conf.get<string>('storage_account_key')
+    conf.get<string>('storage_account_key'),
+    null
 );
 
 export default azureFileService;

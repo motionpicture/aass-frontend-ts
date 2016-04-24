@@ -22,6 +22,7 @@
     "multer": "^1.1.0",
     "mysql": "^2.10.2",
     "named-routes": "^2.0.4",
+    "node": "0.0.0",
     "node-ams-sdk": "^0.2.2",
     "node-datetime": "^1.0.0",
     "serve-favicon": "^2.3.0",

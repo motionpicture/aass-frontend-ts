@@ -1,0 +1,2 @@
+[config]
+command = %DEPLOYMENT_SOURCE%\bin\deploy.cmd
