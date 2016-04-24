@@ -1,4 +1,6 @@
 cd %DEPLOYMENT_SOURCE%
+npm install -g typescript
+npm install -g typings
 npm install
 typings install
 cd ./public
