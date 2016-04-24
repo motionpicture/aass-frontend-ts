@@ -17,4 +17,4 @@ call typings install
 
 cd ../
 call tsc -p ./
-call tsc -p ./public/
+rem call tsc -p ./public/
