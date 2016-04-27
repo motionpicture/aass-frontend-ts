@@ -25,10 +25,8 @@ class AdminEventIndex {
             $('span.uploaded_by', self.modalCheckConfirm).text($('input[name="media_uploaded_by"]', rootRow).val());
             $('span.held_from', self.modalCheckConfirm).text($('input[name="held_from"]', rootRow).val());
             $('span.place', self.modalCheckConfirm).text($('input[name="place"]', rootRow).val());
-
-            $('.modal-cover').addClass('active');
-            $('.modal').removeClass('active');
-            self.modalCheckConfirm.addClass('active');
+            
+            self.modalOpen(self.modalCheckConfirm);
         });
 
         // 動画詳細開くイベント
@@ -43,10 +41,8 @@ class AdminEventIndex {
             $('span.uploaded_by', self.modalCheckConfirm).text($('input[name="media_uploaded_by"]', rootRow).val());
             $('span.held_from', self.modalCheckConfirm).text($('input[name="held_from"]', rootRow).val());
             $('span.place', self.modalCheckConfirm).text($('input[name="place"]', rootRow).val());
-
-            $('.modal-cover').addClass('active');
-            $('.modal').removeClass('active');
-            self.modalCheckConfirm.addClass('active');
+            
+            self.modalOpen(self.modalRejectConfirm);
         });
 
         // 承認するイベント
@@ -65,9 +61,7 @@ class AdminEventIndex {
 
         // 否認するイベント
         this.modalCheckConfirm.on('click', '.prev-btn a', () => {
-            $('.modal-cover').addClass('active');
-            $('.modal').removeClass('active');
-            this.modalRejectConfirm.addClass('active');
+            this.modalOpen(this.modalRejectConfirm);
         });
 
         // ダウンロードイベント
@@ -93,9 +87,7 @@ class AdminEventIndex {
                     $('.modal-cover, .modal').removeClass('active');
                     alert("承認に失敗しました\n" + data.messages.join("\n"));
                 } else {
-                    $('.modal-cover').addClass('active');
-                    $('.modal').removeClass('active');
-                    this.modalAcceptComplete.addClass('active');
+                    this.modalOpen(this.modalAcceptComplete);
                 }
             })
             .fail(() => {
@@ -126,9 +118,7 @@ class AdminEventIndex {
                     $('.modal-cover, .modal').removeClass('active');
                     alert("否認に失敗しました\n" + data.messages.join("\n"));
                 } else {
-                    $('.modal-cover').addClass('active');
-                    $('.modal').removeClass('active');
-                    this.modalRejectComplete.addClass('active');
+                    this.modalOpen(this.modalRejectComplete);
                 }
             })
             .fail(() => {
@@ -184,6 +174,14 @@ class AdminEventIndex {
                 "type": "application/vnd.ms-sstr+xml"
             }
         ]);
+    }
+    
+    private modalOpen(target: JQuery): void {
+        $('.modal-cover').addClass('active');
+        $('.modal').removeClass('active');
+        target.addClass('active');
+        let top: number = $(window).scrollTop() + 150;
+        target.css('top', String(top) + 'px');
     }
 }
 

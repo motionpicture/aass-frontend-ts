@@ -24,8 +24,7 @@ class MediaIndex {
 
             self.mediaRow4delete = rootRow;
             $('.title', self.modalDeleteConfirm).text(title);
-            $('.modal-cover').addClass('active');
-            self.modalDeleteConfirm.addClass('active');
+            self.modalOpen(self.modalApplyConfirm);
         });
 
         // 削除確認はいイベント
@@ -44,9 +43,7 @@ class MediaIndex {
                     alert("削除に失敗しました\n" + data.messages.join("\n"));
                 } else {
                     this.mediaRow4delete.remove();
-                    $('.modal-cover').addClass('active');
-                    $('.modal').removeClass('active');
-                    this.modalDeleteComplete.addClass('active');
+                    this.modalOpen(this.modalApplyConfirm);
                 }
             })
             .fail(() => {
@@ -70,8 +67,7 @@ class MediaIndex {
 
             self.mediaRow4apply = rootRow;
             $('.title', self.modalApplyConfirm).text(title);
-            $('.modal-cover').addClass('active');
-            self.modalApplyConfirm.addClass('active');
+            self.modalOpen(self.modalApplyConfirm);
         });
 
         // 申請確認はいイベント
@@ -95,9 +91,7 @@ class MediaIndex {
                     $('.modal-cover, .modal').removeClass('active');
                     alert("申請に失敗しました\n" + data.messages.join("\n"));
                 } else {
-                    $('.modal-cover').addClass('active');
-                    $('.modal').removeClass('active');
-                    this.modalApplyComplete.addClass('active');
+                    this.modalOpen(this.modalApplyComplete);
                 }
             })
             .fail(() => {
@@ -110,8 +104,7 @@ class MediaIndex {
 
         // エラーが発生しましたイベント
         $('.error-btn a').on('click', (e) => {
-            $('.modal-cover').addClass('active');
-            this.modalError.addClass('active');
+            this.modalOpen(this.modalError);
         });
 
         // 再申請のお願いイベント
@@ -121,8 +114,7 @@ class MediaIndex {
             self.mediaRow4reapply = rootRow;
 
             $('.text-area', self.modalReapply).text(reason);
-            $('.modal-cover').addClass('active');
-            self.modalReapply.addClass('active');
+            self.modalOpen(self.modalReapply);
         });
 
         // 再申請のお願い閉じるイベント
@@ -153,6 +145,14 @@ class MediaIndex {
             .always(() => {
             });
         });
+    }
+    
+    private modalOpen(target: JQuery): void {
+        $('.modal-cover').addClass('active');
+        $('.modal').removeClass('active');
+        target.addClass('active');
+        let top: number = $(window).scrollTop() + 150;
+        target.css('top', String(top) + 'px');
     }
 }
 
