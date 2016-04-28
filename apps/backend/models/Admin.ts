@@ -10,4 +10,11 @@ export default class Admin extends BaseAdmin {
 
         this.query(query, queryParams, cb);
     }
+    
+    public getAdminUser(id: string, cb: Function): void {
+        let query = 'SELECT * FROM admin WHERE id = :id';
+        let queryParams = {id: id};
+
+        this.query(query, queryParams, cb);
+    }
 }

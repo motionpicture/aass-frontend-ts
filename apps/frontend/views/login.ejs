@@ -1,8 +1,11 @@
 <%- include('header') -%>
 
 <style>
-form label {
+.field label {
     display :none;
+}
+.field {
+    display: inline-block;
 }
 </style>
 
@@ -35,7 +38,7 @@ form label {
                         <dt class="d-td text-right"><%- form.fields.password.labelText() %></dt>
                         <dd class="d-td"><%- form.fields.password.toHTML() %></dd>
                     </dl>
-                    <div class="auto-login text-center"><label><input type="checkbox" name="auto_login">次回から自動的にログイン</label></div>
+                    <div class="auto-login text-center"><label style="display: inline"><%- form.fields.auto_login.toHTML() %>次回から自動的にログイン</label></div>
                     <div class="btn gray-btn"><a href="javascript:void(0);">利用規約に同意の上ログイン</a></div>
                 </div>
                 <p class="text-center">パスワードを忘れた方はXX-XXXX-XXXXまでお問い合わせください。</p>

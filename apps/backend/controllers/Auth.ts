@@ -20,6 +20,12 @@ export default class Auth extends Base {
                         }
 
                         if (rows.length > 0) {
+                            if (form.fields.auto_login.data) {
+                                res.cookie('auto_login_b', rows[0].id, {
+                                    expires: new Date(Date.now() + 1 * 365 * 24 * 60 * 60 * 1000), 
+                                    httpOnly:false
+                                });
+                            }
                             req.user.login(rows[0]);
                             res.redirect('/admin');
                         } else {
@@ -49,6 +55,7 @@ export default class Auth extends Base {
     }
 
     public logout(req: any, res: any, next: any): void {
+        res.clearCookie('auto_login_b');
         req.user.logout();
 
         res.json({

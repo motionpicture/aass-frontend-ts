@@ -30,6 +30,15 @@ class Login extends Base {
                     ],
                     id: '',
                     hideError: true
+                }),
+                auto_login: fields.boolean({
+                    label: '利用規約に同意の上ログイン',
+                    widget: widgets.checkbox(),
+                    required: false,
+                    validators: [
+                    ],
+                    id: 'autoLogin',
+                    hideError: true
                 })
             },
             this.options

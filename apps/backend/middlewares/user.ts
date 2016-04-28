@@ -1,3 +1,5 @@
+import AdminModel from '../models/Admin';
+
 export default (req, res, next) => {
     if (req.user) next();
 
@@ -5,14 +7,34 @@ export default (req, res, next) => {
     req.user = user;
     res.locals.req = req;
 
-    if (req.originalUrl != '/admin/login') {
+    
+    
+    let loginRedirect = ()=> {
         if (!user.isAuthenticated()) {
             res.redirect('/admin/login');
             return;
         }
+        next();
     }
 
-    next();
+    if (req.originalUrl != '/admin/login') {
+        let model = new AdminModel();
+        let cookie = req.cookies['auto_login_b'];
+        if (cookie) {
+            model.getAdminUser(cookie, (err, rows, fields)=> {
+                if (rows.length > 0) {
+                    req.user.login(rows[0]);
+                }
+                loginRedirect();
+            });
+        } else {
+            loginRedirect();
+        }
+    } else {
+        next();
+    }
+    
+    
 };
 
 class User {

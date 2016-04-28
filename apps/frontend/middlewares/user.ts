@@ -1,18 +1,40 @@
+import EventModel from '../models/Event';
+
 export default (req, res, next) => {
     if (req.user) next();
 
     let user = new User(req.session);
     req.user = user;
     res.locals.req = req;
-
-    if (req.originalUrl != '/login') {
+    
+    let loginRedirect = ()=> {
         if (!user.isAuthenticated()) {
             res.redirect('/login');
             return;
         }
+        next();
     }
 
-    next();
+    if (req.originalUrl != '/login') {
+        let model = new EventModel();
+        let cookie = req.cookies['auto_login_f'];
+        if (cookie) {
+            model.getEventUser(cookie, (err, rows, fields)=> {
+                if (rows.length > 0) {
+                    req.user.login(rows[0]);
+                }
+                loginRedirect();
+            });
+        } else {
+            loginRedirect();
+        }
+    } else {
+        next();
+    }
+    
+    
+
+    
 };
 
 class User {
