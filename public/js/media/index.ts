@@ -15,6 +15,7 @@ class MediaIndex {
 
     constructor() {
         let self = this;
+        
 
         // 削除イベント
         $('.remove-btn a').on('click', function(e) {

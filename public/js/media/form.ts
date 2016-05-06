@@ -61,7 +61,7 @@ class MediaForm {
             if (this.file != null) {
                 $('.file-value').text(this.file.name);
                 let f = this.file.name.split('.');
-                $('form input[name="extension"]').val(f[f.length-1]);
+                $('form input[name="extension"]').val(f[f.length - 1]);
                 $('form input[name="size"]').val(this.file.size);
                 // this.extension = f[f.length-1];
                 // this.size = parseInt(this.file.size);
@@ -107,6 +107,7 @@ class MediaForm {
         this.extension = $('input[name="extension"]', $('form')).val();
         this.size = parseInt($('input[name="size"]', $('form')).val());
 
+
         this.division = Math.ceil(this.size / this.chunkSize);
         this.blobBlockMaxSize = parseInt($('input[name="max_block_size"]', $('form')).val());
         this.blobBlockUncreatedIndexes = [];
@@ -114,6 +115,21 @@ class MediaForm {
         this.blobBlockCreatingIndexes = [];
         this.messages = [];
     }
+
+    private byteFormat(byte: number, formatTarget: string): number {
+        let result: number;
+        let format = {
+            KB: 1,
+            MB: 2,
+            GB: 3
+        };
+        let truncation: number = Math.pow(10, 2);
+        let tmp: number = byte / Math.pow(1000, format[formatTarget]);
+        result = Math.floor(tmp * truncation) / truncation;
+        return result;
+    }
+    
+    
 
     private cancelUpload() {
         this.isCanceled = true;
@@ -142,7 +158,8 @@ class MediaForm {
         $('.modal .progress-bar .progress-inner').width(rate + '%');
 
         let uploadedSize = (blobBlockCreatedCount < this.division) ? this.chunkSize * blobBlockCreatedCount : this.size;
-        $('.modal .progress-bar-text').html(uploadedSize + '/' + this.size);
+        let uploadStr: string = this.byteFormat(uploadedSize, 'MB') + '/' + this.byteFormat(this.size, 'MB');
+        $('.modal .progress-bar-text').html(uploadStr);
     }
 
     /**
@@ -167,7 +184,7 @@ class MediaForm {
         // chunk可能なAPIを保持しているかチェック
         if (this.file.slice) {
             blob = this.file.slice(readPos, endPos);
-        } else if(this.file.webkitSlice) {
+        } else if (this.file.webkitSlice) {
             blob = this.file.webkitSlice(readPos, endPos);
         } else if (this.file.mozSlice) {
             blob = this.file.mozSlice(readPos, endPos);
@@ -192,61 +209,61 @@ class MediaForm {
         let ajax = $.ajax({
             url: '/media/appendFile',
             method: 'post',
-    //        timeout: 25000,
+            //        timeout: 25000,
             dataType: 'json',
             data: formData,
             processData: false, // Ajaxがdataを整形しない指定
             contentType: false // contentTypeもfalseに指定
         })
-        .done((data) => {
-            if (this.isCanceled) {
-                return;
-            }
+            .done((data) => {
+                if (this.isCanceled) {
+                    return;
+                }
 
-            // エラーメッセー時表示
-            if (!data.isSuccess) {
+                // エラーメッセー時表示
+                if (!data.isSuccess) {
+                    // リトライ
+                    this.blobBlockUncreatedIndexes.push(blockIndex);
+                    this.blobBlockCreatingIndexes.splice(this.blobBlockCreatingIndexes.indexOf(blockIndex), 1);
+                } else {
+                    // 結果保存
+                    console.log('created. index:' + blockIndex);
+
+                    this.blobBlockCreatedIndexes.push(blockIndex);
+                    this.blobBlockCreatingIndexes.splice(this.blobBlockCreatingIndexes.indexOf(blockIndex), 1);
+
+                    this.informProgress();
+
+                    // ブロブブロックを全て作成したらコミット
+                    if (this.blobBlockCreatedIndexes.length == this.division) {
+                        clearInterval(this.createBlobBlockTimer);
+                        this.createBlobBlockTimer = null;
+
+                        // コミット
+                        this.commitFile();
+                    }
+                }
+            })
+            .fail(() => {
                 // リトライ
                 this.blobBlockUncreatedIndexes.push(blockIndex);
                 this.blobBlockCreatingIndexes.splice(this.blobBlockCreatingIndexes.indexOf(blockIndex), 1);
-            } else {
-                // 結果保存
-                console.log('created. index:' + blockIndex);
-
-                this.blobBlockCreatedIndexes.push(blockIndex);
-                this.blobBlockCreatingIndexes.splice(this.blobBlockCreatingIndexes.indexOf(blockIndex), 1);
-
-                this.informProgress();
-
-                // ブロブブロックを全て作成したらコミット
-                if (this.blobBlockCreatedIndexes.length == this.division) {
-                    clearInterval(this.createBlobBlockTimer);
-                    this.createBlobBlockTimer = null;
-
-                    // コミット
-                    this.commitFile();
-                }
-            }
-        })
-        .fail(() => {
-            // リトライ
-            this.blobBlockUncreatedIndexes.push(blockIndex);
-            this.blobBlockCreatingIndexes.splice(this.blobBlockCreatingIndexes.indexOf(blockIndex), 1);
-            // 3度までリトライ?
-            // if (tryCount < 3) {
-            //     this.loadFile(this, blockIndex, tryCount + 1);
-            // } else {
-            //     // タイマークリア
-            //     clearInterval(this.createBlobBlockTimer);
-            //     this.createBlobBlockTimer = null;
-            //     alert('ブロブブロックを作成できませんでした blockIndex:' + blockIndex);
-            // }
-        })
-        .always(() => {
-            // ajaxリストから削除
-            // delete this.blobBlockCreatingAjaxes[blockIndex];
-        });
-            // ajaxリストに追加
-            // this.blobBlockCreatingAjaxes[blockIndex] = ajax;
+                // 3度までリトライ?
+                // if (tryCount < 3) {
+                //     this.loadFile(this, blockIndex, tryCount + 1);
+                // } else {
+                //     // タイマークリア
+                //     clearInterval(this.createBlobBlockTimer);
+                //     this.createBlobBlockTimer = null;
+                //     alert('ブロブブロックを作成できませんでした blockIndex:' + blockIndex);
+                // }
+            })
+            .always(() => {
+                // ajaxリストから削除
+                // delete this.blobBlockCreatingAjaxes[blockIndex];
+            });
+        // ajaxリストに追加
+        // this.blobBlockCreatingAjaxes[blockIndex] = ajax;
     }
 
     public commitFile() {
@@ -268,26 +285,26 @@ class MediaForm {
             processData: false, // Ajaxがdataを整形しない指定
             contentType: false // contentTypeもfalseに指定
         })
-        .done((data) => {
-            // エラーメッセー時表示
-            if (!data.isSuccess) {
-                $('p.error').append(data.messages.join('<br>'));
-            } else {
-                console.log('upload completed.');
+            .done((data) => {
+                // エラーメッセー時表示
+                if (!data.isSuccess) {
+                    $('p.error').append(data.messages.join('<br>'));
+                } else {
+                    console.log('upload completed.');
 
-                // DB登録
-                this.createMedia();
-            }
-        })
-        .fail(() => {
-            this.informFailure();
-        })
-        .always(() => {
-        });
+                    // DB登録
+                    this.createMedia();
+                }
+            })
+            .fail(() => {
+                this.informFailure();
+            })
+            .always(() => {
+            });
     }
 
     public createAsset() {
-        for (let i=0; i<this.division; i++) {
+        for (let i = 0; i < this.division; i++) {
             this.blobBlockUncreatedIndexes.push(i);
         }
 
@@ -300,40 +317,40 @@ class MediaForm {
             processData: false, // Ajaxがdataを整形しない指定
             contentType: false // contentTypeもfalseに指定
         })
-        .done((data) => {
-            // エラーメッセー時表示
-            if (!data.isSuccess) {
-                $('p.error').append(data.messages.join('<br>'));
-            } else {
-                // アセットIDとファイル名を取得
-                console.log('asset created. params:', data.params);
-                this.assetId = data.params.assetId;
-                this.container = data.params.container;
-                this.filename = data.params.filename;
+            .done((data) => {
+                // エラーメッセー時表示
+                if (!data.isSuccess) {
+                    $('p.error').append(data.messages.join('<br>'));
+                } else {
+                    // アセットIDとファイル名を取得
+                    console.log('asset created. params:', data.params);
+                    this.assetId = data.params.assetId;
+                    this.container = data.params.container;
+                    this.filename = data.params.filename;
 
-                // 定期的にブロブブロック作成
-                console.log('uploading... chunkSize:', this.chunkSize);
-                this.createBlobBlockTimer = setInterval(() => {
-                    // 回線が遅い場合、アクセスがたまりすぎないように調整(ブラウザ同時接続数を考慮)
-                    if (this.blobBlockCreatingIndexes.length > 2) {
-                        return;
-                    }
+                    // 定期的にブロブブロック作成
+                    console.log('uploading... chunkSize:', this.chunkSize);
+                    this.createBlobBlockTimer = setInterval(() => {
+                        // 回線が遅い場合、アクセスがたまりすぎないように調整(ブラウザ同時接続数を考慮)
+                        if (this.blobBlockCreatingIndexes.length > 2) {
+                            return;
+                        }
 
-                    if (this.blobBlockUncreatedIndexes.length > 0) {
-                        let nextIndex = this.blobBlockUncreatedIndexes[0];
-                        console.log('nextIndex:' + nextIndex);
-                        this.blobBlockCreatingIndexes.push(nextIndex);
-                        this.blobBlockUncreatedIndexes.shift();
-                        this.loadFile(nextIndex);
-                    }
-                }, 300);
-            }
-        })
-        .fail(() => {
-            this.informFailure();
-        })
-        .always(() => {
-        });
+                        if (this.blobBlockUncreatedIndexes.length > 0) {
+                            let nextIndex = this.blobBlockUncreatedIndexes[0];
+                            console.log('nextIndex:' + nextIndex);
+                            this.blobBlockCreatingIndexes.push(nextIndex);
+                            this.blobBlockUncreatedIndexes.shift();
+                            this.loadFile(nextIndex);
+                        }
+                    }, 300);
+                }
+            })
+            .fail(() => {
+                this.informFailure();
+            })
+            .always(() => {
+            });
     }
 
     private createMedia() {
@@ -356,28 +373,28 @@ class MediaForm {
             processData: false, // Ajaxがdataを整形しない指定
             contentType: false // contentTypeもfalseに指定
         })
-        .done((data) => {
-            // エラーメッセー時表示
-            if (!data.isSuccess) {
-                $('p.error').append(data.messages.join('<br>'));
-            } else {
-                // フォームを空に
-                if (this.isNew) {
-                    $('input[name="title"]', $('form')).val('');
-                    $('textarea[name="description"]', $('form')).val('');
-                    $('input[name="uploaded_by"]', $('form')).val('');
-                    $('input[name="file"]', $('form')).val('');
-                }
+            .done((data) => {
+                // エラーメッセー時表示
+                if (!data.isSuccess) {
+                    $('p.error').append(data.messages.join('<br>'));
+                } else {
+                    // フォームを空に
+                    if (this.isNew) {
+                        $('input[name="title"]', $('form')).val('');
+                        $('textarea[name="description"]', $('form')).val('');
+                        $('input[name="uploaded_by"]', $('form')).val('');
+                        $('input[name="file"]', $('form')).val('');
+                    }
 
-                $('.modal').removeClass('active');
-                $('.modal-cover, .modal.type-02').addClass('active');
-            }
-        })
-        .fail(() => {
-            this.informFailure();
-        })
-        .always(() => {
-        });
+                    $('.modal').removeClass('active');
+                    $('.modal-cover, .modal.type-02').addClass('active');
+                }
+            })
+            .fail(() => {
+                this.informFailure();
+            })
+            .always(() => {
+            });
     }
 }
 

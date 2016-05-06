@@ -92,7 +92,7 @@ class Event extends Base {
                     hideError: true
                 }),
                 remarks: fields.string({
-                    label: '',
+                    label: '備考',
                     widget: widgets.textarea(),
                     validators: [
                     ],
