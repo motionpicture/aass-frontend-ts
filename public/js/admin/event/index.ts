@@ -15,7 +15,7 @@ class AdminEventIndex {
 
         // 動画詳細開くイベント
         $('.thumb a').on('click', function(e) {
-            let rootRow = $(this).parent().parent().parent();
+            let rootRow: JQuery = $(this).parent().parent().parent();
             self.eventRow4check = rootRow;
 
             self.setPlayer($('input[name="media_url_streaming"]', rootRow).val());
@@ -25,6 +25,13 @@ class AdminEventIndex {
             $('span.uploaded_by', self.modalCheckConfirm).text($('input[name="media_uploaded_by"]', rootRow).val());
             $('span.held_from', self.modalCheckConfirm).text($('input[name="held_from"]', rootRow).val());
             $('span.place', self.modalCheckConfirm).text($('input[name="place"]', rootRow).val());
+            
+            let btnArea: JQuery =  $('.btn-area', self.modalCheckConfirm);
+            if ($('input[name="application_status"]', rootRow).val() === '2') {
+                btnArea.hide();
+            } else {
+                btnArea.show();
+            }
             
             self.modalOpen(self.modalCheckConfirm);
         });

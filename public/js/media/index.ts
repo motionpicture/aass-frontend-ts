@@ -8,13 +8,32 @@ class MediaIndex {
     private modalError = $('.modal.type-08');
     private modalEditConfirm = $('.modal.type-09');
     private modalApplyComplete = $('.modal.type-10');
+    private modalCheckConfirm = $('.modal.type-11');
 
     private mediaRow4delete: any;
     private mediaRow4apply: any;
     private mediaRow4reapply: any;
+    
+    private mediaRow4check: any;
 
     constructor() {
         let self = this;
+        
+        // 動画詳細開くイベント
+        $('.thumb a').on('click', function(e) {
+            e.preventDefault();
+            let rootRow: JQuery = $(this).parent().parent().parent();
+            self.mediaRow4check = rootRow;
+
+            self.setPlayer($('input[name="media_url_streaming"]', rootRow).val());
+            $('.user-id', self.modalCheckConfirm).text($('input[name="user_id"]', rootRow).val());
+            $('.description', self.modalCheckConfirm).html($('input[name="application_remarks"]', rootRow).val().replace(/[\n\r]/g, "<br>"));
+            $('span.created_at', self.modalCheckConfirm).text($('input[name="created_at"]', rootRow).val());
+            $('span.uploaded_by', self.modalCheckConfirm).text($('input[name="uploaded_by"]', rootRow).val());
+            
+            
+            self.modalOpen(self.modalCheckConfirm);
+        });
         
 
         // 削除イベント
@@ -146,6 +165,23 @@ class MediaIndex {
             .always(() => {
             });
         });
+    }
+    
+    private setPlayer(src) {
+        let videoOptions = {
+            "nativeControlsForTouch": false,
+            controls: true,
+            autoplay: false,
+            width: "600",
+            height: "300",
+        }
+        let player = amp("azuremediaplayer", videoOptions);
+        player.src([
+            {
+                "src": src,
+                "type": "application/vnd.ms-sstr+xml"
+            }
+        ]);
     }
     
     private modalOpen(target: JQuery): void {

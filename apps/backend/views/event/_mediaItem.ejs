@@ -44,14 +44,16 @@
 
                     <%  if (media.status === mediaModel.STATUS_JPEG2000_PUBLISHED) { %>
                     <div class="btn gray-btn download-jpeg2000-btn ">
-                        <a href="javascript:void(0);"><span>JPEG2000<br>DL</span></a>
+                        <a href="javascript:void(0);"><span>JPEG2000</span></a>
                     </div>
                     <%  } else if (media.status === mediaModel.STATUS_PUBLISHED) { %>
                     <div class="btn gray-btn encode-btn ">
-                        <a href="javascript:void(0);"><span>JPEG2000</span></a>
+                        <a href="javascript:void(0);"><span>JPEG2000<br>エンコード</span></a>
                     </div>
                     <%  } else if (media.status === mediaModel.STATUS_JPEG2000_READY) { %>
-                    <%- mediaModel.status2string(media.status) %>
+                    <div class="btn gray-btn encodeing-btn not-active pressed">
+                        <a href="javascript:void(0);">エンコード中<div class="progress-bar"></div></a>
+                    </div>
                     <% } %>
                 <% } %>
             </div>
@@ -70,14 +72,14 @@
                 </div>
 
             <% } else if (media.status === mediaModel.STATUS_ERROR) { // エラー %>
-                <div class="btn status-btn error-btn blue-btn">
-                    <a href="javascript:void(0);">エラーが発生しました</a>
+                <div class="status-box status-denial">
+                    <span class="warning-icon">エラー</span>
                 </div>
 
             <% } else if (media.status >= mediaModel.STATUS_PUBLISHED) { %>
                 <% if (event.application_media_id !== media.id) { // 他が申請済 %>
-                    <div class="btn status-btn other-filed-btn gray-btn not-active pressed">
-                        <a href="javascript:void(0);">他の動画が承認済です</a>
+                    <div class="status-box status-other-applying">
+                        他の動画が申請中です
                     </div>
                 <% } else { %>
                     <% if (event.application_media_id === media.id) { %>
@@ -86,12 +88,12 @@
                                 動画申請待ち
                             </div>
                         <% } else if (event.application_status === applicationModel.STATUS_ACCEPTED) { // 承認 %>
-                            <div class="btn status-btn filed-btn yellow-btn not-active pressed">
-                                <a href="javascript:void(0);">動画承認済</a>
+                            <div class="status-box status-filed">
+                                動画承認済
                             </div>
                         <% } else if (event.application_status === applicationModel.STATUS_REJECTED) { // 否認 %>
-                            <div class="btn status-btn reapplication-btn blue-btn">
-                                <a href="javascript:void(0);">再申請のお願い</a>
+                            <div class="status-box status-denial">
+                                <span class="warning-icon">動画否認</span>
                             </div>
                         <% } else if (event.application_status === applicationModel.STATUS_REST) { // リセット %>
                             <div class="btn status-btn reapplication-btn blue-btn">
