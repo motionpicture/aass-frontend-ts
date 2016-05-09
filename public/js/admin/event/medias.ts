@@ -24,7 +24,7 @@ class AdminEventMedias {
         $(document).on('click', '.encode-btn a', function(e) {
             let rootRow = $(this).parent().parent().parent().parent().parent();
             let id = $('input[name="id"]', rootRow).val();
-
+             
             console.log('starting encode to jpeg2000... id:', id);
             $.ajax({
                 type: 'post',
@@ -39,6 +39,12 @@ class AdminEventMedias {
                     alert("エンコードに失敗しました\n" + data.messages.join("\n"));
                 } else {
                     alert('エンコードを開始しました');
+                    rootRow.find('.encode-btn').remove();
+                    let encodeingDom: string = `
+                        <div class="btn gray-btn encodeing-btn not-active pressed">
+                            <a href="javascript:void(0);">エンコード中<div class="progress-bar"></div></a>
+                        </div>`;
+                    rootRow.find('.control .group').append(encodeingDom);
                 }
             })
             .fail(() => {

@@ -63,7 +63,7 @@ class MediaIndex {
                     alert("削除に失敗しました\n" + data.messages.join("\n"));
                 } else {
                     this.mediaRow4delete.remove();
-                    this.modalOpen(this.modalApplyConfirm);
+                    this.modalOpen(this.modalDeleteComplete);
                 }
             })
             .fail(() => {
