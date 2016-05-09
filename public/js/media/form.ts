@@ -158,7 +158,7 @@ class MediaForm {
         $('.modal .progress-bar .progress-inner').width(rate + '%');
 
         let uploadedSize = (blobBlockCreatedCount < this.division) ? this.chunkSize * blobBlockCreatedCount : this.size;
-        let uploadStr: string = this.byteFormat(uploadedSize, 'MB') + '/' + this.byteFormat(this.size, 'MB');
+        let uploadStr: string = this.byteFormat(uploadedSize, 'MB') + 'MB / ' + this.byteFormat(this.size, 'MB') + 'MB';
         $('.modal .progress-bar-text').html(uploadStr);
     }
 

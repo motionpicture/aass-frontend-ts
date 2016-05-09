@@ -49,7 +49,7 @@ class AdminEventIndex {
             $('span.held_from', self.modalCheckConfirm).text($('input[name="held_from"]', rootRow).val());
             $('span.place', self.modalCheckConfirm).text($('input[name="place"]', rootRow).val());
             
-            self.modalOpen(self.modalRejectConfirm);
+            self.modalOpen(self.modalCheckConfirm);
         });
 
         // 承認するイベント

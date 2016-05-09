@@ -44,7 +44,7 @@ class MediaIndex {
 
             self.mediaRow4delete = rootRow;
             $('.title', self.modalDeleteConfirm).text(title);
-            self.modalOpen(self.modalApplyConfirm);
+            self.modalOpen(self.modalDeleteConfirm);
         });
 
         // 削除確認はいイベント
