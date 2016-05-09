@@ -12,6 +12,25 @@ class AdminEventMedias {
 
     constructor() {
         let self = this;
+        
+        // 動画詳細開くイベント
+        $('.thumb a').on('click', function(e) {
+            e.preventDefault();
+            let rootRow: JQuery = $(this).parent().parent().parent();
+            self.eventRow4check = rootRow;
+
+            self.setPlayer($('input[name="media_url_streaming"]', rootRow).val());
+            $('.user-id', self.modalCheckConfirm).text($('input[name="user_id"]', rootRow).val());
+            $('.description', self.modalCheckConfirm).html($('input[name="application_remarks"]', rootRow).val().replace(/[\n\r]/g, "<br>"));
+            $('span.created_at', self.modalCheckConfirm).text($('input[name="created_at"]', rootRow).val());
+            $('span.uploaded_by', self.modalCheckConfirm).text($('input[name="uploaded_by"]', rootRow).val());
+            
+            self.modalCheckConfirm.find('.info').eq(2).hide();
+            self.modalCheckConfirm.find('.download-btn').hide();
+            self.modalCheckConfirm.find('.btn-area').hide();
+            
+            self.modalOpen(self.modalCheckConfirm);
+        });
 
         // ダウンロードイベント
         $(document).on('click', '.original-btn a', function(e) {
@@ -78,6 +97,14 @@ class AdminEventMedias {
                 "type": "application/vnd.ms-sstr+xml"
             }
         ]);
+    }
+    
+    private modalOpen(target: JQuery): void {
+        $('.modal-cover').addClass('active');
+        $('.modal').removeClass('active');
+        target.addClass('active');
+        let top: number = $(window).scrollTop() + 150;
+        target.css('top', String(top) + 'px');
     }
 }
 
