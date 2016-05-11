@@ -13,6 +13,7 @@ export default class Media extends Base {
 
     static AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED = 'jpeg2000';
     static AZURE_FILE_DIRECTORY_JPEG2000_ENCODED = 'Output';
+    static AZURE_FILE_DIRECTORY_JPEG2000_INPUT = 'Input';
     static EXTENSION_JPEG2000_ENCODED = 'mxf';
 
     public static status2string(status: Number): String {
@@ -107,9 +108,5 @@ UPDATE media SET
         };
 
         this.query(query, queryParams, cb);
-    }
-
-    public static getFilePath4Jpeg2000Encoded(filename: string): String {
-        return Media.AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED + '/' + filename + '.jpeg2000';
     }
 }

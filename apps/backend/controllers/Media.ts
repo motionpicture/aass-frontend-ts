@@ -11,10 +11,11 @@ export default class Media extends Base {
             let media = rows[0];
             let source = media.url_origin;
             let share = MediaModel.AZURE_FILE_SHARE_NAME_JPEG2000_ENCODED;
+            let directory = MediaModel.AZURE_FILE_DIRECTORY_JPEG2000_INPUT;
             let target = media.filename + '.' + media.extension;
 
             // Fileへコピー
-            req.fileService.startCopyFile(source, share, '', target, {}, (error, result, response) => {
+            req.fileService.startCopyFile(source, share, directory, target, {}, (error, result, response) => {
                 if (error) throw error;
 
                 this.logger.trace('startCopyFile result:', result);
