@@ -4,8 +4,7 @@
 <div class="modal type-01">
     <div class="close-btn"><a href="#"></a></div>
     <p class="text-center read">
-        動画の承認が完了しました。<br>
-        申請者のメールアドレスに承認完了メールを送信しました。
+        動画の承認が完了しました。
     </p>
     <div class="btn-area one-btn">
         <div class="btn gray-btn"><a href="#">閉じる</a></div>
@@ -32,23 +31,21 @@
         <p class="description"></p>
     </div>
     
-    <div class="info odd">
-        <dl class="time d-table">
-            <dt class="d-td">再生時間</dt><dd class="d-td"></dd>
+    <%
+    var modalData = [
+        //{className: 'time', label: '再生時間', contents: ''},
+        {className: 'upload', label: 'アップロード', contents: '<span class="created_at"></span><span class="uploaded_by"></span>'},
+        {className: 'date', label: '上映予定日', contents: '<span class="held_from"></span><span class="place">'}
+    ];
+    modalData.forEach((data, index) => { 
+        var className = (index % 2 === 0)? 'odd' : 'even';
+    %>
+    <div class="info <%= className %>">
+        <dl class="<%= data.className %> d-table">
+            <dt class="d-td"><%= data.label %></dt><dd class="d-td"><%- data.contents %></dd>
         </dl>
     </div>
-    
-    <div class="info even">
-        <dl class="upload d-table">
-            <dt class="d-td">アップロード</dt><dd class="d-td"><span class="created_at"></span>    <span class="uploaded_by"></span></dd>
-        </dl>
-    </div>
-    
-    <div class="info odd">
-        <dl class="date d-table">
-            <dt class="d-td">上映予定日</dt><dd class="d-td"><span class="held_from"></span>    <span class="place"></span></dd>
-        </dl>
-    </div>
+    <% }) %>
     
     <div class="btn gray-btn download-btn">
         <a href="javascript:void(0);">動画をダウンロード</a>
@@ -68,42 +65,24 @@
 <div class="modal type-04">
     <div class="close-btn"><a href="javascript:void(0);"></a></div>
     <p class="text-center read">動画を承認しますか？</p>
-    
-    <div class="info odd">
-        <dl class="date d-table">
-            <dt class="d-td">上映予定日</dt><dd class="d-td"></dd>
+    <%
+    var modalData = [
+        {className: 'date', label: '上映予定日'},
+        {className: 'screen', label: '上映劇場'},
+        {className: 'title', label: '先品名'},
+        //{className: 'time', label: '再生時間'},
+        {className: 'user', label: 'ユーザー名'},
+        {className: 'description', label: '動画概要'}
+    ];
+    modalData.forEach((data, index) => { 
+        var className = (index % 2 === 0)? 'odd' : 'even';
+    %>
+    <div class="info <%= className %>">
+        <dl class="<%= data.className %> d-table">
+            <dt class="d-td"><%= data.label %></dt><dd class="d-td"></dd>
         </dl>
     </div>
-    
-    <div class="info even">
-        <dl class="screen d-table">
-            <dt class="d-td">上映劇場</dt><dd class="d-td"></dd>
-        </dl>
-    </div>
-    
-    <div class="info odd">
-        <dl class="title d-table">
-            <dt class="d-td">作品名</dt><dd class="d-td"></dd>
-        </dl>
-    </div>
-    
-    <div class="info even">
-        <dl class="time d-table">
-            <dt class="d-td">再生時間</dt><dd class="d-td"></dd>
-        </dl>
-    </div>
-    
-    <div class="info odd">
-        <dl class="user d-table">
-            <dt class="d-td">ユーザー名</dt><dd class="d-td"></dd>
-        </dl>
-    </div>
-    
-    <div class="info even">
-        <dl class="description d-table">
-            <dt class="d-td">動画概要</dt><dd class="d-td"></dd>
-        </dl>
-    </div>
+    <% }) %>
     
     
     <div class="btn-area clearfix">
@@ -121,42 +100,26 @@
 <div class="modal type-05">
     <div class="close-btn"><a href="javascript:void(0);"></a></div>
     <p class="text-center read">アカウントを発行しますか?</p>
-    
-    <div class="info odd">
-        <dl class="email d-table">
-            <dt class="d-td">申請者メールアドレス<span class="red-text">※</span></dt><dd class="d-td"></dd>
+    <%
+    var modalData = [
+        {className: 'email', label: '申請者メールアドレス', required: true},
+        {className: 'user_id', label: 'ユーザーID', required: true},
+        {className: 'password', label: 'パスワード', required: true},
+        {className: 'held', label: '上映日時', required: true},
+        {className: 'place', label: '上映場所', required: true},
+        {className: 'remarks', label: '備考', required: false}
+    ];
+    modalData.forEach((data, index) => { 
+        var className = (index % 2 === 0)? 'odd' : 'even';
+        var required = (data.required) ? '<span class="red-text">※</span>' : '';
+    %>
+    <div class="info <%= className %>">
+        <dl class="<%= data.className %> d-table">
+            <dt class="d-td"><%= data.label %><%- required %></dt><dd class="d-td"></dd>
         </dl>
     </div>
+    <% }) %>
     
-    <div class="info even">
-        <dl class="user_id d-table">
-            <dt class="d-td">ユーザーID<span class="red-text">※</span></dt><dd class="d-td"></dd>
-        </dl>
-    </div>
-    
-    <div class="info odd">
-        <dl class="password d-table">
-            <dt class="d-td">パスワード<span class="red-text">※</span></dt><dd class="d-td"></dd>
-        </dl>
-    </div>
-    
-    <div class="info even">
-        <dl class="held d-table">
-            <dt class="d-td">上映日時<span class="red-text">※</span></dt><dd class="d-td"></dd>
-        </dl>
-    </div>
-    
-    <div class="info odd">
-        <dl class="place d-table">
-            <dt class="d-td">上映場所<span class="red-text">※</span></dt><dd class="d-td"></dd>
-        </dl>
-    </div>
-    
-    <div class="info even">
-        <dl class="remarks d-table">
-            <dt class="d-td">備考</dt><dd class="d-td"></dd>
-        </dl>
-    </div>
     
     <div class="btn-area clearfix">
         <div class="inner">
@@ -173,8 +136,7 @@
 <div class="modal type-06">
     <div class="close-btn"><a href="<%- url('events', {}) %>"></a></div>
     <p class="text-center read">
-        予約の追加が完了しました。<br>
-        登録したメールアドレスにアカウント情報を送信しました。
+        予約の追加が完了しました。
     </p>
     <div class="btn-area one-btn">
         <div class="btn gray-btn"><a href="<%- url('events', {}) %>">閉じる</a></div>

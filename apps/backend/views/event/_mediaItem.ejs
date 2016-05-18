@@ -80,7 +80,7 @@
             <% } else if (media.status >= mediaModel.STATUS_PUBLISHED) { %>
                 <% if (event.application_media_id !== media.id) { // 他が申請済 %>
                     <div class="status-box status-other-applying">
-                        他の動画が申請中です
+                        他の動画が承認済です
                     </div>
                 <% } else { %>
                     <% if (event.application_media_id === media.id) { %>

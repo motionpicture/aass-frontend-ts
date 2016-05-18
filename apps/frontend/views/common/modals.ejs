@@ -127,8 +127,7 @@
 <div class="modal type-10">
     <div class="close-btn"><a href="javascript:void(0);"></a></div>
     <p class="text-center read">
-        上映申請を行いました。審査が完了するまで少々お待ち下さい。<br>
-        審査結果はメールにてお知らせいたします。
+        上映申請を行いました。審査が完了するまで少々お待ち下さい。
     </p>
     <div class="btn-area clearfix">
         <div class="inner">
@@ -151,18 +150,21 @@
         <p class="user-id"></p>
         <p class="description"></p>
     </div>
-    
-    <div class="info odd">
-        <dl class="time d-table">
-            <dt class="d-td">再生時間</dt><dd class="d-td"></dd>
+    <%
+    var modalData = [
+        //{className: 'time', label: '再生時間', contents: ''},
+        {className: 'upload', label: 'アップロード', contents: '<span class="created_at"></span><span class="uploaded_by">'}
+    ];
+    modalData.forEach((data, index) => { 
+        var className = (index % 2 === 0)? 'odd' : 'even';
+    %>
+    <div class="info <%= className %>">
+        <dl class="<%= data.className %> d-table">
+            <dt class="d-td"><%= data.label %></dt><dd class="d-td"><%- data.contents %></dd>
         </dl>
     </div>
+    <% }) %>
     
-    <div class="info even">
-        <dl class="upload d-table">
-            <dt class="d-td">アップロード</dt><dd class="d-td"><span class="created_at"></span>    <span class="uploaded_by"></span></dd>
-        </dl>
-    </div>
     
 </div>
 
