@@ -10,7 +10,7 @@
             <div class="contents">
                 <h1 class="page-ttl">動画一覧/申請</h1>
                 <div class="inner">
-
+                    <% if (medias.length > 0) { %>
                     <p class="text-center read">動画一覧から申請する動画を選んで「動画申請」ボタンを押してください。ボタンを押すと劇場に動画の申請を行います。</p>
 
                     <div class="item-list">
@@ -18,8 +18,7 @@
                         <%- include('./_item', {media: media}) -%>
                         <% }); %>
                     </div>
-
-                    
+                    <% } %>
                 </div>
             </div>
         </form>

@@ -81,7 +81,7 @@ class MediaIndex {
 
         // 申請イベント
         $('.application-btn a').on('click', function(e) {
-            let rootRow = $(this).parent().parent().parent().parent().parent();
+            let rootRow = $(this).parent().parent().parent().parent();
             let title = $('input[name="title"]', rootRow).val();
             let id = $('input[name="id"]', rootRow).val();
 
@@ -111,6 +111,9 @@ class MediaIndex {
                     $('.modal-cover, .modal').removeClass('active');
                     alert("申請に失敗しました\n" + data.messages.join("\n"));
                 } else {
+                    this.mediaRow4apply
+                        .find('.status')
+                        .html('<div class="status-box status-waiting">動画申請待ち</div>');
                     this.modalOpen(this.modalApplyComplete);
                 }
             })
@@ -128,7 +131,7 @@ class MediaIndex {
         });
 
         // 再申請のお願いイベント
-        $('.reapplication-btn a').on('click', function(e) {
+        $('.reapplication-btn a, .request-btn a').on('click', function(e) {
             let rootRow = $(this).parent().parent().parent().parent();
             let reason = $('input[name="application_reject_reason"]', rootRow).val();
             self.mediaRow4reapply = rootRow;

@@ -35,6 +35,8 @@
                     <dt class="d-td"><span>アップロード</span></dt>
                     <dd class="d-td"><span class="date">2016/3/10/14:32</span><span class="author"><%- event.media_uploaded_by %></span></dd>
                 </dl>
+                <% } else { %>
+                <dl class="d-td upload"></dl>    
                 <% } %>
                 <dl class="d-td release">
                     <dt class="d-td"><span>上映予定日</span></dt>
@@ -78,10 +80,13 @@
             <div class="btn gray-btn list-btn">
                 <a href="/admin/event/<%- event.id %>/medias">動画一覧</a>
             </div>
-
-            <div class="btn gray-btn remove-btn">
-                <a href="javascript:void(0);">予約削除</a>
-            </div>
+            
+            <% if (event.application_id) { %>
+                <div class="btn gray-btn remove-btn">
+                    <a href="javascript:void(0);">予約削除</a>
+                </div>
+            <% } %>
+            
         </div>
     </div>
 </div>

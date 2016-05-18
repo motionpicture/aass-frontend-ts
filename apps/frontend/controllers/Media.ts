@@ -19,7 +19,7 @@ export default class Media extends Base
                 if (rows.length > 0) {
                     application = rows[0];
                 }
-
+                console.log(application);
                 res.render('media/index', {
                     medias: medias,
                     application: application,

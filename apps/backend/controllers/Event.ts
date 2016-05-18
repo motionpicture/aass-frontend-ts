@@ -9,6 +9,7 @@ export default class Event extends Base {
         let events: Array<any> = [];
 
         let eventModel = new EventModel();
+        
         eventModel.getAll((err, rows, fields) => {
             this.logger.debug('err:', err);
             this.logger.debug('rows:', rows);
@@ -184,4 +185,12 @@ export default class Event extends Base {
             });
         });
     }
+    
+    public remove(req: any, res: any, next: any): void {
+        res.json({
+            isSuccess: true,
+            messages: []
+        });
+    }
+    
 }

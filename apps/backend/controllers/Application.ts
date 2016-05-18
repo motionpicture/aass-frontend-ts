@@ -35,7 +35,7 @@ export default class Application extends Base {
         let message: string = '' ;
 
         let applicationModel = new ApplicationModel();
-        applicationModel.deleteById(req.params.id, (err, result) => {
+        applicationModel.updateStatus(req.params.id, ApplicationModel.STATUS_DELETED, (err, result) => {
             if (err) throw err;
 
             res.json({

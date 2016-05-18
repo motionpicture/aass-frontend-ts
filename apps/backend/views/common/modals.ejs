@@ -7,7 +7,7 @@
         動画の承認が完了しました。
     </p>
     <div class="btn-area one-btn">
-        <div class="btn gray-btn"><a href="#">閉じる</a></div>
+        <div class="btn gray-btn prev-btn"><a href="#">閉じる</a></div>
     </div>
 </div>
 
@@ -17,7 +17,7 @@
         申請者のメールアドレスに再申請依頼を送信しました。
     </p>
     <div class="btn-area one-btn">
-        <div class="btn gray-btn"><a href="#">閉じる</a></div>
+        <div class="btn gray-btn prev-btn"><a href="#">閉じる</a></div>
     </div>
 </div>
 
@@ -159,6 +159,32 @@
                 <div><a href="javascript:void(0);">戻る</a></div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="modal type-08">
+    <div class="close-btn"><a href="javascript:void(0);"></a></div>
+    <p class="text-center read">予約を削除しますか？</p>
+    
+    <div class="btn-area clearfix">
+        <div class="inner">
+            <div class="btn gray-btn next-btn">
+                <div><a href="javascript:void(0);">はい</a></div>
+            </div>
+            <div class="btn gray-btn prev-btn">
+                <div><a href="javascript:void(0);">いいえ</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal type-09">
+    <div class="close-btn"><a href="<%- url('events', {}) %>"></a></div>
+    <p class="text-center read">
+        予約の削除が完了しました。
+    </p>
+    <div class="btn-area one-btn">
+        <div class="btn gray-btn"><a href="<%- url('events', {}) %>">閉じる</a></div>
     </div>
 </div>
 

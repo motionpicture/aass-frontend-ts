@@ -7,6 +7,8 @@ class AdminEventIndex {
     private modalCheckConfirm = $('.modal.type-03');
     private modalAcceptConfirm = $('.modal.type-04');
     private modalRejectConfirm = $('.modal.type-07');
+    private modalDeleteConfirm = $('.modal.type-08');
+    private modalDeleteComplete = $('.modal.type-09');
 
     private eventRow4check: any;
 
@@ -48,6 +50,13 @@ class AdminEventIndex {
             $('span.uploaded_by', self.modalCheckConfirm).text($('input[name="media_uploaded_by"]', rootRow).val());
             $('span.held_from', self.modalCheckConfirm).text($('input[name="held_from"]', rootRow).val());
             $('span.place', self.modalCheckConfirm).text($('input[name="place"]', rootRow).val());
+            
+            let btnArea: JQuery =  $('.btn-area', self.modalCheckConfirm);
+            if ($('input[name="application_status"]', rootRow).val() === '2') {
+                btnArea.hide();
+            } else {
+                btnArea.show();
+            }
             
             self.modalOpen(self.modalCheckConfirm);
         });
@@ -94,6 +103,12 @@ class AdminEventIndex {
                     $('.modal-cover, .modal').removeClass('active');
                     alert("承認に失敗しました\n" + data.messages.join("\n"));
                 } else {
+                    this.eventRow4check.find('.control .btn').eq(0).remove();
+                    this.eventRow4check
+                        .find('.control')
+                        .prepend(`<div class="btn approval-btn light-gray-btn not-active pressed">
+                            <a href="javascript:void(0);">動画認証済み </a>
+                        </div>`);
                     this.modalOpen(this.modalAcceptComplete);
                 }
             })
@@ -104,6 +119,8 @@ class AdminEventIndex {
             .always(() => {
             });
         });
+        
+        
 
         // 否認決定イベント
         this.modalRejectConfirm.on('click', '.next-btn a', () => {
@@ -125,6 +142,12 @@ class AdminEventIndex {
                     $('.modal-cover, .modal').removeClass('active');
                     alert("否認に失敗しました\n" + data.messages.join("\n"));
                 } else {
+                    this.eventRow4check.find('.control .btn').eq(0).remove();
+                    this.eventRow4check
+                        .find('.control')
+                        .prepend(`<div class="btn approval-btn light-gray-btn not-active pressed">
+                            <a href="javascript:void(0);">動画否認済み </a>
+                        </div>`);
                     this.modalOpen(this.modalRejectComplete);
                 }
             })
@@ -164,6 +187,52 @@ class AdminEventIndex {
             .always(() => {
             });
         });
+        
+        // 予約削除ボタンクリック
+        $(document).on('click', '.remove-btn a', function(e) {
+            let rootRow: JQuery = $(this).parent().parent().parent().parent();
+            self.eventRow4check = rootRow;
+            self.modalOpen(self.modalDeleteConfirm);
+        });
+        
+        // 予約削除イベント
+        this.modalDeleteConfirm.on('click', '.next-btn a', () => {
+            let applicationId = $('input[name="application_id"]', this.eventRow4check).val();
+
+            console.log('deleteing... id:', applicationId);
+            $.ajax({
+                type: 'post',
+                url: '/admin/application/' + applicationId + '/delete',
+                data: {},
+                dataType: 'json'
+            })
+            .done((data) => {
+                // エラーメッセー時表示
+                if (!data.isSuccess) {
+                    $('.modal-cover, .modal').removeClass('active');
+                    alert("予約削除に失敗しました\n" + data.messages.join("\n"));
+                } else {
+                    this.eventRow4check.find('.thumb').html('<span></span>');
+                    this.eventRow4check.find('.info .upload').remove();
+                    this.eventRow4check.find('.control .download-btn').remove();
+                    this.eventRow4check.find('.control .remove-btn').remove();
+                    this.eventRow4check.find('.control .btn').eq(0).remove();
+                    this.eventRow4check
+                        .find('.control')
+                        .prepend(`<div class="btn approval-btn blue-btn not-active pressed">
+                            <a href="javascript:void(0);">動画待ち </a>
+                        </div>`);
+                    this.modalOpen(this.modalDeleteComplete);
+                }
+            })
+            .fail(() => {
+                $('.modal-cover, .modal').removeClass('active');
+                alert("予約削除に失敗しました");
+            })
+            .always(() => {
+            });
+        });
+        
     }
 
     private setPlayer(src) {
