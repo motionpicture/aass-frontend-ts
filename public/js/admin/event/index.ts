@@ -22,7 +22,7 @@ class AdminEventIndex {
 
             self.setPlayer($('input[name="media_url_streaming"]', rootRow).val());
             $('.user-id', self.modalCheckConfirm).text($('input[name="user_id"]', rootRow).val());
-            $('.description', self.modalCheckConfirm).html($('input[name="remarks"]', rootRow).val().replace(/[\n\r]/g, "<br>"));
+            $('.description', self.modalCheckConfirm).html($('input[name="application_remarks"]', rootRow).val().replace(/[\n\r]/g, "<br>"));
             $('span.created_at', self.modalCheckConfirm).text($('input[name="media_created_at"]', rootRow).val());
             $('span.uploaded_by', self.modalCheckConfirm).text($('input[name="media_uploaded_by"]', rootRow).val());
             $('span.held_from', self.modalCheckConfirm).text($('input[name="held_from"]', rootRow).val());
@@ -45,7 +45,7 @@ class AdminEventIndex {
 
             self.setPlayer($('input[name="media_url_streaming"]', rootRow).val());
             $('.user-id', self.modalCheckConfirm).text($('input[name="user_id"]', rootRow).val());
-            $('.description', self.modalCheckConfirm).text($('input[name="remarks"]', rootRow).val());
+            $('.description', self.modalCheckConfirm).text($('input[name="application_remarks"]', rootRow).val());
             $('span.created_at', self.modalCheckConfirm).text($('input[name="media_created_at"]', rootRow).val());
             $('span.uploaded_by', self.modalCheckConfirm).text($('input[name="media_uploaded_by"]', rootRow).val());
             $('span.held_from', self.modalCheckConfirm).text($('input[name="held_from"]', rootRow).val());
@@ -64,15 +64,13 @@ class AdminEventIndex {
         // 承認するイベント
         this.modalCheckConfirm.on('click', '.next-btn a', () => {
             $('.date dd', self.modalAcceptConfirm).text($('input[name="held_from"]', this.eventRow4check).val());
-            $('.screen dd', self.modalAcceptConfirm).text($('input[name="held_from"]', this.eventRow4check).val());
+            $('.screen dd', self.modalAcceptConfirm).text($('input[name="place"]', this.eventRow4check).val());
             $('.title dd', self.modalAcceptConfirm).text($('input[name="media_title"]', this.eventRow4check).val());
             $('.time dd', self.modalAcceptConfirm).text();
             $('.user dd', self.modalAcceptConfirm).text($('input[name="media_uploaded_by"]', this.eventRow4check).val());
             $('.description dd', self.modalAcceptConfirm).text($('input[name="media_description"]', this.eventRow4check).val());
 
-            $('.modal-cover').addClass('active');
-            $('.modal').removeClass('active');
-            this.modalAcceptConfirm.addClass('active');
+            self.modalOpen(self.modalAcceptConfirm);
         });
 
         // 否認するイベント

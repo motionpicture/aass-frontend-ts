@@ -11,6 +11,7 @@ SELECT
  LEFT JOIN (
      SELECT
          a2.id AS application_id, a2.media_id, a2.status AS application_status, a2.event_id AS application_event_id
+         , a2.remarks AS application_remarks
          , m.title AS media_title, m.description AS media_description, m.uploaded_by AS media_uploaded_by
          , m.url_thumbnail AS media_url_thumbnail, m.url_mp4 AS media_url_mp4, m.url_streaming AS media_url_streaming
          , m.status AS media_status, m.job_end_at AS media_job_end_at
