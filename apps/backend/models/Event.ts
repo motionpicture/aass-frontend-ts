@@ -34,15 +34,31 @@ SELECT
 
     public getById(id, cb): void {
         let query = `
-SELECT e.*,
- a.id AS application_id, a.media_id AS application_media_id, a.remarks AS application_remarks, a.status AS application_status, a.reject_reason AS application_reject_reason
+SELECT
+    e.*, a.*
  FROM event AS e
- LEFT JOIN application AS a ON a.event_id = e.id
- WHERE e.id = :id LIMIT 1
+ LEFT JOIN (
+     SELECT
+         a2.id AS application_id, a2.media_id, a2.status AS application_status, a2.event_id AS application_event_id
+         , a2.remarks AS application_remarks, a2.media_id AS application_media_id
+         , m.title AS media_title, m.description AS media_description, m.uploaded_by AS media_uploaded_by
+         , m.url_thumbnail AS media_url_thumbnail, m.url_mp4 AS media_url_mp4, m.url_streaming AS media_url_streaming
+         , m.status AS media_status, m.job_end_at AS media_job_end_at
+         , m.created_at AS media_created_at, m.updated_at AS media_updated_at
+     FROM application AS a2 LEFT JOIN media AS m ON m.id = a2.media_id
+     WHERE m.status <> :mediaStatus AND a2.status <> :applicationStatus AND a2.status <> :applicationStatus2
+ ) a ON a.application_event_id = e.id
+ WHERE e.id = :id
+ LIMIT 1
 `;
 
+
+        
         let queryParams = {
-            id: id
+            id: id,
+            mediaStatus: Media.STATUS_DELETED,
+            applicationStatus: Application.STATUS_DELETED,
+            applicationStatus2: Application.STATUS_RESET
         };
 
         this.query(query, queryParams, cb);

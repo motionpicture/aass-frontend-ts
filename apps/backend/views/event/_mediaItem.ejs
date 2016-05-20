@@ -78,8 +78,6 @@
                 </div>
 
             <% } else if (media.status >= mediaModel.STATUS_PUBLISHED) { %>
-            event.application_media_id:<%- event.application_media_id%>
-            media.id:<%- media.id%>
 
                 <% if (event.application_media_id !== media.id &&
                 media.application_status === applicationModel.STATUS_ACCEPTED) { // 他が申請済 %>

@@ -111,9 +111,18 @@ class MediaIndex {
                     $('.modal-cover, .modal').removeClass('active');
                     alert("申請に失敗しました\n" + data.messages.join("\n"));
                 } else {
-                    this.mediaRow4apply
-                        .find('.status')
-                        .html('<div class="status-box status-waiting">動画申請待ち</div>');
+                    this.mediaRow4apply.find('.status').html('<div class="status-box status-waiting">動画申請待ち</div>');
+                    $('.item').each((index, elem)=>{
+                        let target: JQuery = $(elem).find('.application-btn');
+                        if (target.length > 0) {
+                            target.remove();
+                            $(elem)
+                                .find('.status')
+                                .prepend(`<div class="btn status-btn other-filed-btn gray-btn not-active pressed">
+                                    <a href="javascript:void(0);">他の動画が承認済です</a>
+                                </div>`);
+                        }
+                    });
                     this.modalOpen(this.modalApplyComplete);
                 }
             })

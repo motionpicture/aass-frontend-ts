@@ -170,7 +170,7 @@ export default class Event extends Base {
             if (err) return next(err);
 
             event = rows[0];
-
+            
             mediaModel.getListByEventId(req.params.id, (err, rows, fields) => {
                 if (err) return next(err);
 
