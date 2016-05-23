@@ -187,9 +187,17 @@ export default class Event extends Base {
     }
     
     public remove(req: any, res: any, next: any): void {
-        res.json({
-            isSuccess: true,
-            messages: []
+        let message: string = '' ;
+
+        let eventModel = new EventModel();
+        
+        eventModel.remove(req.params.id, (err, result) => {
+            if (err) throw err;
+
+            res.json({
+                isSuccess: true,
+                messages: []
+            });
         });
     }
     

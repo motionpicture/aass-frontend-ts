@@ -119,7 +119,7 @@ class MediaIndex {
                             $(elem)
                                 .find('.status')
                                 .prepend(`<div class="btn status-btn other-filed-btn gray-btn not-active pressed">
-                                    <a href="javascript:void(0);">他の動画が承認済です</a>
+                                    <a href="javascript:void(0);">他の動画が申請中です</a>
                                 </div>`);
                         }
                     });
@@ -150,33 +150,33 @@ class MediaIndex {
         });
 
         // 再申請のお願い閉じるイベント
-        this.modalReapply.on('click', '.close-btn a, .gray-btn a', (e) => {
-            let applicationId = $('input[name="application_id"]', self.mediaRow4reapply).val();
+        // this.modalReapply.on('click', '.close-btn a, .gray-btn a', (e) => {
+        //     let applicationId = $('input[name="application_id"]', self.mediaRow4reapply).val();
 
-            $.ajax({
-                type: 'post',
-                url: '/application/' + applicationId + '/reset',
-                data: {
-                },
-                dataType: 'json'
-            })
-            .done((data) => {
-                // エラーメッセー時表示
-                if (!data.isSuccess) {
-                    $('.modal-cover, .modal').removeClass('active');
-                    alert("申請リセットに失敗しました\n" + data.messages.join("\n"));
-                } else {
-                    $('.modal-cover, .modal').removeClass('active');
-                    location.reload();
-                }
-            })
-            .fail(() => {
-                $('.modal-cover, .modal').removeClass('active');
-                alert("申請リセットに失敗しました");
-            })
-            .always(() => {
-            });
-        });
+        //     $.ajax({
+        //         type: 'post',
+        //         url: '/application/' + applicationId + '/reset',
+        //         data: {
+        //         },
+        //         dataType: 'json'
+        //     })
+        //     .done((data) => {
+        //         // エラーメッセー時表示
+        //         if (!data.isSuccess) {
+        //             $('.modal-cover, .modal').removeClass('active');
+        //             alert("申請リセットに失敗しました\n" + data.messages.join("\n"));
+        //         } else {
+        //             $('.modal-cover, .modal').removeClass('active');
+        //             location.reload();
+        //         }
+        //     })
+        //     .fail(() => {
+        //         $('.modal-cover, .modal').removeClass('active');
+        //         alert("申請リセットに失敗しました");
+        //     })
+        //     .always(() => {
+        //     });
+        // });
     }
     
     private setPlayer(src) {

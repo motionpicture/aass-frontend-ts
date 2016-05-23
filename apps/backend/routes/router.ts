@@ -30,6 +30,7 @@ export default function router(app: any) {
     app.all('/admin/event/validate', 'event.validate', (req, res, next) => {(new Event()).validate(req, res, next)});
     app.all('/admin/event/:id/edit', 'event.update', (req, res, next) => {(new Event()).update(req, res, next)});
     app.get('/admin/event/:id/medias', 'event.medias', (req, res, next) => {(new Event()).medias(req, res, next)});
+    app.post('/admin/event/:id/remove', 'event.medias', (req, res, next) => {(new Event()).remove(req, res, next)});
     
 
     app.get('/admin/media/:id/download', 'media.download', (req, res, next) => {(new Media()).download(req, res, next)});

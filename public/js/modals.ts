@@ -9,6 +9,7 @@ class Modals {
 
         // モーダル閉じるイベント
         $('.modal .close-btn a').on('click', (e) => {
+            e.preventDefault();
             this.coverNode.removeClass('active');
             this.modalNode.removeClass('active');
             // location.redirect();
@@ -16,6 +17,7 @@ class Modals {
 
         // いいえイベント
         $('.modal .btn-area .prev-btn a').on('click', (e) => {
+            e.preventDefault();
             this.coverNode.removeClass('active');
             this.modalNode.removeClass('active');
         });

@@ -117,4 +117,17 @@ UPDATE event SET
 
         this.query(query, queryParams, cb);
     }
+    
+    public remove(id, cb): void {
+        let query: string = `
+DELETE FROM event 
+WHERE id = :id
+`;
+
+        let queryParams: Object = {
+            'id':  id
+        };
+
+        this.query(query, queryParams, cb);
+    }
 }
