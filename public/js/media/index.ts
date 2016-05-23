@@ -141,6 +141,7 @@ class MediaIndex {
 
         // 再申請のお願いイベント
         $('.reapplication-btn a, .request-btn a').on('click', function(e) {
+            e.preventDefault();
             let rootRow = $(this).parent().parent().parent().parent();
             let reason = $('input[name="application_reject_reason"]', rootRow).val();
             self.mediaRow4reapply = rootRow;
