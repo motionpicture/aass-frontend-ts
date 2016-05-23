@@ -3,7 +3,7 @@
 // Definitions by: Jeff May <https://github.com/jeffmay>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
 
-/// <reference path="../../typings/main/ambient/node/index.d.ts" />
+/// <reference path="../../typings/globals/node/index.d.ts" />
 
 interface UUIDOptions {
 

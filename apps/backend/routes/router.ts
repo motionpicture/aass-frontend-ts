@@ -1,5 +1,3 @@
-/// <reference path="../../../typings/main.d.ts" />
-
 import Router = require('named-routes');
 
 import Application from '../controllers/Application';

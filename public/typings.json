@@ -2,7 +2,7 @@
   "name": "public",
   "version": false,
   "dependencies": {},
-  "ambientDependencies": {
+  "globalDependencies": {
     "jquery": "registry:dt/jquery#2.0.0+20160303223636"
   }
 }
