@@ -41,23 +41,15 @@
                     <a href="<%- url('media.update', {id: media.id}) %>">編集</a>
                 </div>
                 <%
-                if (media.status >= mediaModel.STATUS_PUBLISHED &&
+                if (!(media.status >= mediaModel.STATUS_PUBLISHED &&
                 application &&
                 !(application && application.media_id !== media.id) &&
-                application.status === applicationModel.STATUS_ACCEPTED) {
-                %>
-                <div class="btn gray-btn remove-btn not-active pressed">
-                    <a href="javascript:void(0);">削除</a>
-                </div>
-                <%
-                } else {
+                application.status === applicationModel.STATUS_ACCEPTED)) {
                 %>
                 <div class="btn gray-btn remove-btn">
                     <a href="javascript:void(0);">削除</a>
                 </div>
-                <%   
-                }
-                %>
+                <% } %>
             </div>
         </div>
         <% var statusClassName = (application && application.status === applicationModel.STATUS_REJECTED) ? 'reapplication' : ''; %>

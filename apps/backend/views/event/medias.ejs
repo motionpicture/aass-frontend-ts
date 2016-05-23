@@ -13,8 +13,9 @@
 
                     <dl class="user-info">
                         <dt>ユーザーID : <span><%- event.user_id %></span></dt>
-                        <dd><%- event.application_remarks.replace(/[\n\r]/g, "<br>") %>
-                        </dd>
+                        <% if (event.application_remarks) { %>
+                        <dd><%- event.application_remarks.replace(/[\n\r]/g, "<br>") %></dd>
+                        <% } %>
                     </dl>
 
                     <div class="item-list">

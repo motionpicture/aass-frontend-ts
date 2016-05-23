@@ -175,7 +175,7 @@ export default class Event extends Base {
                 if (err) return next(err);
 
                 medias = rows;
-
+                console.log(medias)
                 res.render('event/medias', {
                     event: event,
                     medias: medias,

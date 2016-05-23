@@ -24,6 +24,8 @@ class AdminEventMedias {
             $('.description', self.modalCheckConfirm).html($('input[name="application_remarks"]', rootRow).val().replace(/[\n\r]/g, "<br>"));
             $('span.created_at', self.modalCheckConfirm).text($('input[name="created_at"]', rootRow).val());
             $('span.uploaded_by', self.modalCheckConfirm).text($('input[name="uploaded_by"]', rootRow).val());
+            $('span.held_from', self.modalCheckConfirm).text($('input[name="held_from"]', rootRow).val());
+            $('span.place', self.modalCheckConfirm).text($('input[name="place"]', rootRow).val());
             
             self.modalCheckConfirm.find('.info').eq(2).hide();
             self.modalCheckConfirm.find('.download-btn').hide();
