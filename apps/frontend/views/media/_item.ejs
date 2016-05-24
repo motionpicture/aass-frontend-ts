@@ -29,7 +29,7 @@
         <div class="d-td info">
             <div class="group">
                 <span class="type text-center">動画</span>
-                <span class="date"><%- media.created_at %></span>
+                <span class="date"><%- (new Date(media.created_at)).toLocaleString() %></span>
                 <span class="author"><%- media.uploaded_by %></span>
                 <span class="time">再生時間 : ??分??秒</span>
             </div>
