@@ -2,8 +2,8 @@
     <input type="hidden" name="id" value="<%- event.id %>" />
     <input type="hidden" name="user_id" value="<%- event.user_id %>" />
     <input type="hidden" name="place" value="<%- event.place %>" />
-    <input type="hidden" name="held_from" value="<%- event.held_from %>" />
-    <input type="hidden" name="held_to" value="<%- event.held_to %>" />
+    <input type="hidden" name="held_from" value="<%- (new Date(event.held_from)).toLocaleString().replace(/-/g, '/').slice(0, 16) %>" />
+    <input type="hidden" name="held_to" value="<%- (new Date(event.held_to)).toLocaleString().replace(/-/g, '/').slice(0, 16) %>" />
     <input type="hidden" name="remarks" value="<%- event.remarks %>" />
     <input type="hidden" name="media_id" value="<%- event.media_id %>" />
     <input type="hidden" name="media_title" value="<%- event.media_title %>" />
@@ -14,8 +14,8 @@
     <input type="hidden" name="media_url_streaming" value="<%- event.media_url_streaming %>" />
     <input type="hidden" name="media_status" value="<%- event.media_status %>" />
     <input type="hidden" name="media_job_end_at" value="<%- event.media_job_end_at %>" />
-    <input type="hidden" name="media_created_at" value="<%- event.media_created_at %>" />
-    <input type="hidden" name="media_updated_at" value="<%- event.media_updated_at %>" />
+    <input type="hidden" name="media_created_at" value="<%- (new Date(event.media_created_at)).toLocaleString().replace(/-/g, '/').slice(0, 16) %>" />
+    <input type="hidden" name="media_updated_at" value="<%- (new Date(event.media_updated_at)).toLocaleString().replace(/-/g, '/').slice(0, 16) %>" />
     <input type="hidden" name="application_id" value="<%- event.application_id %>" />
     <input type="hidden" name="application_status" value="<%- event.application_status %>" />
     <input type="hidden" name="application_remarks" value="<%- event.application_remarks %>" />
@@ -34,14 +34,14 @@
                 <% if (event.application_id) { %>
                 <dl class="d-td upload">
                     <dt class="d-td"><span>アップロード</span></dt>
-                    <dd class="d-td"><span class="date">2016/3/10/14:32</span><span class="author"><%- event.media_uploaded_by %></span></dd>
+                    <dd class="d-td"><span class="date"><%- (new Date(event.media_created_at)).toLocaleString().replace(/-/g, '/').slice(0, 16) %></span><span class="author"><%- event.media_uploaded_by %></span></dd>
                 </dl>
                 <% } else { %>
                 <dl class="d-td upload"></dl>    
                 <% } %>
                 <dl class="d-td release">
                     <dt class="d-td"><span>上映予定日</span></dt>
-                    <dd class="d-td"><span class="date"><%- event.held_from %></span><span class="screen"><%- event.place %></span></dd>
+                    <dd class="d-td"><span class="date"><%- (new Date(event.held_from)).toLocaleString().replace(/-/g, '/').slice(0, 16) %></span><span class="screen"><%- event.place %></span></dd>
                 </dl>
             </div>
         </div>
