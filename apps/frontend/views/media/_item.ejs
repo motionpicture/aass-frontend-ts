@@ -12,7 +12,7 @@
     <input type="hidden" name="deleted_at" value="<%- media.deleted_at %>" />
     <input type="hidden" name="created_at" value="<%- (new Date(media.created_at)).toLocaleString().replace(/-/g, '/').slice(0, 16) %>" />
     <input type="hidden" name="updated_at" value="<%- (new Date(media.updated_at)).toLocaleString().replace(/-/g, '/').slice(0, 16) %>" />
-    <input type="hidden" name="application_id" value="<%- media.application_id %>" />
+    <input type="hidden" name="application_id" value="<%- application.id %>" />
     <input type="hidden" name="application_remarks" value="<%- media.application_remarks %>" />
     <input type="hidden" name="application_reject_reason" value="<%- media.application_reject_reason %>" />
     <input type="hidden" name="application_status" value="<%- media.application_status %>" />
@@ -79,7 +79,7 @@
                     <% if (application.media_id === media.id) { %>
                         <% if (application.status === applicationModel.STATUS_CREATED) { // 申請中 %>
                             <div class="status-box status-waiting">
-                                動画申請待ち
+                                動画承認待ち
                             </div>
                         <% } else if (application.status === applicationModel.STATUS_ACCEPTED) { // 承認 %>
                             <div class="btn status-btn filed-btn yellow-btn not-active pressed">

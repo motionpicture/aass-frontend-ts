@@ -307,7 +307,9 @@ export default class Media extends Base
 
         if (req.body.application_id) {
             // 再申請の場合
-            model.recreate(req.body.application_id, req.body.remarks, (err, result) => {
+            
+            
+            model.recreate(req.body.application_id, req.body.media_id, req.body.remarks, (err, result) => {
                 this.logger.trace('apply update result...', result);
                 if (err) throw err;
 
@@ -322,7 +324,7 @@ export default class Media extends Base
                 media_id: req.body.media_id,
                 remarks: req.body.remarks
             };
-
+            
             model.create(params, (err, result) => {
                 this.logger.trace('apply result...', result);
                 if (err) throw err;

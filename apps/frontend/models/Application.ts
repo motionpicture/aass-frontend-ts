@@ -18,15 +18,20 @@ INSERT INTO application
         this.query(query, queryParams, cb);
     }
 
-    public recreate(id: string, remarks: string, cb: Function): void {
+    public recreate(id: string, mediaId: string, remarks: string, cb: Function): void {
         let query = `
-UPDATE application SET status = :status, remarks = :remarks, updated_at = NOW() WHERE id = :id
+UPDATE application 
+SET 
+status = :status, remarks = :remarks, updated_at = NOW(), reject_reason = ''
+, media_id = :mediaId
+WHERE id = :id
 `;
 
         let queryParams = {
             id: id,
             remarks: remarks,
-            status: Application.STATUS_CREATED
+            status: Application.STATUS_CREATED,
+            mediaId: mediaId
         };
 
         this.query(query, queryParams, cb);
