@@ -10,6 +10,7 @@ import session from './middlewares/session';
 import user from './middlewares/user';
 import AzureBlobService from '../common/modules/azureBlobService';
 import AzureMediaService from '../common/modules/azureMediaService';
+import log4js = require('log4js');
 
 let app = express();
 
@@ -56,6 +57,7 @@ app.use(function(req, res, next) {
 
 // error handlers
 app.use(function(err: any, req, res, next) {
+    log4js.getLogger('system').error(req._parsedUrl, err);
     res.status(err['status'] || 500);
     res.render('error', {
         message: err.message,
