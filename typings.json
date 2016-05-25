@@ -1,7 +1,9 @@
 {
   "name": "aass",
   "version": false,
-  "dependencies": {},
+  "dependencies": {
+    "azure-storage": "registry:npm/azure-storage#0.10.0+20160521065027"
+  },
   "globalDependencies": {
     "body-parser": "registry:dt/body-parser#0.0.0+20160317120654",
     "commander": "registry:dt/commander#2.3.0+20160317120654",
