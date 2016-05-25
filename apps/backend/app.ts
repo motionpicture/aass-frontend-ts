@@ -48,6 +48,12 @@ app.use(express.static(path.join(__dirname, '/../../public')));
 // ユーザー認証
 app.use(user);
 
+// moment
+app.use((req, res, next) => {
+    res.locals.moment = require('moment');
+    next();
+});
+
 // ルーティング
 require('./routes/router').default(app);
 

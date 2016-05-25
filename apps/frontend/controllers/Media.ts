@@ -3,7 +3,7 @@ import MediaModel from '../models/Media';
 import ApplicationModel from '../models/Application';
 import MediaForm from '../forms/Media';
 import path = require('path');
-import fs = require('fs')
+import fs = require('fs');
 
 export default class Media extends Base
 {
