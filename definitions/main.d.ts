@@ -3,5 +3,4 @@
 /// <reference path='main/forms.d.ts' />
 /// <reference path='main/named-routes.d.ts' />
 /// <reference path='main/node-ams-sdk.d.ts' />
-/// <reference path='main/node-datetime.d.ts' />
 /// <reference path='main/uniqid.d.ts' />

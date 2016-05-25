@@ -3,7 +3,6 @@ import MediaModel from '../models/Media';
 import azureMediaService from '../../common/modules/azureMediaService';
 import azureFileService from '../../common/modules/azureFileService';
 import conf = require('config');
-import datetime = require('node-datetime');
 import fs = require('fs');
 import util = require('util');
 import azure = require('azure-storage');

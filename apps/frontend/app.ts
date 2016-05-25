@@ -18,9 +18,9 @@ app.use(logger);
 app.use(benchmarks); // ベンチマーク的な
 app.use(session);
 
-app.use(function (req: any, res: any, next: any) {
-    req.blobService = AzureBlobService;
-    req.mediaService = AzureMediaService;
+app.use((req, res, next) => {
+    req['blobService'] = AzureBlobService;
+    req['mediaService'] = AzureMediaService;
     next();
 });
 
@@ -45,18 +45,24 @@ app.use(express.static(path.join(__dirname, '/../../public')));
 // ユーザー認証
 app.use(user);
 
+// moment
+app.use((req, res, next) => {
+    res.locals.moment = require('moment');
+    next();
+});
+
 // ルーティング
 require('./routes/router').default(app);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
     let err = new Error('Not Found');
     err['status'] = 404;
     next(err);
 });
 
 // error handlers
-app.use(function(err: any, req, res, next) {
+app.use((err: any, req, res, next) => {
     log4js.getLogger('system').error(req._parsedUrl, err);
     res.status(err['status'] || 500);
     res.render('error', {

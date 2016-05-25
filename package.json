@@ -19,12 +19,12 @@
     "forms": "^1.1.4",
     "fs-extra": "^0.28.0",
     "log4js": "^0.6.35",
+    "moment": "^2.13.0",
     "multer": "^1.1.0",
     "mysql": "^2.10.2",
     "named-routes": "^2.0.4",
     "node": "0.0.0",
     "node-ams-sdk": "^0.2.2",
-    "node-datetime": "^1.0.0",
     "serve-favicon": "^2.3.0",
     "uniqid": "^1.0.0"
   },

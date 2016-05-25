@@ -1,14 +1,11 @@
 import Base from './Base';
-import datetime = require('node-datetime');
+import moment = require('moment');
 
 class Event extends Base {
     public create(): any {
         let fields = this.forms.fields;
         let validators = this.forms.validators;
         let widgets = this.forms.widgets;
-
-        let dt2hourslater = datetime.create();
-        dt2hourslater.offsetInHours(2); // 2 hour in the future
 
         let widgetPassword = widgets.password();
         widgetPassword.formatValue = function (value) {
@@ -70,7 +67,7 @@ class Event extends Base {
                     validators: [
                     ],
                     id: '',
-                    value: datetime.create().format('Y-m-d H:00'),
+                    value: moment().format('YYYY-MM-DD HH:00'),
                     hideError: true
                 }),
                 held_to: fields.string({
@@ -80,7 +77,7 @@ class Event extends Base {
                     validators: [
                     ],
                     id: '',
-                    value: dt2hourslater.format('Y-m-d H:00'),
+                    value: moment().add(2, 'hour').format('YYYY-MM-DD HH:00'), // 2 hour in the future
                     hideError: true
                 }),
                 place: fields.string({
