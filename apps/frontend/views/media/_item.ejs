@@ -10,8 +10,8 @@
     <input type="hidden" name="asset_id" value="<%- media.asset_id %>" />
     <input type="hidden" name="job_id" value="<%- media.job_id %>" />
     <input type="hidden" name="deleted_at" value="<%- media.deleted_at %>" />
-    <input type="hidden" name="created_at" value="<%- (new Date(media.created_at)).toLocaleString().replace(/-/g, '/').slice(0, 16) %>" />
-    <input type="hidden" name="updated_at" value="<%- (new Date(media.updated_at)).toLocaleString().replace(/-/g, '/').slice(0, 16) %>" />
+    <input type="hidden" name="created_at" value="<%- (new Date(media.created_at)).toLocaleString('ja-JP').replace(/-/g, '/').slice(0, 16) %>" />
+    <input type="hidden" name="updated_at" value="<%- (new Date(media.updated_at)).toLocaleString('ja-JP').replace(/-/g, '/').slice(0, 16) %>" />
     <input type="hidden" name="application_id" value="<%- application.id %>" />
     <input type="hidden" name="application_remarks" value="<%- media.application_remarks %>" />
     <input type="hidden" name="application_reject_reason" value="<%- media.application_reject_reason %>" />
@@ -29,7 +29,7 @@
         <div class="d-td info">
             <div class="group">
                 <span class="type text-center">動画</span>
-                <span class="date"> <%- (new Date(media.created_at)).toLocaleString().replace(/-/g, '/').slice(0, 16) %></span>
+                <span class="date"> <%- (new Date(media.created_at)).toLocaleString('ja-JP').replace(/-/g, '/').slice(0, 16) %></span>
                 <span class="author"><%- media.uploaded_by %></span>
                 <span class="time">再生時間 : ??分??秒</span>
             </div>
