@@ -111,8 +111,10 @@ class MediaIndex {
                     $('.modal-cover, .modal').removeClass('active');
                     alert("申請に失敗しました\n" + data.messages.join("\n"));
                 } else {
-                    this.mediaRow4apply.find('.status').html('<div class="status-box status-waiting">動画申請待ち</div>');
+                    this.mediaRow4apply.find('.status').html('<div class="status-box status-waiting">動画承認待ち</div>');
                     $('.item').each((index, elem)=>{
+                        $(elem).find('.status').removeClass('reapplication');
+                        $(elem).find('.request-btn').remove();
                         let target: JQuery = $(elem).find('.application-btn');
                         if (target.length > 0) {
                             target.remove();
@@ -150,34 +152,7 @@ class MediaIndex {
             self.modalOpen(self.modalReapply);
         });
 
-        // 再申請のお願い閉じるイベント
-        // this.modalReapply.on('click', '.close-btn a, .gray-btn a', (e) => {
-        //     let applicationId = $('input[name="application_id"]', self.mediaRow4reapply).val();
-
-        //     $.ajax({
-        //         type: 'post',
-        //         url: '/application/' + applicationId + '/reset',
-        //         data: {
-        //         },
-        //         dataType: 'json'
-        //     })
-        //     .done((data) => {
-        //         // エラーメッセー時表示
-        //         if (!data.isSuccess) {
-        //             $('.modal-cover, .modal').removeClass('active');
-        //             alert("申請リセットに失敗しました\n" + data.messages.join("\n"));
-        //         } else {
-        //             $('.modal-cover, .modal').removeClass('active');
-        //             location.reload();
-        //         }
-        //     })
-        //     .fail(() => {
-        //         $('.modal-cover, .modal').removeClass('active');
-        //         alert("申請リセットに失敗しました");
-        //     })
-        //     .always(() => {
-        //     });
-        // });
+        
     }
     
     private setPlayer(src) {
