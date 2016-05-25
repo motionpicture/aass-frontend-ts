@@ -12,7 +12,7 @@
     <input type="hidden" name="deleted_at" value="<%- media.deleted_at %>" />
     <input type="hidden" name="created_at" value="<%- (moment(media.created_at)).utcOffset('+09:00').format('YYYY/MM/DD HH:mm') %>" />
     <input type="hidden" name="updated_at" value="<%- (moment(media.updated_at)).utcOffset('+09:00').format('YYYY/MM/DD HH:mm') %>" />
-    <input type="hidden" name="application_id" value="<%- application.id %>" />
+    <input type="hidden" name="application_id" value="<%- (application) ? application.id : media.application_id %>" />
     <input type="hidden" name="application_remarks" value="<%- media.application_remarks %>" />
     <input type="hidden" name="application_reject_reason" value="<%- media.application_reject_reason %>" />
     <input type="hidden" name="application_status" value="<%- media.application_status %>" />
