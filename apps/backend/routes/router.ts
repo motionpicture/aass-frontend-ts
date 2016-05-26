@@ -13,7 +13,7 @@ export default function router(app: any) {
     
 
     app.get('/admin', 'home', function(req, res, next) {
-        res.redirect('/admin/events');
+        res.redirect('/admin/events/0');
     });
 
     app.all('/admin/login', 'login', (req, res, next) => {(new Auth()).login(req, res, next)});
