@@ -54,20 +54,20 @@
                 <% var applicationStatus = event.application_status %>
                 <% if (applicationStatus === applicationModel.STATUS_CREATED) { // 申請中 %>
                     <div class="btn approval-btn red-btn">
-                        <a href="javascript:void(0);">動画認証を行う </a>
+                        <a href="javascript:void(0);">動画承認を行う</a>
                     </div>
                 <% } else if (applicationStatus === applicationModel.STATUS_ACCEPTED) { // 承認 %>
                     <div class="btn approval-btn light-gray-btn not-active pressed">
-                        <a href="javascript:void(0);">動画認証済み </a>
+                        <a href="javascript:void(0);">動画承認済み</a>
                     </div>
                 <% } else if (applicationStatus === applicationModel.STATUS_REJECTED
                            || applicationStatus === applicationModel.STATUS_RESET) { // 却下 or リセット %>
                     <div class="btn approval-btn light-gray-btn not-active pressed">
-                        <a href="javascript:void(0);">動画否認済み </a>
+                        <a href="javascript:void(0);">動画否認済み</a>
                     </div>
                 <% } else if (applicationStatus === applicationModel.STATUS_END) { // 上映済み %>
                     <div class="btn approval-btn light-gray-btn not-active pressed">
-                        <a href="javascript:void(0);">上映済み </a>
+                        <a href="javascript:void(0);">上映済み</a>
                     </div>
                 <% } %>
             <% } %>

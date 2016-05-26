@@ -26,8 +26,8 @@ class MediaIndex {
             self.mediaRow4check = rootRow;
 
             self.setPlayer($('input[name="media_url_streaming"]', rootRow).val());
-            $('.user-id', self.modalCheckConfirm).text($('input[name="user_id"]', rootRow).val());
-            $('.description', self.modalCheckConfirm).html($('input[name="application_remarks"]', rootRow).val().replace(/[\n\r]/g, "<br>"));
+            $('.title', self.modalCheckConfirm).text($('input[name="title"]', rootRow).val());
+            $('.description', self.modalCheckConfirm).html($('input[name="description"]', rootRow).val().replace(/[\n\r]/g, "<br>"));
             $('span.created_at', self.modalCheckConfirm).text($('input[name="created_at"]', rootRow).val());
             $('span.uploaded_by', self.modalCheckConfirm).text($('input[name="uploaded_by"]', rootRow).val());
             
@@ -112,9 +112,11 @@ class MediaIndex {
                     alert("申請に失敗しました\n" + data.messages.join("\n"));
                 } else {
                     this.mediaRow4apply.find('.status').html('<div class="status-box status-waiting">動画承認待ち</div>');
+                    this.mediaRow4apply.find('.remove-btn').remove();
                     $('.item').each((index, elem)=>{
                         $(elem).find('.status').removeClass('reapplication');
                         $(elem).find('.request-btn').remove();
+                        
                         let target: JQuery = $(elem).find('.application-btn');
                         if (target.length > 0) {
                             target.remove();

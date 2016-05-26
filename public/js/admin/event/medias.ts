@@ -20,8 +20,8 @@ class AdminEventMedias {
             self.eventRow4check = rootRow;
 
             self.setPlayer($('input[name="media_url_streaming"]', rootRow).val());
-            $('.user-id', self.modalCheckConfirm).text($('input[name="user_id"]', rootRow).val());
-            $('.description', self.modalCheckConfirm).html($('input[name="application_remarks"]', rootRow).val().replace(/[\n\r]/g, "<br>"));
+            $('.title', self.modalCheckConfirm).text($('input[name="title"]', rootRow).val());
+            $('.description', self.modalCheckConfirm).html($('input[name="description"]', rootRow).val().replace(/[\n\r]/g, "<br>"));
             $('span.created_at', self.modalCheckConfirm).text($('input[name="created_at"]', rootRow).val());
             $('span.uploaded_by', self.modalCheckConfirm).text($('input[name="uploaded_by"]', rootRow).val());
             $('span.held_from', self.modalCheckConfirm).text($('input[name="held_from"]', rootRow).val());

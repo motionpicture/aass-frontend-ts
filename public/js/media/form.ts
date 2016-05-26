@@ -74,9 +74,7 @@ class MediaForm {
         if (!$('input[name="title"]', $('form')).val()) {
             this.messages.push('動画名が未入力です。');
         }
-        if (!$('textarea[name="description"]', $('form')).val()) {
-            this.messages.push('動画概要が未入力です。');
-        }
+    
         if (!$('input[name="uploaded_by"]', $('form')).val()) {
             this.messages.push('動画登録者名が未登録です。');
         }

@@ -43,8 +43,8 @@
                 <%
                 if (!(media.status >= mediaModel.STATUS_PUBLISHED &&
                 application &&
-                !(application && application.media_id !== media.id) &&
-                application.status === applicationModel.STATUS_ACCEPTED)) {
+                application.media_id === media.id &&
+                (application.status === applicationModel.STATUS_ACCEPTED || application.status === applicationModel.STATUS_CREATED))) {
                 %>
                 <div class="btn gray-btn remove-btn">
                     <a href="javascript:void(0);">削除</a>

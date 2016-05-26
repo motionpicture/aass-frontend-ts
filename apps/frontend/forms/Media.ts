@@ -63,7 +63,6 @@ class Media extends Base {
                 }),
                 description: fields.string({
                     label: '動画概要',
-                    required: validators.required('動画概要が未入力です'),
                     widget: widgets.textarea(),
                     validators: [
                     ],
