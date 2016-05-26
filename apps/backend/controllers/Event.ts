@@ -13,9 +13,19 @@ export default class Event extends Base {
         eventModel.getAll((err, rows, fields) => {
             this.logger.debug('err:', err);
             this.logger.debug('rows:', rows);
-
+            console.log(req.params)
+            let eventList = [[]];
+            let count = 0;
+            rows.forEach((row, index) => {
+                if (index > 0 && index % 10 === 0) {
+                    count++;
+                    eventList[count] = [];
+                }
+                eventList[count].push(row);
+            });
+            
             res.render('event/index', {
-                events: rows,
+                events: eventList,
                 applicationModel: ApplicationModel
             });
         });
@@ -161,7 +171,7 @@ export default class Event extends Base {
     public medias(req: any, res: any, next: any): void {
         let event: Object;
         let medias: Array<any> = [];
-
+        
         let applicationModel = new ApplicationModel();
         let eventModel = new EventModel();
         let mediaModel = new MediaModel();
@@ -175,7 +185,7 @@ export default class Event extends Base {
                 if (err) return next(err);
 
                 medias = rows;
-                console.log(medias)
+                console.log(event)
                 res.render('event/medias', {
                     event: event,
                     medias: medias,

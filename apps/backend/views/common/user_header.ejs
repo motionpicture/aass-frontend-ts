@@ -1,14 +1,14 @@
 <header class="clearfix">
     <div class="user-id">ユーザーID <%= req.user.getUserId() %></div>
     <div class="logo">
-        <a href="<%- url('events', {}) %>">
+        <a href="<%- url('events', {page: 0}) %>">
             <div class="logo-image"><img src="/images/common/logo.png" alt="映画.comシネマ アミューあつぎ"></div>
             <div class="page-type text-center">上映システム 管理画面</div>
         </a>
     </div>
     <nav>
         <ul class="clearfix">
-            <li class="list text-center"><a class="<% if (req.originalUrl == url('events', {})) { %>active<% } %>" href="<%- url('events', {}) %>">予約一覧</a></li>
+            <li class="list text-center"><a class="<% if (req.params.page && req.originalUrl == url('events', {page: req.params.page})) { %>active<% } %>" href="<%- url('events', {page: 0}) %>">予約一覧</a></li>
             <li class="add text-center"><a class="<% if (req.originalUrl == url('event.create', {})) { %>active<% } %>" href="<%- url('event.create', {}) %>">予約追加</a></li>
             <li class="logout text-center"><a class="" href="javascript:void(0)">ログアウト</a></li>
         </ul>

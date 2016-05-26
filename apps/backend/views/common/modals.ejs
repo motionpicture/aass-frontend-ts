@@ -105,7 +105,6 @@
     var modalData = [
         {className: 'email', label: '申請者メールアドレス', required: true},
         {className: 'user_id', label: 'ユーザーID', required: true},
-        {className: 'password', label: 'パスワード', required: true},
         {className: 'held', label: '上映日時', required: true},
         {className: 'place', label: '上映場所', required: true},
         {className: 'remarks', label: '備考', required: false}
@@ -135,12 +134,12 @@
 </div>
 
 <div class="modal type-06">
-    <div class="close-btn"><a href="<%- url('events', {}) %>"></a></div>
+    <div class="close-btn"><a href="<%- url('events', {page: 0}) %>"></a></div>
     <p class="text-center read">
         予約の追加が完了しました。
     </p>
     <div class="btn-area one-btn">
-        <div class="btn gray-btn"><a href="<%- url('events', {}) %>">閉じる</a></div>
+        <div class="btn gray-btn"><a href="<%- url('events', {page: 0}) %>">閉じる</a></div>
     </div>
 </div>
 
@@ -179,7 +178,7 @@
 </div>
 
 <div class="modal type-09">
-    <div class="close-btn"><a href="<%- url('events', {}) %>"></a></div>
+    <div class="close-btn"><a href="<%- url('events', {page: 0}) %>"></a></div>
     <p class="text-center read">
         予約の削除が完了しました。
     </p>

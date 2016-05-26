@@ -80,46 +80,54 @@
                 </div>
 
             <% } else if (media.status >= mediaModel.STATUS_PUBLISHED) { %>
-                <% if (event.application_media_id !== media.id &&
-                media.application_status === applicationModel.STATUS_ACCEPTED) { // 他が申請済 %>
-                    <div class="status-box status-other-applying">
-                        他の動画が承認済です
-                    </div>
-                <% } else { %>
-                    <% if (media.application_status) { %>
-                        <% if (media.application_status === applicationModel.STATUS_CREATED) { // 申請中 %>
+                <% if (event.application_status) { %>
+                    <% if (event.application_media_id === media.id) { %>
+                        <% if (event.application_status === applicationModel.STATUS_CREATED) { // 申請中 %>
                             <div class="status-box status-applying">
                                 動画申請中
                             </div>
-                        <% } else if (media.application_status === applicationModel.STATUS_ACCEPTED) { // 承認 %>
+                        <% } else if (event.application_status === applicationModel.STATUS_ACCEPTED) { // 承認 %>
                             <div class="status-box status-filed">
                                 動画承認済
                             </div>
-                        <% } else if (media.application_status === applicationModel.STATUS_REJECTED) { // 否認 %>
+                        <% } else if (event.application_status === applicationModel.STATUS_REJECTED) { // 否認 %>
                             <div class="status-box status-denial">
                                 <span class="warning-icon">動画否認</span>
                             </div>
-                        <% } else if (media.application_status === applicationModel.STATUS_REST) { // リセット %>
+                        <% } else if (event.application_status === applicationModel.STATUS_REST) { // リセット %>
                             <div class="status-box status-waiting">
                                 動画申請待ち
                             </div>
-                        <% } else if (media.application_status === applicationModel.STATUS_DELETED) { // 削除済み %>
+                        <% } else if (event.application_status === applicationModel.STATUS_DELETED) { // 削除済み %>
                             <div class="status-box status-waiting">
                                 削除済み
                             </div>
-                        <% } else if (media.application_status === applicationModel.STATUS_END) { // 上映済み %>
+                        <% } else if (event.application_status === applicationModel.STATUS_END) { // 上映済み %>
                             <div class="status-box status-waiting">
                                 上映済み
                             </div>
-                        <% } %>
+                        <% } %>  
                     <% } else { %>
-                        <div class="status-box status-waiting">
-                            動画申請待ち
-                        </div>
+                        <% if (event.application_status === applicationModel.STATUS_ACCEPTED) { %>
+                            <div class="status-box status-other-applying">
+                                他の動画が承認済です
+                            </div>
+                        <% } else if (event.application_status === applicationModel.STATUS_REJECTED) { %>
+                            <div class="status-box status-waiting">
+                                動画申請待ち
+                            </div>
+                        <% } else { %>
+                            <div class="status-box status-other-applying">
+                                他の動画が申請中です
+                            </div>
+                        <% } %>
                     <% } %>
-                <% } %>
-
-            <% } else { %>
+                 <% } else { %>
+                    <div class="status-box status-waiting">
+                        動画申請待ち
+                    </div>
+                 <% } %>
+                
             <% } %>
         </div>
 <!--

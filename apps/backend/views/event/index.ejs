@@ -1,5 +1,5 @@
 <%- include('../header') -%>
-
+<% var page = Number(req.params.page); %>
 <script src="/js/admin/event/index.js"></script>
 
 <body class="admin">
@@ -32,26 +32,33 @@
                         </dl>
                     </div>
                     -->
-                    <div class="list-number"><%- events.length %>件中 1~<%- events.length %>件を表示</div>
+                    <%
+                    var maxLength = (events.length - 1) * 10 + events[events.length - 1].length;
+                    var start = page * 10 + 1;
+                    var end = page * 10 + events[page].length;
+                    %>
+                    <div class="list-number"><%- maxLength %>件中 <%- start %>~<%- end %>件を表示</div>
                     <div class="item-list">
-                        <% events.forEach(function(event) { %>
+                        <% events[page].forEach(function(event) { %>
                         <%- include('./_item', {event: event}) -%>
                         <% }) %>
                     </div>
-                    <!--
+                    <% if (events.length > 1) {%>
                     <div class="pager">
                         <ul>
-                            <li class="prev-btn"><a href="#"></a></li>
-                            <li class="current"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">6</a></li>
-                            <li class="next-btn"><a href="#"></a></li>
+                            <% if (page > 0) {%>
+                            <li class="prev-btn"><a href="<%- url('events', {page: (page - 1)}) %>"></a></li>
+                            <% } %>
+                            <% for (var i = 0, len = events.length; i < len; i++) { %>
+                            <li class="<%- (page === i) ? 'current' : ''; %>"><a href="<%- url('events', {page: i}) %>"><%= String(i + 1) %></a></li>
+                            <% } %>
+                            <% if (page < events.length - 1) {%>
+                            <li class="next-btn"><a href="<%- url('events', {page: (page + 1)}) %>"></a></li>
+                            <% } %>
                         </ul>
                     </div>
-                    -->
+                    <% } %>
+                    
                 </div>
             </div>
         </form>
