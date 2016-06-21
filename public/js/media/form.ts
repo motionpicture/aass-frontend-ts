@@ -81,8 +81,17 @@ class MediaForm {
 
         if (this.isNew) {
             let inputElement: any = $('form input[name="file"]')[0];
+            let extension = this.extension;
+            let extensionCondition: boolean = (
+                extension.toLowerCase() === 'avi' || 
+                extension.toLowerCase() === 'mov' ||  
+                extension.toLowerCase() === 'mp4' || 
+                extension.toLowerCase() === 'wmv'
+            );
             if (inputElement.files.length == 0) {
                 this.messages.push('動画が未登録です。');
+            } else if (!(extensionCondition)) {
+                this.messages.push('動画形式は、avi、mov、mp4、wmvのいずれかにしてください。');
             }
         }
 
