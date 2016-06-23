@@ -57,7 +57,7 @@ form label {
                 <div><a href="javascript:void(0);">登録</a></div>
             </div>
             <div class="btn gray-btn prev-btn">
-                <div><a href="<%- url('events', {page: 0}) %>">戻る</a></div>
+                <div><a href="<%- (req.originalUrl == url('event.create', {})) ? url('events', {page: 0}) : 'javascript:history.back()'%>">戻る</a></div>
             </div>
         </div>
     </div>
